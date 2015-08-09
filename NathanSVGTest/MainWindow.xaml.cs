@@ -68,8 +68,11 @@ namespace NathanSVGTest
             int tabsY = int.Parse(txtTabsY.Text);
             int tabsZ = int.Parse(txtTabsZ.Text);
 
+            // TODO: make checkbox for rotating the parts to the correct orientation
+            bool makeTopOpen = chkMakeOpen.IsChecked.GetValueOrDefault(false);
+
             StringLogger logger = new StringLogger();
-            var ret = BoxBuilder.BoxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, true, false, logger);
+            var ret = BoxBuilder.BoxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, true, makeTopOpen, logger);
             textBox1.Text = logger.Log;
 
             return ret;
