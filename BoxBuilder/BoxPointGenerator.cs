@@ -59,6 +59,8 @@ namespace BoxBuilder
                     MachineSettings.ToolSpacing,
                     Logger,
                     null);
+
+                ret.Add(CubeSide.Top, pieceTop.ToList());
             }
 
             // Bottom

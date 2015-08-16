@@ -39,7 +39,7 @@ namespace NathanSVGTest
 
         private void OutputFile(string Body)
         {
-            using (System.IO.TextWriter tw = new System.IO.StreamWriter("c:\\test " + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".svg"))
+            using (System.IO.TextWriter tw = new System.IO.StreamWriter("c:\\temp\\test " + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".svg"))
             {
                 tw.Write(Body);
             }

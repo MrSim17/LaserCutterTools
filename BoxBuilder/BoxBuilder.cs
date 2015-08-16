@@ -29,7 +29,7 @@ namespace BoxBuilder
                 TabsZ, 
                 Logger);
 
-            return handler.HandleBox(Box, Material, MachineSettings);
+            return handler.HandleBox(Box, Material, MachineSettings, MakeBoxOpen, RotateParts);
         }
     }
 }
