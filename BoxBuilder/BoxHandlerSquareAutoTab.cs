@@ -1,39 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ColorProvider;
-using Common;
+﻿// TODO: Consider making the auto tab just a featuer of the box handler.
 
-namespace BoxBuilder
-{
-    internal sealed class BoxHandlerSquareAutoTab : IBoxHandlerSquare
-    {
-        public BoxHandlerSquareAutoTab()
-        {
-        }
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using ColorProvider;
+//using Common;
 
-        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings)
-        {
-            int tabsX = (int)Math.Floor((Box.DimensionX / 0.5) / 2);
-            int tabsY = (int)Math.Floor((Box.DimensionY / 0.5) / 2);
-            int tabsZ = (int)Math.Floor((Box.DimensionZ / 0.5) / 2);
+//namespace BoxBuilder
+//{
+//    internal sealed class BoxHandlerSquareAutoTab : IBoxHandlerSquare
+//    {
+//        public BoxHandlerSquareAutoTab()
+//        {
+//        }
 
-            BoxHandlerSquare internalBoxHandler = new BoxHandlerSquare(tabsX, tabsY, tabsZ, false, false);
+//        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings)
+//        {
+//            int tabsX = (int)Math.Floor((Box.DimensionX / 0.5) / 2);
+//            int tabsY = (int)Math.Floor((Box.DimensionY / 0.5) / 2);
+//            int tabsZ = (int)Math.Floor((Box.DimensionZ / 0.5) / 2);
 
-            return internalBoxHandler.HandleBox(Box, Material, MachineSettings);
-        }
+//            BoxHandlerSquare internalBoxHandler = new BoxHandlerSquare(tabsX, tabsY, tabsZ);
 
-        public ILogger Logger
-        {
-            get;
-            set;
-        }
+//            return internalBoxHandler.HandleBox(Box, Material, MachineSettings);
+//        }
 
-        public IColorProvider ColorProvider
-        {
-            get;
-            set;
-        }
-    }
-}
+//        public ILogger Logger
+//        {
+//            get;
+//            set;
+//        }
+
+//        public IColorProvider ColorProvider
+//        {
+//            get;
+//            set;
+//        }
+//    }
+//}

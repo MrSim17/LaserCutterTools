@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SvgNet;
-using SvgNet.SvgElements;
-using System.Drawing;
-using ColorProvider;
-using Common;
+﻿using Common;
 
 
 namespace BoxBuilder
 {
-    public sealed class BoxHandlerSquare : IBoxHandlerSquare
+    /// <summary>
+    /// This class handles organizing the generation of the points and then passing them to the rendering engine to produce the final result.
+    /// Tihs class also has the responsibility of determining the start configurations for all the pieces to be rendered.
+    /// </summary>
+    internal sealed class BoxHandlerSquare : IBoxHandlerSquare
     {
-        IBoxHandlerSquare pInternalHandler;
+        IBoxPointGenerator pointGenerator;
+        IBoxPointRenderer pointRenderer;
+        ILogger logger;
+        int tabsX;
+        int tabsY;
+        int tabsZ;
 
-        public IColorProvider ColorProvider
+        public BoxHandlerSquare(IBoxPointGenerator PointGenerator, IBoxPointRenderer PointRenderer, int TabsX, int TabsY, int TabsZ, ILogger Logger = null)
         {
-            get { return pInternalHandler.ColorProvider; }
-            set { pInternalHandler.ColorProvider = value; }
+            pointGenerator = PointGenerator;
+            pointRenderer = PointRenderer;
+            logger = Logger;
+
+            tabsX = TabsX;
+            tabsY = TabsY;
+            tabsZ = TabsZ;
         }
 
-        public ILogger Logger
-        {
-            get { return pInternalHandler.Logger; }
-            set { pInternalHandler.Logger = value; }
-        }
-
-        public BoxHandlerSquare(int TabsX, int TabsY, int TabsZ, bool RotateParts = false, bool MakeBoxOpen = false)
+        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, bool MakeBoxOpen = false, bool RotateParts = false)
         {
             SideStartPositionConfiguration topBottomConfig = new SideStartPositionConfiguration
             {
@@ -52,12 +52,18 @@ namespace BoxBuilder
 
             StartPositionConfiguration startConfig = new StartPositionConfiguration(topBottomConfig, topBottomConfig, sideConfig, sideConfig, sideConfig, sideConfig);
 
-            pInternalHandler = new BoxHandlerSquareGeneric(startConfig, TabsX, TabsY, TabsZ, RotateParts, MakeBoxOpen);
-        }
+            var pointData = pointGenerator.GeneratePoints(startConfig,
+                Box,
+                Material,
+                MachineSettings,
+                tabsX,
+                tabsY,
+                tabsZ,
+                MakeBoxOpen);
 
-        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings)
-        {
-            return pInternalHandler.HandleBox(Box, Material, MachineSettings);
+            var renderedBox = pointRenderer.RenderPoints(pointData, RotateParts);
+
+            return renderedBox;
         }
     }
 }

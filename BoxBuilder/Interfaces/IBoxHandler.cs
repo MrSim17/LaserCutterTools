@@ -9,8 +9,6 @@ namespace BoxBuilder
 {
     public interface IBoxHandlerSquare
     {
-        ILogger Logger { get; set; }
-        IColorProvider ColorProvider { get; set; }
-        string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings);
+        string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, bool MakeBoxOpen = false, bool RotateParts = false);
     }
 }
