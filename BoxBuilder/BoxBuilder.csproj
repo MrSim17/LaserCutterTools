@@ -56,7 +56,7 @@
     <Compile Include="BoxBuilder.cs" />
     <Compile Include="Backup\BoxHandlerSquareOpen.cs" />
     <Compile Include="BoxHandlerSquare.cs" />
-    <Compile Include="BoxHandlerSquareGeneric.cs" />
+    <Compile Include="BoxPointRendererSVG.cs" />
     <Compile Include="Backup\Copy of BoxHandlerSquareToolSize.cs" />
     <Compile Include="Interfaces\IBoxPointRenderer.cs" />
     <Compile Include="PiecePointGenerator.cs" />

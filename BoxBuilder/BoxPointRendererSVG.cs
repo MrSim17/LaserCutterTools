@@ -162,7 +162,7 @@ namespace BoxBuilder
                 root.AddChild(back);
             }
 
-            if (PointData[CubeSide.Top] != null)
+            if (PointData.ContainsKey(CubeSide.Top))
             {
                 var top = ConvertPointsToSVGPolygon(PointData[CubeSide.Top].ToArray(), colorProvider.GetColor());
                 top.Id = "Top";
@@ -184,7 +184,8 @@ namespace BoxBuilder
                 }
             }
 
-            return root.WriteSVGString(false);
+            // TODO: get rid of string replace hack and figure out the casing in the actual SVG library.
+            return root.WriteSVGString(false).Replace("viewbox", "viewBox");
         }
 
         private static SvgPolygonElement ConvertPointsToSVGPolygon(PointF[] Points, Color PieceColor)
