@@ -15,7 +15,7 @@ namespace BoxBuilder
             Polygon.Transform.Add(string.Format("rotate({0} {1} {2})", RotateDegrees, actuald.X/2, actuald.Y/2));
         }
 
-        public static PointF GetActualDimension(SvgPolygonElement Polygon)
+        private static PointF GetActualDimension(SvgPolygonElement Polygon)
         {
             float minX = 0;
             float minY = 0;
