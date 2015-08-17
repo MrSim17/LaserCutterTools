@@ -15,6 +15,30 @@ namespace BoxBuilder
         //    };
         //}
 
+        internal static IBoxPointGenerator GetBoxPointGenerator(ILogger Logger)
+        {
+            IPiecePointGenerator piecePointGen = new PiecePointGenerator();
+            IBoxPointGenerator pointGen = new BoxPointGenerator(piecePointGen, Logger);
+
+            return pointGen;
+        }
+
+        internal static IBoxHandlerSquare GetBoxHandler(int TabsX, int TabsY, int TabsZ, ILogger Logger)
+        {
+            IColorProvider colorProvider = new ColorProviderAllDifferent();
+            IBoxPointRenderer pointRender = new BoxPointRendererSVG(colorProvider);
+            IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
+
+            IBoxHandlerSquare handler = new BoxHandlerSquare(pointGen,
+                pointRender,
+                TabsX,
+                TabsY,
+                TabsZ,
+                Logger);
+
+            return handler;
+        }
+
         public static string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool RotateParts, bool MakeBoxOpen, ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();

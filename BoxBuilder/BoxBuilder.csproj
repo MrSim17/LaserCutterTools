@@ -49,15 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backup\BoxHandlerSquare.cs" />
     <Compile Include="BoxHandlerSquareAutoTab.cs" />
     <Compile Include="BoxPointGenerator.cs" />
     <Compile Include="BoxSquare.cs" />
     <Compile Include="BoxBuilder.cs" />
-    <Compile Include="Backup\BoxHandlerSquareOpen.cs" />
     <Compile Include="BoxHandlerSquare.cs" />
     <Compile Include="BoxPointRendererSVG.cs" />
-    <Compile Include="Backup\Copy of BoxHandlerSquareToolSize.cs" />
     <Compile Include="Interfaces\IBoxPointRenderer.cs" />
     <Compile Include="PiecePointGenerator.cs" />
     <Compile Include="Enums.cs" />
