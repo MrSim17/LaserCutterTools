@@ -1,11 +1,11 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
 using Common;
 
 namespace BoxBuilder
 {
     interface IPiecePointGenerator
     {
-        PointF[] CreateTabedObject
+        List<Point> CreateTabedObject
             (
             double DimensionX,
             double DimensionY,

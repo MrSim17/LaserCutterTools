@@ -6,17 +6,17 @@ namespace BoxBuilder
 {
     internal sealed class PiecePointGenerator : IPiecePointGenerator
     {
-        public PointF[] CreateTabedObject(double DimensionX, double DimensionY, int NumTabsX, int NumTabsY, TabPosition StartPositionX, TabPosition StartPositionY, TabPosition StartPositionXMinus, TabPosition StartPositionYMinus, double MaterialThickness, double ToolSpacing, ILogger logger, PieceSide? FlatSide = default(PieceSide?))
+        public List<Point> CreateTabedObject(double DimensionX, double DimensionY, int NumTabsX, int NumTabsY, TabPosition StartPositionX, TabPosition StartPositionY, TabPosition StartPositionXMinus, TabPosition StartPositionYMinus, double MaterialThickness, double ToolSpacing, ILogger logger, PieceSide? FlatSide = default(PieceSide?))
         {
             logger.Log("=========== starting new polygon ===========");
-            List<PointF> points = new List<PointF>();
+            List<Point> points = new List<Point>();
 
             double tabSize = 0;
             double currentX = 0;
             double currentY = 0;
 
             TabPosition lastTabPos = TabPosition.Crest;
-            PointF lastPoint = new PointF(0, 0);
+            Point lastPoint = new Point(0, 0);
 
             if (NumTabsX % 2 == 0)
             {
@@ -29,13 +29,13 @@ namespace BoxBuilder
 
             if (StartPositionX == TabPosition.Trough)
             {
-                lastPoint.Y = (float)MaterialThickness - (float)ToolSpacing / 2;
+                lastPoint.Y = MaterialThickness - ToolSpacing / 2;
                 currentY = lastPoint.Y;
             }
 
             if (StartPositionYMinus == TabPosition.Trough)
             {
-                lastPoint.X = (float)MaterialThickness - (float)ToolSpacing / 2;
+                lastPoint.X = MaterialThickness - ToolSpacing / 2;
                 currentX = lastPoint.X;
             }
 
@@ -109,7 +109,7 @@ namespace BoxBuilder
                     currentX = currentX + deltaX;
                     currentY = currentY + deltaY;
 
-                    lastPoint = new PointF((float)currentX, (float)currentY);
+                    lastPoint = new Point(currentX, currentY);
                     points.Add(lastPoint);
                     logger.Log(string.Format("Point: ({0}, {1})", lastPoint.X, lastPoint.Y));
 
@@ -143,7 +143,7 @@ namespace BoxBuilder
                     {
                         if (lastTabPos == TabPosition.Trough)
                         {
-                            tabSize -= (MaterialThickness - (float)ToolSpacing / 2);
+                            tabSize -= (MaterialThickness - ToolSpacing / 2);
                             logger.Log("Retract for prev trhough.");
                             logger.Log(string.Format("New Tab Size: {0}", tabSize));
 
@@ -194,7 +194,7 @@ namespace BoxBuilder
                     currentX = currentX + deltaX;
                     currentY = currentY + deltaY;
 
-                    lastPoint = new PointF((float)currentX, (float)currentY);
+                    lastPoint = new Point(currentX, currentY);
                     logger.Log(string.Format("Point: ({0}, {1})", lastPoint.X, lastPoint.Y));
 
                     points.Add(lastPoint);
@@ -207,16 +207,16 @@ namespace BoxBuilder
                         switch ((PieceSide)side)
                         {
                             case PieceSide.X:
-                                deltaY = (tabPos == TabPosition.Crest) ? MaterialThickness - ((float)ToolSpacing / 2) : -(MaterialThickness - ((float)ToolSpacing / 2));
+                                deltaY = (tabPos == TabPosition.Crest) ? MaterialThickness - (ToolSpacing / 2) : -(MaterialThickness - (ToolSpacing / 2));
                                 break;
                             case PieceSide.XMinus:
-                                deltaY = (tabPos == TabPosition.Crest) ? -(MaterialThickness - ((float)ToolSpacing / 2)) : MaterialThickness - ((float)ToolSpacing / 2);
+                                deltaY = (tabPos == TabPosition.Crest) ? -(MaterialThickness - (ToolSpacing / 2)) : MaterialThickness - (ToolSpacing / 2);
                                 break;
                             case PieceSide.Y:
-                                deltaX = (tabPos == TabPosition.Crest) ? -(MaterialThickness - ((float)ToolSpacing / 2)) : MaterialThickness - ((float)ToolSpacing / 2);
+                                deltaX = (tabPos == TabPosition.Crest) ? -(MaterialThickness - (ToolSpacing / 2)) : MaterialThickness - (ToolSpacing / 2);
                                 break;
                             case PieceSide.YMinus:
-                                deltaX = (tabPos == TabPosition.Crest) ? MaterialThickness - ((float)ToolSpacing / 2) : -(MaterialThickness - ((float)ToolSpacing / 2));
+                                deltaX = (tabPos == TabPosition.Crest) ? MaterialThickness - (ToolSpacing / 2) : -(MaterialThickness - (ToolSpacing / 2));
                                 break;
                         }
 
@@ -225,7 +225,7 @@ namespace BoxBuilder
                         currentX = currentX + deltaX;
                         currentY = currentY + deltaY;
 
-                        lastPoint = new PointF((float)currentX, (float)currentY);
+                        lastPoint = new Point(currentX, currentY);
                         logger.Log(string.Format("Point: ({0}, {1})", lastPoint.X, lastPoint.Y));
 
                         points.Add(lastPoint);
@@ -242,27 +242,27 @@ namespace BoxBuilder
 
                 if (nextStartPosition == TabPosition.Trough)
                 {
-                    float adjustmentX = 0;
-                    float adjustmentY = 0;
+                    double adjustmentX = 0;
+                    double adjustmentY = 0;
 
                     switch ((PieceSide)side)
                     {
                         case PieceSide.X:
-                            adjustmentX = -((float)MaterialThickness - (float)ToolSpacing / 2);
+                            adjustmentX = -(MaterialThickness - ToolSpacing / 2);
                             break;
                         case PieceSide.XMinus:
-                            adjustmentX = ((float)MaterialThickness - (float)ToolSpacing / 2);
+                            adjustmentX = (MaterialThickness - ToolSpacing / 2);
                             break;
                         case PieceSide.Y:
-                            adjustmentY = -((float)MaterialThickness - (float)ToolSpacing / 2);
+                            adjustmentY = -(MaterialThickness - ToolSpacing / 2);
                             break;
                         default:
-                            adjustmentY = ((float)MaterialThickness - (float)ToolSpacing / 2);
+                            adjustmentY = (MaterialThickness - ToolSpacing / 2);
                             break;
                     }
 
-                    PointF newPoint = new PointF(points[points.Count - 1].X + (float)adjustmentX, points[points.Count - 1].Y + (float)adjustmentY);
-                    PointF oldPoint = points[points.Count - 1];
+                    Point newPoint = new Point(points[points.Count - 1].X + adjustmentX, points[points.Count - 1].Y + adjustmentY);
+                    Point oldPoint = points[points.Count - 1];
 
                     currentX += adjustmentX;
                     currentY += adjustmentY;
@@ -272,7 +272,7 @@ namespace BoxBuilder
                 }
             }
 
-            return points.ToArray();
+            return points;
         }
     }
 }

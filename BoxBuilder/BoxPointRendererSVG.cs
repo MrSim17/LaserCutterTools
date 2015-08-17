@@ -42,14 +42,13 @@ namespace BoxBuilder
             root = new SvgSvgElement("20in", "12in", "0,0 20,12");
         }
 
-        public string RenderPoints(Dictionary<CubeSide, List<PointF>> PointData, bool RotateParts = false)
+        public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, bool RotateParts = false)
         {
-            float dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
-            float dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
-            float dimensionZ = FindDimensionY(PointData[CubeSide.Left]);
+            double dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
+            double dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
+            double dimensionZ = FindDimensionY(PointData[CubeSide.Left]);
 
-            // TODO: Not so great converting between arrays and lists all the time for points. Need to just pick one.
-            var bottom = ConvertPointsToSVGPolygon(PointData[CubeSide.Bottom].ToArray(), colorProvider.GetColor());
+            var bottom = ConvertPointsToSVGPolygon(PointData[CubeSide.Bottom], colorProvider.GetColor());
             bottom.Id = "Bottom";
 
             double bottomTranslateX = padding + dimensionZ + padding;
@@ -68,7 +67,7 @@ namespace BoxBuilder
                 root.AddChild(bottom);
             }
 
-            var left = ConvertPointsToSVGPolygon(PointData[CubeSide.Left].ToArray(), colorProvider.GetColor());
+            var left = ConvertPointsToSVGPolygon(PointData[CubeSide.Left], colorProvider.GetColor());
             left.Id = "Left";
 
             if (RotateParts)
@@ -93,7 +92,7 @@ namespace BoxBuilder
                 root.AddChild(left);
             }
 
-            var right = ConvertPointsToSVGPolygon(PointData[CubeSide.Right].ToArray(), colorProvider.GetColor());
+            var right = ConvertPointsToSVGPolygon(PointData[CubeSide.Right], colorProvider.GetColor());
             right.Id = "Right";
 
             if (RotateParts)
@@ -118,7 +117,7 @@ namespace BoxBuilder
                 root.AddChild(right);
             }
 
-            var front = ConvertPointsToSVGPolygon(PointData[CubeSide.Front].ToArray(), colorProvider.GetColor());
+            var front = ConvertPointsToSVGPolygon(PointData[CubeSide.Front], colorProvider.GetColor());
             front.Id = "Front";
 
             double frontTranslateX = padding + dimensionZ + padding;
@@ -137,7 +136,7 @@ namespace BoxBuilder
                 root.AddChild(front);
             }
 
-            var back = ConvertPointsToSVGPolygon(PointData[CubeSide.Back].ToArray(), colorProvider.GetColor());
+            var back = ConvertPointsToSVGPolygon(PointData[CubeSide.Back], colorProvider.GetColor());
             back.Id = "Back";
 
             if (RotateParts)
@@ -164,7 +163,7 @@ namespace BoxBuilder
 
             if (PointData.ContainsKey(CubeSide.Top))
             {
-                var top = ConvertPointsToSVGPolygon(PointData[CubeSide.Top].ToArray(), colorProvider.GetColor());
+                var top = ConvertPointsToSVGPolygon(PointData[CubeSide.Top], colorProvider.GetColor());
                 top.Id = "Top";
 
                 double topTranslateX = padding + dimensionZ + padding + dimensionX + padding + dimensionZ + padding;
@@ -188,18 +187,35 @@ namespace BoxBuilder
             return root.WriteSVGString(false).Replace("viewbox", "viewBox");
         }
 
-        private static SvgPolygonElement ConvertPointsToSVGPolygon(PointF[] Points, Color PieceColor)
+        private static SvgPolygonElement ConvertPointsToSVGPolygon(List<Point> Points, Color PieceColor)
         {
-            var polygon = new SvgPolygonElement(new SvgNet.SvgTypes.SvgPoints(Points.ToArray()));
+            StringBuilder sb = new StringBuilder();
+            bool isFirst = true;
+
+            foreach(Point p in Points)
+            {
+                if(isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    sb.Append(" ");
+                }
+
+                sb.Append(p.X + " " + p.Y);
+            }
+
+            var polygon = new SvgPolygonElement(new SvgNet.SvgTypes.SvgPoints(sb.ToString()));
             polygon.Style = new SvgNet.SvgTypes.SvgStyle(new Pen(PieceColor, 0.0034f));
 
             return polygon;
         }
 
-        private float FindDimensionX(List<PointF> PointData)
+        private double FindDimensionX(List<Point> PointData)
         {
-            float minVal = 0;
-            float maxVal = 0;
+            double minVal = 0;
+            double maxVal = 0;
 
             minVal = PointData.Min(p => p.X);
             maxVal = PointData.Max(p => p.X);
@@ -207,10 +223,10 @@ namespace BoxBuilder
             return Math.Abs(minVal - maxVal);
         }
 
-        private float FindDimensionY(List<PointF> PointData)
+        private double FindDimensionY(List<Point> PointData)
         {
-            float minVal = 0;
-            float maxVal = 0;
+            double minVal = 0;
+            double maxVal = 0;
 
             minVal = PointData.Min(p => p.Y);
             maxVal = PointData.Max(p => p.Y);

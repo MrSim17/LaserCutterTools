@@ -43,7 +43,7 @@ namespace BoxBuilder
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
             IPiecePointGenerator piecePointGen = new PiecePointGenerator();
-            IBoxPointGenerator pointGen = new BoxPointGenerator(piecePointGen);
+            IBoxPointGenerator pointGen = new BoxPointGenerator(piecePointGen, Logger);
             IBoxPointRenderer pointRender = new BoxPointRendererSVG(colorProvider);
 
             IBoxHandlerSquare handler = new BoxHandlerSquare(pointGen,

@@ -5,6 +5,6 @@ namespace BoxBuilder
 {
     internal interface IBoxPointRenderer
     {
-        string RenderPoints(Dictionary<CubeSide, List<PointF>> CubePoints, bool RotateParts = false);
+        string RenderPoints(Dictionary<CubeSide, List<Point>> CubePoints, bool RotateParts = false);
     }
 }

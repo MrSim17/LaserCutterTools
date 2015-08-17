@@ -34,9 +34,9 @@ namespace BoxBuilder
             this.logger = Logger;
         }
 
-        public Dictionary<CubeSide, List<PointF>> GeneratePoints(StartPositionConfiguration StartConfig, IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool MakeBoxOpen = false)
+        public Dictionary<CubeSide, List<Point>> GeneratePoints(StartPositionConfiguration StartConfig, IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool MakeBoxOpen = false)
         {
-            Dictionary<CubeSide, List<PointF>> ret = new Dictionary<CubeSide, List<PointF>>();
+            Dictionary<CubeSide, List<Point>> ret = new Dictionary<CubeSide, List<Point>>();
 
             if (makeBoxOpen)
             {
