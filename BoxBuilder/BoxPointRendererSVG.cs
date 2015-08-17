@@ -7,9 +7,12 @@ using SvgNet.SvgElements;
 using System.Drawing;
 using ColorProvider;
 using Common;
+using System.Xml;
+using System.IO;
 
 namespace BoxBuilder
 {
+    // TODO: Completely remove the SvgNet library
     public sealed class BoxPointRendererSVG : IBoxPointRenderer
     {
         bool translatePieces = true;
@@ -24,7 +27,10 @@ namespace BoxBuilder
             set { logger = value; }
         }
 
-        SvgSvgElement root;
+        XmlDocument doc;
+        XmlElement svgRootNode;
+
+        SvgSvgElement rootSVGElement;
         // TODO: padding probably shouldn't be hard coded
         decimal padding = 0.2M;
 
@@ -32,14 +38,38 @@ namespace BoxBuilder
         {
             colorProvider = ColorProvider;
             // TODO: the canvas size really shouldn't be hard coded
-            root = new SvgSvgElement("20in", "12in", "0,0 20,12");
+            rootSVGElement = new SvgSvgElement("20in", "12in", "0,0 20,12");
+            InitDoc();
         }
 
         public BoxPointRendererSVG()
         {
             colorProvider = new ColorProviderAllBlack();
             // TODO: the canvas size really shouldn't be hard coded
-            root = new SvgSvgElement("20in", "12in", "0,0 20,12");
+            rootSVGElement = new SvgSvgElement("20in", "12in", "0,0 20,12");
+            InitDoc();
+        }
+
+        private void InitDoc()
+        {
+            doc = new XmlDocument();
+            var docType = doc.CreateDocumentType("svg", "-//W3C//DTD SVG 1.1//EN", "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", null);
+            doc.AppendChild(docType);
+
+            svgRootNode = doc.CreateElement("svg", "http://www.w3.org/2000/svg");
+            doc.AppendChild(svgRootNode);
+
+            var attrWidth = doc.CreateAttribute("width");
+            attrWidth.Value = "20.00in";
+            svgRootNode.Attributes.Append(attrWidth);
+
+            var attrHeight = doc.CreateAttribute("height");
+            attrHeight.Value = "12.00in";
+            svgRootNode.Attributes.Append(attrHeight);
+
+            var attrViewBox = doc.CreateAttribute("viewBox");
+            attrViewBox.Value = "0.00 0.00 20.00 12.00";
+            svgRootNode.Attributes.Append(attrViewBox);
         }
 
         public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, bool RotateParts = false)
@@ -62,11 +92,15 @@ namespace BoxBuilder
 
                 AddPointOutput(PointData[CubeSide.Bottom], group);
 
-                root.AddChild(group);
+                rootSVGElement.AddChild(group);
+
+                // Manual XML
+                AddPolygon("Bottom", PointData[CubeSide.Bottom], bottomTranslateX, bottomTranslateY);
             }
             else
             {
-                root.AddChild(bottom);
+                rootSVGElement.AddChild(bottom);
+                // TODO: Replace with manual XML generation
             }
 
             var left = ConvertPointsToSVGPolygon(PointData[CubeSide.Left], colorProvider.GetColor());
@@ -89,11 +123,15 @@ namespace BoxBuilder
 
                 AddPointOutput(PointData[CubeSide.Left], group);
 
-                root.AddChild(group);
+                rootSVGElement.AddChild(group);
+
+                // Manual XML
+                AddPolygon("Left", PointData[CubeSide.Left], leftTranslateX, leftTranslateY);
             }
             else
             {
-                root.AddChild(left);
+                rootSVGElement.AddChild(left);
+                // TODO: Replace with manual XML generation
             }
 
             var right = ConvertPointsToSVGPolygon(PointData[CubeSide.Right], colorProvider.GetColor());
@@ -116,11 +154,15 @@ namespace BoxBuilder
 
                 AddPointOutput(PointData[CubeSide.Right], group);
 
-                root.AddChild(group);
+                rootSVGElement.AddChild(group);
+
+                // Manual XML
+                AddPolygon("Right", PointData[CubeSide.Right], rightTranslateX, rightTranslateY);
             }
             else
             {
-                root.AddChild(right);
+                rootSVGElement.AddChild(right);
+                // TODO: Replace with manual XML generation
             }
 
             var front = ConvertPointsToSVGPolygon(PointData[CubeSide.Front], colorProvider.GetColor());
@@ -137,11 +179,15 @@ namespace BoxBuilder
 
                 AddPointOutput(PointData[CubeSide.Front], group);
 
-                root.AddChild(group);
+                rootSVGElement.AddChild(group);
+
+                // Manual XML
+                AddPolygon("Front", PointData[CubeSide.Front], frontTranslateX, frontTranslateY);
             }
             else
             {
-                root.AddChild(front);
+                rootSVGElement.AddChild(front);
+                // TODO: Replace with manual XML generation
             }
 
             var back = ConvertPointsToSVGPolygon(PointData[CubeSide.Back], colorProvider.GetColor());
@@ -164,11 +210,15 @@ namespace BoxBuilder
 
                 AddPointOutput(PointData[CubeSide.Back], group);
 
-                root.AddChild(group);
+                rootSVGElement.AddChild(group);
+
+                // Manual XML
+                AddPolygon("Back", PointData[CubeSide.Back], backTranslateX, backTranslateY);
             }
             else
             {
-                root.AddChild(back);
+                rootSVGElement.AddChild(back);
+                // TODO: Replace with manual XML generation
             }
 
             if (PointData.ContainsKey(CubeSide.Top))
@@ -187,16 +237,30 @@ namespace BoxBuilder
 
                     AddPointOutput(PointData[CubeSide.Top], group);
 
-                    root.AddChild(group);
+                    rootSVGElement.AddChild(group);
+
+                    // Manual XML
+                    AddPolygon("Top", PointData[CubeSide.Top], topTranslateX, topTranslateY);
                 }
                 else
                 {
-                    root.AddChild(top);
+                    rootSVGElement.AddChild(top);
+                    // TODO: Replace with manual XML generation
                 }
             }
 
             // TODO: get rid of string replace hack and figure out the casing in the actual SVG library.
-            return root.WriteSVGString(false).Replace("viewbox", "viewBox");
+            //return rootSVGElement.WriteSVGString(false).Replace("viewbox", "viewBox");
+            var sb = new StringBuilder();
+
+            using (var xmlTextWriter = XmlTextWriter.Create(sb, new XmlWriterSettings { Encoding=System.Text.Encoding.UTF8, Indent = true }))
+            {
+                doc.WriteTo(xmlTextWriter);
+                xmlTextWriter.Flush();
+
+                // TODO: figure out the UTF-8/UTF-16 mixup here
+                return sb.ToString().Replace("utf-16", "utf-8");
+            }
         }
 
         private void AddPointOutput(List<Point> pointData, SvgGroupElement Group)
@@ -233,6 +297,54 @@ namespace BoxBuilder
             polygon.Style = new SvgNet.SvgTypes.SvgStyle(new Pen(PieceColor, 0.0034f));
 
             return polygon;
+        }
+
+        private void AddPolygon(string Id, List<Point> PointData, decimal TranslateX, decimal TranslateY)
+        {
+            var group = doc.CreateElement("g", "http://www.w3.org/2000/svg");
+            svgRootNode.AppendChild(group);
+
+            var attrTranslate = doc.CreateAttribute("transform");
+            attrTranslate.Value = string.Format("translate({0} {1})", TranslateX, TranslateY);
+            group.Attributes.Append(attrTranslate);
+
+            AddPolygon(group, Id, PointData);
+        }
+
+        private void AddPolygon(XmlElement Parent, string Id, List<Point> PointData)
+        {
+            var polygon = doc.CreateElement("polygon", "http://www.w3.org/2000/svg");
+            Parent.AppendChild(polygon);
+
+            var attrId = doc.CreateAttribute("id");
+            attrId.Value = Id;
+            polygon.Attributes.Append(attrId);
+
+            StringBuilder sb = new StringBuilder();
+            bool isFirst = true;
+
+            foreach (Point p in PointData)
+            {
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    sb.Append(" ");
+                }
+
+                sb.Append(p.X.ToString("F3") + " " + p.Y.ToString("F3"));
+            }
+
+            var attrPoints = doc.CreateAttribute("points");
+            attrPoints.Value = sb.ToString();
+            polygon.Attributes.Append(attrPoints);
+
+            var attrStyle = doc.CreateAttribute("style");
+            // TODO: Static color here. Should be using the provided color generator
+            attrStyle.Value = "stroke-miterlimit:9;stroke-linecap:butt;opacity:1;stroke-width:0.0034;fill:none;stroke-linejoin:miter;stroke:rgb(255,0,0);";
+            polygon.Attributes.Append(attrStyle);
         }
 
         private decimal FindDimensionX(List<Point> PointData)
