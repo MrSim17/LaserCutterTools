@@ -7,7 +7,7 @@ namespace BoxBuilder
 {
     public sealed class Material : IMaterial
     {
-        public double MaterialThickness
+        public decimal MaterialThickness
         {
             get;
             set;

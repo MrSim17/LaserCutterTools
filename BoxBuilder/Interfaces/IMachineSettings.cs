@@ -7,8 +7,8 @@ namespace BoxBuilder
 {
     public interface IMachineSettings
     {
-        double MaxX { get; set; }
-        double MaxY { get; set; }
-        double ToolSpacing { get; set; }
+        decimal MaxX { get; set; }
+        decimal MaxY { get; set; }
+        decimal ToolSpacing { get; set; }
     }
 }

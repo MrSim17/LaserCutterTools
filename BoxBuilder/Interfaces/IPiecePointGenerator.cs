@@ -7,16 +7,16 @@ namespace BoxBuilder
     {
         List<Point> CreateTabedObject
             (
-            double DimensionX,
-            double DimensionY,
+            decimal DimensionX,
+            decimal DimensionY,
             int NumTabsX,
             int NumTabsY,
             TabPosition StartPositionX,
             TabPosition StartPositionY,
             TabPosition StartPositionXMinus,
             TabPosition StartPositionYMinus,
-            double MaterialThickness,
-            double ToolSpacing,
+            decimal MaterialThickness,
+            decimal ToolSpacing,
             ILogger logger,
             PieceSide? FlatSide = null
             );

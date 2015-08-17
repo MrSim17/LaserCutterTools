@@ -8,18 +8,18 @@ namespace BoxBuilder
 {
     public struct Point
     {
-        public Point(double X, double Y)
+        public Point(decimal X, decimal Y)
         {
             this.X = X;
             this.Y = Y;
         }
 
-        public double X
+        public decimal X
         {
             get; set;
         }
 
-        public double Y
+        public decimal Y
         {
             get; set;
         }

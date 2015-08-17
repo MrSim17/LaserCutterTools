@@ -26,7 +26,7 @@ namespace BoxBuilder
 
         SvgSvgElement root;
         // TODO: padding probably shouldn't be hard coded
-        double padding = 0.2;
+        decimal padding = 0.2M;
 
         public BoxPointRendererSVG(IColorProvider ColorProvider)
         {
@@ -44,21 +44,23 @@ namespace BoxBuilder
 
         public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, bool RotateParts = false)
         {
-            double dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
-            double dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
-            double dimensionZ = FindDimensionY(PointData[CubeSide.Left]);
+            decimal dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
+            decimal dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
+            decimal dimensionZ = FindDimensionY(PointData[CubeSide.Left]);
 
             var bottom = ConvertPointsToSVGPolygon(PointData[CubeSide.Bottom], colorProvider.GetColor());
             bottom.Id = "Bottom";
 
-            double bottomTranslateX = padding + dimensionZ + padding;
-            double bottomTranslateY = padding + dimensionZ + padding;
+            decimal bottomTranslateX = padding + dimensionZ + padding;
+            decimal bottomTranslateY = padding + dimensionZ + padding;
 
             if (translatePieces)
             {
                 SvgGroupElement group = new SvgGroupElement();
                 group.Transform.Add(string.Format("translate({0}, {1})", bottomTranslateX, bottomTranslateY));
                 group.AddChild(bottom);
+
+                AddPointOutput(PointData[CubeSide.Bottom], group);
 
                 root.AddChild(group);
             }
@@ -76,14 +78,16 @@ namespace BoxBuilder
                 HelperMethods.RotateSVG(left, 90);
             }
 
-            double leftTranslateX = padding;
-            double leftTranslateY = padding + dimensionZ + padding;
+            decimal leftTranslateX = padding;
+            decimal leftTranslateY = padding + dimensionZ + padding;
 
             if (translatePieces)
             {
                 SvgGroupElement group = new SvgGroupElement();
                 group.Transform.Add(string.Format("translate({0}, {1})", leftTranslateX, leftTranslateY));
                 group.AddChild(left);
+
+                AddPointOutput(PointData[CubeSide.Left], group);
 
                 root.AddChild(group);
             }
@@ -101,14 +105,16 @@ namespace BoxBuilder
                 HelperMethods.RotateSVG(right, 270);
             }
 
-            double rightTranslateX = padding + dimensionZ + padding + dimensionX + padding;
-            double rightTranslateY = padding + dimensionZ + padding;
+            decimal rightTranslateX = padding + dimensionZ + padding + dimensionX + padding;
+            decimal rightTranslateY = padding + dimensionZ + padding;
 
             if (translatePieces)
             {
                 SvgGroupElement group = new SvgGroupElement();
                 group.Transform.Add(string.Format("translate({0}, {1})", rightTranslateX, rightTranslateY));
                 group.AddChild(right);
+
+                AddPointOutput(PointData[CubeSide.Right], group);
 
                 root.AddChild(group);
             }
@@ -120,14 +126,16 @@ namespace BoxBuilder
             var front = ConvertPointsToSVGPolygon(PointData[CubeSide.Front], colorProvider.GetColor());
             front.Id = "Front";
 
-            double frontTranslateX = padding + dimensionZ + padding;
-            double frontTranslateY = padding + dimensionZ + padding + dimensionY + padding;
+            decimal frontTranslateX = padding + dimensionZ + padding;
+            decimal frontTranslateY = padding + dimensionZ + padding + dimensionY + padding;
 
             if (translatePieces)
             {
                 SvgGroupElement group = new SvgGroupElement();
                 group.Transform.Add(string.Format("translate({0}, {1})", frontTranslateX, frontTranslateY));
                 group.AddChild(front);
+
+                AddPointOutput(PointData[CubeSide.Front], group);
 
                 root.AddChild(group);
             }
@@ -145,14 +153,16 @@ namespace BoxBuilder
                 HelperMethods.RotateSVG(back, 180);
             }
 
-            double backTranslateX = padding + dimensionZ + padding;
-            double backTranslateY = padding;
+            decimal backTranslateX = padding + dimensionZ + padding;
+            decimal backTranslateY = padding;
 
             if (translatePieces)
             {
                 SvgGroupElement group = new SvgGroupElement();
                 group.Transform.Add(string.Format("translate({0}, {1})", backTranslateX, backTranslateY));
                 group.AddChild(back);
+
+                AddPointOutput(PointData[CubeSide.Back], group);
 
                 root.AddChild(group);
             }
@@ -166,14 +176,16 @@ namespace BoxBuilder
                 var top = ConvertPointsToSVGPolygon(PointData[CubeSide.Top], colorProvider.GetColor());
                 top.Id = "Top";
 
-                double topTranslateX = padding + dimensionZ + padding + dimensionX + padding + dimensionZ + padding;
-                double topTranslateY = padding + dimensionZ + padding;
+                decimal topTranslateX = padding + dimensionZ + padding + dimensionX + padding + dimensionZ + padding;
+                decimal topTranslateY = padding + dimensionZ + padding;
 
                 if (translatePieces)
                 {
                     SvgGroupElement group = new SvgGroupElement();
                     group.Transform.Add(string.Format("translate({0}, {1})", topTranslateX, topTranslateY));
                     group.AddChild(top);
+
+                    AddPointOutput(PointData[CubeSide.Top], group);
 
                     root.AddChild(group);
                 }
@@ -185,6 +197,17 @@ namespace BoxBuilder
 
             // TODO: get rid of string replace hack and figure out the casing in the actual SVG library.
             return root.WriteSVGString(false).Replace("viewbox", "viewBox");
+        }
+
+        private void AddPointOutput(List<Point> pointData, SvgGroupElement Group)
+        {
+            int i = 1;
+            foreach (Point p in pointData)
+            {
+                var txt = new SvgTextElement(string.Format("{2}. ({0},{1})", p.X, p.Y, i++), (float)p.X, (float)p.Y);
+                txt.Style = new SvgNet.SvgTypes.SvgStyle(new Font("Times New Roman", .02f));
+                Group.AddChild(txt);
+            }
         }
 
         private static SvgPolygonElement ConvertPointsToSVGPolygon(List<Point> Points, Color PieceColor)
@@ -203,7 +226,7 @@ namespace BoxBuilder
                     sb.Append(" ");
                 }
 
-                sb.Append(p.X + " " + p.Y);
+                sb.Append(p.X.ToString("F3") + " " + p.Y.ToString("F3"));
             }
 
             var polygon = new SvgPolygonElement(new SvgNet.SvgTypes.SvgPoints(sb.ToString()));
@@ -212,10 +235,10 @@ namespace BoxBuilder
             return polygon;
         }
 
-        private double FindDimensionX(List<Point> PointData)
+        private decimal FindDimensionX(List<Point> PointData)
         {
-            double minVal = 0;
-            double maxVal = 0;
+            decimal minVal = 0;
+            decimal maxVal = 0;
 
             minVal = PointData.Min(p => p.X);
             maxVal = PointData.Max(p => p.X);
@@ -223,10 +246,10 @@ namespace BoxBuilder
             return Math.Abs(minVal - maxVal);
         }
 
-        private double FindDimensionY(List<Point> PointData)
+        private decimal FindDimensionY(List<Point> PointData)
         {
-            double minVal = 0;
-            double maxVal = 0;
+            decimal minVal = 0;
+            decimal maxVal = 0;
 
             minVal = PointData.Min(p => p.Y);
             maxVal = PointData.Max(p => p.Y);

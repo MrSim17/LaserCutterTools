@@ -7,6 +7,6 @@ namespace BoxBuilder
 {
     public interface IMaterial
     {
-        double MaterialThickness { get; set; }
+        decimal MaterialThickness { get; set; }
     }
 }

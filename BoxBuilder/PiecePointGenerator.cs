@@ -6,14 +6,14 @@ namespace BoxBuilder
 {
     internal sealed class PiecePointGenerator : IPiecePointGenerator
     {
-        public List<Point> CreateTabedObject(double DimensionX, double DimensionY, int NumTabsX, int NumTabsY, TabPosition StartPositionX, TabPosition StartPositionY, TabPosition StartPositionXMinus, TabPosition StartPositionYMinus, double MaterialThickness, double ToolSpacing, ILogger logger, PieceSide? FlatSide = default(PieceSide?))
+        public List<Point> CreateTabedObject(decimal DimensionX, decimal DimensionY, int NumTabsX, int NumTabsY, TabPosition StartPositionX, TabPosition StartPositionY, TabPosition StartPositionXMinus, TabPosition StartPositionYMinus, decimal MaterialThickness, decimal ToolSpacing, ILogger logger, PieceSide? FlatSide = default(PieceSide?))
         {
             logger.Log("=========== starting new polygon ===========");
             List<Point> points = new List<Point>();
 
-            double tabSize = 0;
-            double currentX = 0;
-            double currentY = 0;
+            decimal tabSize = 0;
+            decimal currentX = 0;
+            decimal currentY = 0;
 
             TabPosition lastTabPos = TabPosition.Crest;
             Point lastPoint = new Point(0, 0);
@@ -87,8 +87,8 @@ namespace BoxBuilder
                 if (FlatSide != null && FlatSide == (PieceSide)side)
                 {
                     logger.Log("Making flat side.");
-                    double deltaX = 0;
-                    double deltaY = 0;
+                    decimal deltaX = 0;
+                    decimal deltaY = 0;
 
                     switch (FlatSide)
                     {
@@ -150,8 +150,8 @@ namespace BoxBuilder
                         }
                     }
 
-                    double deltaX = 0;
-                    double deltaY = 0;
+                    decimal deltaX = 0;
+                    decimal deltaY = 0;
 
                     switch ((PieceSide)side)
                     {
@@ -189,7 +189,7 @@ namespace BoxBuilder
                             break;
                     }
 
-                    logger.Log(string.Format("Delta: ({0}, {1})", deltaX, deltaY));
+                    logger.Log(string.Format("--Delta: ({0}, {1})", deltaX, deltaY));
 
                     currentX = currentX + deltaX;
                     currentY = currentY + deltaY;
@@ -207,20 +207,20 @@ namespace BoxBuilder
                         switch ((PieceSide)side)
                         {
                             case PieceSide.X:
-                                deltaY = (tabPos == TabPosition.Crest) ? MaterialThickness - (ToolSpacing / 2) : -(MaterialThickness - (ToolSpacing / 2));
+                                deltaY = (tabPos == TabPosition.Crest) ? MaterialThickness : -(MaterialThickness);
                                 break;
                             case PieceSide.XMinus:
-                                deltaY = (tabPos == TabPosition.Crest) ? -(MaterialThickness - (ToolSpacing / 2)) : MaterialThickness - (ToolSpacing / 2);
+                                deltaY = (tabPos == TabPosition.Crest) ? -(MaterialThickness) : MaterialThickness;
                                 break;
                             case PieceSide.Y:
-                                deltaX = (tabPos == TabPosition.Crest) ? -(MaterialThickness - (ToolSpacing / 2)) : MaterialThickness - (ToolSpacing / 2);
+                                deltaX = (tabPos == TabPosition.Crest) ? -(MaterialThickness) : MaterialThickness;
                                 break;
                             case PieceSide.YMinus:
-                                deltaX = (tabPos == TabPosition.Crest) ? MaterialThickness - (ToolSpacing / 2) : -(MaterialThickness - (ToolSpacing / 2));
+                                deltaX = (tabPos == TabPosition.Crest) ? MaterialThickness : -(MaterialThickness);
                                 break;
                         }
 
-                        logger.Log(string.Format("Delta: ({0}, {1})", deltaX, deltaY));
+                        logger.Log(string.Format("--Delta: ({0}, {1})", deltaX, deltaY));
 
                         currentX = currentX + deltaX;
                         currentY = currentY + deltaY;
@@ -242,22 +242,22 @@ namespace BoxBuilder
 
                 if (nextStartPosition == TabPosition.Trough)
                 {
-                    double adjustmentX = 0;
-                    double adjustmentY = 0;
+                    decimal adjustmentX = 0;
+                    decimal adjustmentY = 0;
 
                     switch ((PieceSide)side)
                     {
                         case PieceSide.X:
-                            adjustmentX = -(MaterialThickness - ToolSpacing / 2);
+                            adjustmentX = -(MaterialThickness);
                             break;
                         case PieceSide.XMinus:
-                            adjustmentX = (MaterialThickness - ToolSpacing / 2);
+                            adjustmentX = (MaterialThickness);
                             break;
                         case PieceSide.Y:
-                            adjustmentY = -(MaterialThickness - ToolSpacing / 2);
+                            adjustmentY = -(MaterialThickness);
                             break;
                         default:
-                            adjustmentY = (MaterialThickness - ToolSpacing / 2);
+                            adjustmentY = (MaterialThickness);
                             break;
                     }
 

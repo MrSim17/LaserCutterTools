@@ -49,19 +49,19 @@ namespace NathanSVGTest
         {
             var box = new BoxBuilder.BoxSquare
             {
-                DimensionX = double.Parse(txtSizeX.Text),
-                DimensionY = double.Parse(txtSizeY.Text),
-                DimensionZ = double.Parse(txtSizeZ.Text)
+                DimensionX = decimal.Parse(txtSizeX.Text),
+                DimensionY = decimal.Parse(txtSizeY.Text),
+                DimensionZ = decimal.Parse(txtSizeZ.Text)
             };
 
             var material = new Material
             {
-                MaterialThickness = double.Parse(txtThickness.Text)
+                MaterialThickness = decimal.Parse(txtThickness.Text)
             };
 
             var machineSettings = new MachineSettings
             {
-                ToolSpacing = double.Parse(txtTool.Text)
+                ToolSpacing = decimal.Parse(txtTool.Text)
             };
 
             int tabsX = int.Parse(txtTabsX.Text);

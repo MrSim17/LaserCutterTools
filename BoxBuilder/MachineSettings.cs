@@ -7,19 +7,19 @@ namespace BoxBuilder
 {
     public sealed class MachineSettings : IMachineSettings
     {
-        public double MaxX
+        public decimal MaxX
         {
             get;
             set;
         }
 
-        public double MaxY
+        public decimal MaxY
         {
             get;
             set;
         }
 
-        public double ToolSpacing
+        public decimal ToolSpacing
         {
             get;
             set;

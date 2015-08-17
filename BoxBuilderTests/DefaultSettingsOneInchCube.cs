@@ -28,7 +28,7 @@ namespace BoxBuilderTests
             {
                 return new Material
                 {
-                    MaterialThickness = .2
+                    MaterialThickness = .2M
                 };
             }
         }
@@ -41,7 +41,7 @@ namespace BoxBuilderTests
                 {
                     MaxX = 20,
                     MaxY = 12,
-                    ToolSpacing = .02
+                    ToolSpacing = .02M
                 };
             }
         }

@@ -7,8 +7,8 @@ namespace BoxBuilder
 {
     public interface IBoxSquare
     {
-        double DimensionX { get; set; }
-        double DimensionY { get; set; }
-        double DimensionZ { get; set; }
+        decimal DimensionX { get; set; }
+        decimal DimensionY { get; set; }
+        decimal DimensionZ { get; set; }
     }
 }

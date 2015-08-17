@@ -7,8 +7,8 @@ namespace BoxBuilder
 {
     public sealed class BoxSquare : IBox, IBoxSquare
     {
-        public double DimensionX { get; set; }
-        public double DimensionY { get; set; }
-        public double DimensionZ { get; set; }
+        public decimal DimensionX { get; set; }
+        public decimal DimensionY { get; set; }
+        public decimal DimensionZ { get; set; }
     }
 }

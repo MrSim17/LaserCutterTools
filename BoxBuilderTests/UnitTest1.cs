@@ -58,7 +58,7 @@ namespace BoxBuilderTests
         {
             var material = new Material
             {
-                MaterialThickness = .2
+                MaterialThickness = .2M
             };
 
             var machineSettings = DefaultSettingsOneInchCube.MachineSettings;
