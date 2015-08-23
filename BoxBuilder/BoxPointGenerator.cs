@@ -79,7 +79,6 @@ namespace BoxBuilder
                 flatSide);
 
             // Left
-            // TODO: instead of rotating with a transform change the parameters for generating the piece
             var pieceLeft = PiecePointGenerator.CreateTabedObject(
                 Box.DimensionY,
                 Box.DimensionZ,
@@ -95,7 +94,6 @@ namespace BoxBuilder
                 flatSide);
 
             // Right
-            // TODO: instead of rotating with a transform change the parameters for generating the piece
             var pieceRight = PiecePointGenerator.CreateTabedObject(
                 Box.DimensionY,
                 Box.DimensionZ,
@@ -126,7 +124,6 @@ namespace BoxBuilder
                 flatSide);
 
             // Back
-            // TODO: instead of rotating with a transform change the parameters for generating the piece
             var pieceBack = PiecePointGenerator.CreateTabedObject(
                 Box.DimensionX,
                 Box.DimensionZ,

@@ -54,7 +54,6 @@
     <Compile Include="Interfaces\IBoxPointRenderer.cs" />
     <Compile Include="PiecePointGenerator.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Interfaces\IBox.cs" />
     <Compile Include="Interfaces\IBoxHandler.cs" />
     <Compile Include="Interfaces\IBoxPointGenerator.cs" />
     <Compile Include="Interfaces\IBoxSquare.cs" />

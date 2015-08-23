@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BoxBuilder
 {
-    public sealed class BoxSquare : IBox, IBoxSquare
+    public sealed class BoxSquare : IBoxSquare
     {
         public decimal DimensionX { get; set; }
         public decimal DimensionY { get; set; }
