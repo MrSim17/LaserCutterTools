@@ -8,7 +8,6 @@ using Common;
 
 namespace BoxBuilder
 {
-    // TODO: Completely remove the SvgNet library
     public sealed class BoxPointRendererSVG : IBoxPointRenderer
     {
         bool translatePieces = true;
@@ -16,6 +15,7 @@ namespace BoxBuilder
         IColorProvider colorProvider;
         bool makeBoxOpen = false;
         PieceSide? flatSide = null;
+        bool isInDebugMode = false;
 
         public ILogger Logger
         {
@@ -29,15 +29,17 @@ namespace BoxBuilder
         // TODO: padding probably shouldn't be hard coded
         decimal padding = 0.2M;
 
-        public BoxPointRendererSVG(IColorProvider ColorProvider)
+        public BoxPointRendererSVG(IColorProvider ColorProvider, bool IsInDebugMode = false)
         {
             colorProvider = ColorProvider;
+            isInDebugMode = IsInDebugMode;
             InitDoc();
         }
 
-        public BoxPointRendererSVG()
+        public BoxPointRendererSVG(bool IsInDebugMode = false)
         {
             colorProvider = new ColorProviderAllBlack();
+            isInDebugMode = IsInDebugMode;
             InitDoc();
         }
 
@@ -213,8 +215,11 @@ namespace BoxBuilder
 
             AddPolygon(group, Id, PointData);
 
-            // output debug information
-            AddPointOutput(PointData, group);
+            if (isInDebugMode)
+            {
+                // output debug information
+                AddPointOutput(PointData, group);
+            }
         }
 
         private void AddPolygon(XmlElement Parent, string Id, List<Point> PointData)
