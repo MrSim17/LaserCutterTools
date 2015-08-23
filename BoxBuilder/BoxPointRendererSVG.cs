@@ -8,6 +8,7 @@ using Common;
 
 namespace BoxBuilder
 {
+    // TODO: Contemplate separating the concerns of rotating parts and arranging them from rendering the actual XML.
     public sealed class BoxPointRendererSVG : IBoxPointRenderer
     {
         bool translatePieces = true;
