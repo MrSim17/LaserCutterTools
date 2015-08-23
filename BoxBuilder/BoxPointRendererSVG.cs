@@ -53,6 +53,7 @@ namespace BoxBuilder
         private void InitDoc()
         {
             doc = new XmlDocument();
+            doc.XmlResolver = null; // don't load external stuff
             var docType = doc.CreateDocumentType("svg", "-//W3C//DTD SVG 1.1//EN", "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", null);
             doc.AppendChild(docType);
 
@@ -86,14 +87,6 @@ namespace BoxBuilder
 
             if (translatePieces)
             {
-                SvgGroupElement group = new SvgGroupElement();
-                group.Transform.Add(string.Format("translate({0}, {1})", bottomTranslateX, bottomTranslateY));
-                group.AddChild(bottom);
-
-                AddPointOutput(PointData[CubeSide.Bottom], group);
-
-                rootSVGElement.AddChild(group);
-
                 // Manual XML
                 AddPolygon("Bottom", PointData[CubeSide.Bottom], bottomTranslateX, bottomTranslateY);
             }
@@ -117,14 +110,6 @@ namespace BoxBuilder
 
             if (translatePieces)
             {
-                SvgGroupElement group = new SvgGroupElement();
-                group.Transform.Add(string.Format("translate({0}, {1})", leftTranslateX, leftTranslateY));
-                group.AddChild(left);
-
-                AddPointOutput(PointData[CubeSide.Left], group);
-
-                rootSVGElement.AddChild(group);
-
                 // Manual XML
                 AddPolygon("Left", PointData[CubeSide.Left], leftTranslateX, leftTranslateY);
             }
@@ -148,14 +133,6 @@ namespace BoxBuilder
 
             if (translatePieces)
             {
-                SvgGroupElement group = new SvgGroupElement();
-                group.Transform.Add(string.Format("translate({0}, {1})", rightTranslateX, rightTranslateY));
-                group.AddChild(right);
-
-                AddPointOutput(PointData[CubeSide.Right], group);
-
-                rootSVGElement.AddChild(group);
-
                 // Manual XML
                 AddPolygon("Right", PointData[CubeSide.Right], rightTranslateX, rightTranslateY);
             }
@@ -173,14 +150,6 @@ namespace BoxBuilder
 
             if (translatePieces)
             {
-                SvgGroupElement group = new SvgGroupElement();
-                group.Transform.Add(string.Format("translate({0}, {1})", frontTranslateX, frontTranslateY));
-                group.AddChild(front);
-
-                AddPointOutput(PointData[CubeSide.Front], group);
-
-                rootSVGElement.AddChild(group);
-
                 // Manual XML
                 AddPolygon("Front", PointData[CubeSide.Front], frontTranslateX, frontTranslateY);
             }
@@ -204,14 +173,6 @@ namespace BoxBuilder
 
             if (translatePieces)
             {
-                SvgGroupElement group = new SvgGroupElement();
-                group.Transform.Add(string.Format("translate({0}, {1})", backTranslateX, backTranslateY));
-                group.AddChild(back);
-
-                AddPointOutput(PointData[CubeSide.Back], group);
-
-                rootSVGElement.AddChild(group);
-
                 // Manual XML
                 AddPolygon("Back", PointData[CubeSide.Back], backTranslateX, backTranslateY);
             }
@@ -231,14 +192,6 @@ namespace BoxBuilder
 
                 if (translatePieces)
                 {
-                    SvgGroupElement group = new SvgGroupElement();
-                    group.Transform.Add(string.Format("translate({0}, {1})", topTranslateX, topTranslateY));
-                    group.AddChild(top);
-
-                    AddPointOutput(PointData[CubeSide.Top], group);
-
-                    rootSVGElement.AddChild(group);
-
                     // Manual XML
                     AddPolygon("Top", PointData[CubeSide.Top], topTranslateX, topTranslateY);
                 }
@@ -249,8 +202,6 @@ namespace BoxBuilder
                 }
             }
 
-            // TODO: get rid of string replace hack and figure out the casing in the actual SVG library.
-            //return rootSVGElement.WriteSVGString(false).Replace("viewbox", "viewBox");
             var sb = new StringBuilder();
 
             using (var xmlTextWriter = XmlTextWriter.Create(sb, new XmlWriterSettings { Encoding=System.Text.Encoding.UTF8, Indent = true }))
@@ -263,14 +214,35 @@ namespace BoxBuilder
             }
         }
 
-        private void AddPointOutput(List<Point> pointData, SvgGroupElement Group)
+        private void AddPointOutput(List<Point> pointData, XmlElement Group)
         {
             int i = 1;
             foreach (Point p in pointData)
             {
-                var txt = new SvgTextElement(string.Format("{2}. ({0},{1})", p.X, p.Y, i++), (float)p.X, (float)p.Y);
-                txt.Style = new SvgNet.SvgTypes.SvgStyle(new Font("Times New Roman", .02f));
-                Group.AddChild(txt);
+                // manual XML
+                var textEl = doc.CreateElement("text", "http://www.w3.org/2000/svg");
+                textEl.InnerText = string.Format("{2}. ({0},{1})", p.X, p.Y, i++);
+
+                var xAttrib = doc.CreateAttribute("x");
+                xAttrib.Value = p.X.ToString();
+                var yAttrib = doc.CreateAttribute("y");
+                yAttrib.Value = p.Y.ToString();
+
+                //var fontFamAttrib = doc.CreateAttribute("font-family");
+                //fontFamAttrib.Value = "TimesNewRoman";
+                //var fontSizeAttrib = doc.CreateAttribute("font-size");
+                //fontSizeAttrib.Value = "0.002em";
+
+                var styleAttrib = doc.CreateAttribute("style");
+                styleAttrib.Value = "fill:#000000;font-family:TimesNewRoman;font-size:0.05px;";
+
+                textEl.Attributes.Append(xAttrib);
+                textEl.Attributes.Append(yAttrib);
+                //textEl.Attributes.Append(fontFamAttrib);
+                //textEl.Attributes.Append(fontSizeAttrib);
+                textEl.Attributes.Append(styleAttrib);
+
+                Group.AppendChild(textEl);
             }
         }
 
@@ -309,6 +281,9 @@ namespace BoxBuilder
             group.Attributes.Append(attrTranslate);
 
             AddPolygon(group, Id, PointData);
+
+            // output debug information
+            AddPointOutput(PointData, group);
         }
 
         private void AddPolygon(XmlElement Parent, string Id, List<Point> PointData)
