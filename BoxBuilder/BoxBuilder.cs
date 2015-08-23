@@ -23,13 +23,13 @@ namespace BoxBuilder
             return pointGen;
         }
 
-        internal static IBoxHandlerSquare GetBoxHandler(int TabsX, int TabsY, int TabsZ, ILogger Logger)
+        public static IBoxHandlerSVG GetBoxHandler(int TabsX, int TabsY, int TabsZ, ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
-            IBoxPointRenderer pointRender = new BoxPointRendererSVG(colorProvider);
+            IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider);
             IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
 
-            IBoxHandlerSquare handler = new BoxHandlerSquare(pointGen,
+            IBoxHandlerSVG handler = new BoxHandlerSVG(pointGen,
                 pointRender,
                 TabsX,
                 TabsY,
@@ -37,23 +37,6 @@ namespace BoxBuilder
                 Logger);
 
             return handler;
-        }
-
-        public static string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool RotateParts, bool MakeBoxOpen, ILogger Logger)
-        {
-            IColorProvider colorProvider = new ColorProviderAllDifferent();
-            IPiecePointGenerator piecePointGen = new PiecePointGenerator();
-            IBoxPointGenerator pointGen = new BoxPointGenerator(piecePointGen, Logger);
-            IBoxPointRenderer pointRender = new BoxPointRendererSVG(colorProvider);
-
-            IBoxHandlerSquare handler = new BoxHandlerSquare(pointGen,
-                pointRender,
-                TabsX, 
-                TabsY, 
-                TabsZ, 
-                Logger);
-
-            return handler.HandleBox(Box, Material, MachineSettings, MakeBoxOpen, RotateParts);
         }
     }
 }

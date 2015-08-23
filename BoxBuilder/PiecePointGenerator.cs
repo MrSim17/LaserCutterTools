@@ -12,11 +12,8 @@ namespace BoxBuilder
             List<Point> points = new List<Point>();
 
             decimal tabSize = 0;
-            decimal currentX = 0;//ToolSpacing / 2;
+            decimal currentX = 0;
             decimal currentY = 0;
-
-            //decimal currentX = 0;
-            //decimal currentY = 0;
 
             TabPosition lastTabPos = TabPosition.Crest;
             Point lastPoint = new Point(0, 0);

@@ -11,10 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SvgNet;
-using SvgNet.SvgElements;
-using SvgNet.SvgTypes;
-using System.Drawing;
 using BoxBuilder;
 using ColorProvider;
 using Common;
@@ -72,7 +68,10 @@ namespace NathanSVGTest
             bool makeTopOpen = chkMakeOpen.IsChecked.GetValueOrDefault(false);
 
             StringLogger logger = new StringLogger();
-            var ret = BoxBuilder.BoxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, true, makeTopOpen, logger);
+
+            var boxHandler = BoxBuilder.BoxBuilder.GetBoxHandler(tabsX, tabsY, tabsZ, logger);
+            var ret = boxHandler.HandleBox(box, material, machineSettings, makeTopOpen);
+
             textBox1.Text = logger.Log;
 
             return ret;
@@ -89,7 +88,7 @@ namespace NathanSVGTest
             float height = 2f;
 
             string hash = builder.BuildHash(width, height, lineSpacing, gapwidth, hashCount);
-            //textBox1.Text = hash;
+
             textBox1.Text = ((StringLogger)builder.Logger).Log;
             OutputFile(hash);
         }
