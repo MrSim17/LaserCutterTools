@@ -16,7 +16,7 @@
         <Label Content="Size Z:" Height="28" HorizontalAlignment="Left" Margin="77,12,0,0" Name="label3" VerticalAlignment="Top" Grid.Column="1" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="127,12,0,0" Name="txtSizeZ" VerticalAlignment="Top" Width="60" Grid.Column="1" Text="1.5" />
         <Label Content="Thickness:" Height="28" HorizontalAlignment="Left" Margin="91,71,0,0" Name="label4" VerticalAlignment="Top" Width="73" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="155,73,0,0" Name="txtThickness" Text="0.176" VerticalAlignment="Top" Width="60" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="155,73,0,0" Name="txtThickness" Text="0.2" VerticalAlignment="Top" Width="60" />
         <Label Content="Tabs X:" Height="28" HorizontalAlignment="Left" Margin="106,39,0,0" Name="label5" VerticalAlignment="Top" Width="60" />
         <Label Content="Tabs Y:" Height="28" HorizontalAlignment="Left" Margin="227,41,0,0" Name="label6" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="155,41,0,0" Name="txtTabsX" Text="2" VerticalAlignment="Top" Width="60" />

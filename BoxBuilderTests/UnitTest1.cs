@@ -19,22 +19,22 @@ namespace BoxBuilderTests
             var cube = DefaultSettingsOneInchCube.CubeDimensions;
             var pointGenerator = BoxBuilder.BoxBuilder.GetBoxPointGenerator(new NullLogger());
 
-            var pointData = pointGenerator.GeneratePoints(startConfig, cube, material, machineSettings, 2, 2, 2, false);
+            var pointData = pointGenerator.GeneratePoints(startConfig, cube, material, machineSettings, 3, 3, 3, false);
 
             foreach (var key in pointData.Keys)
             {
-                var xMin = pointData[key].Min(p => p.X);
-                var yMin = pointData[key].Min(p => p.Y);
+                var xMin = pointData[key].Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
+                var yMin = pointData[key].Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
 
-                var xMax = pointData[key].Max(p => p.X);
-                var yMax = pointData[key].Max(p => p.Y);
+                var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
+                var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
 
                 // The inner square should be a material thickness from all of the outer parts
                 var xInnerMin = xMin + material.MaterialThickness;
                 var yInnerMin = yMin + material.MaterialThickness;
 
-                var xInnerMax = xMin + cube.DimensionX - material.MaterialThickness;
-                var yInnerMax = yMin + cube.DimensionY - material.MaterialThickness;
+                var xInnerMax = xMin + cube.DimensionX - material.MaterialThickness + machineSettings.ToolSpacing;
+                var yInnerMax = yMin + cube.DimensionY - material.MaterialThickness + machineSettings.ToolSpacing;
 
 
                 foreach (var point in pointData[key])

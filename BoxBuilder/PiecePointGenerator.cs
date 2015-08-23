@@ -12,8 +12,11 @@ namespace BoxBuilder
             List<Point> points = new List<Point>();
 
             decimal tabSize = 0;
-            decimal currentX = 0;
+            decimal currentX = 0;//ToolSpacing / 2;
             decimal currentY = 0;
+
+            //decimal currentX = 0;
+            //decimal currentY = 0;
 
             TabPosition lastTabPos = TabPosition.Crest;
             Point lastPoint = new Point(0, 0);
@@ -29,14 +32,14 @@ namespace BoxBuilder
 
             if (StartPositionX == TabPosition.Trough)
             {
-                lastPoint.Y = MaterialThickness - ToolSpacing / 2;
-                currentY = lastPoint.Y;
+                lastPoint.Y += MaterialThickness; // only move the material thickness because it is not changed by tool spacing
+                currentY += lastPoint.Y;
             }
 
             if (StartPositionYMinus == TabPosition.Trough)
             {
-                lastPoint.X = MaterialThickness - ToolSpacing / 2;
-                currentX = lastPoint.X;
+                lastPoint.X += MaterialThickness; // only move the material thickness because it is not changed by tool spacing
+                currentX += lastPoint.X;
             }
 
             logger.Log(string.Format("First Point: ({0}, {1})", lastPoint.X, lastPoint.Y));
@@ -123,6 +126,9 @@ namespace BoxBuilder
                 {
                     logger.Log(string.Format("Tab {0}, Position: {1}, Prev Pos: {2}", i + 1, tabPos, lastTabPos));
 
+                    decimal deltaX = 0;
+                    decimal deltaY = 0;
+
                     if (i == numTabsCurrent * 2 - 2)
                     {
                         isLastTab = true;
@@ -143,20 +149,17 @@ namespace BoxBuilder
                     {
                         if (lastTabPos == TabPosition.Trough)
                         {
-                            tabSize -= (MaterialThickness - ToolSpacing / 2);
+                            tabSize -= MaterialThickness;
                             logger.Log("Retract for prev trhough.");
                             logger.Log(string.Format("New Tab Size: {0}", tabSize));
 
                         }
                     }
 
-                    decimal deltaX = 0;
-                    decimal deltaY = 0;
-
                     switch ((PieceSide)side)
                     {
                         case PieceSide.X:
-                            deltaX = tabSize;
+                            deltaX += tabSize;
 
                             if (tabPos == TabPosition.Crest || (!isFirstTab && !isLastTab))
                             {

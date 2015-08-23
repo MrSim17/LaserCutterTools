@@ -15,9 +15,9 @@ namespace BoxBuilderTests
             {
                 return new BoxSquare
                 {
-                    DimensionX = 1,
-                    DimensionY = 1,
-                    DimensionZ = 1
+                    DimensionX = 1.5m,
+                    DimensionY = 1.5m,
+                    DimensionZ = 1.5m
                 };
             }
         }
