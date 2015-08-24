@@ -54,6 +54,7 @@ namespace BoxBuilder
             svgRootNode = doc.CreateElement("svg", "http://www.w3.org/2000/svg");
             doc.AppendChild(svgRootNode);
 
+            // TODO: the view box and document size should not be hard coded.
             var attrWidth = doc.CreateAttribute("width");
             attrWidth.Value = "20.00in";
             svgRootNode.Attributes.Append(attrWidth);
