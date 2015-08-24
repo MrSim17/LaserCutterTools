@@ -3,7 +3,7 @@ using Common;
 
 namespace BoxBuilder
 {
-    public sealed class BoxBuilder
+    public sealed class BoxBuilderFactory
     {
         // TODO: Deal with auto tabbing.
         //public static IBoxHandlerSquare GetBoxHandler(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings)
@@ -23,13 +23,13 @@ namespace BoxBuilder
             return pointGen;
         }
 
-        public static IBoxHandlerSVG GetBoxHandler(int TabsX, int TabsY, int TabsZ, ILogger Logger)
+        public static IBoxBuilderSVG GetBoxHandler(int TabsX, int TabsY, int TabsZ, ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
             IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider);
             IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
 
-            IBoxHandlerSVG handler = new BoxHandlerSVG(pointGen,
+            IBoxBuilderSVG handler = new BoxBuilderSVG(pointGen,
                 pointRender,
                 TabsX,
                 TabsY,

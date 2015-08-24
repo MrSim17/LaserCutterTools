@@ -7,7 +7,7 @@ namespace BoxBuilder
     /// This class handles organizing the generation of the points and then passing them to the rendering engine to produce the final result.
     /// Tihs class also has the responsibility of determining the start configurations for all the pieces to be rendered.
     /// </summary>
-    internal sealed class BoxHandlerSVG : IBoxHandlerSVG
+    internal sealed class BoxBuilderSVG : IBoxBuilderSVG
     {
         IBoxPointGenerator pointGenerator;
         IBoxPointRendererSVG pointRenderer;
@@ -16,7 +16,7 @@ namespace BoxBuilder
         int tabsY;
         int tabsZ;
 
-        public BoxHandlerSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, int TabsX, int TabsY, int TabsZ, ILogger Logger = null)
+        public BoxBuilderSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, int TabsX, int TabsY, int TabsZ, ILogger Logger = null)
         {
             pointGenerator = PointGenerator;
             pointRenderer = PointRenderer;

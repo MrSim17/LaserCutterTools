@@ -48,13 +48,13 @@
     <Compile Include="BoxHandlerSquareAutoTab.cs" />
     <Compile Include="BoxPointGenerator.cs" />
     <Compile Include="BoxSquare.cs" />
-    <Compile Include="BoxBuilder.cs" />
-    <Compile Include="BoxHandlerSquare.cs" />
+    <Compile Include="BoxBuilderFactory.cs" />
+    <Compile Include="BoxBuilderSVG.cs" />
     <Compile Include="BoxPointRendererSVG.cs" />
     <Compile Include="Interfaces\IBoxPointRendererSVG.cs" />
     <Compile Include="PiecePointGenerator.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Interfaces\IBoxHandlerSVG.cs" />
+    <Compile Include="Interfaces\IBoxBuilderSVG.cs" />
     <Compile Include="Interfaces\IBoxPointGenerator.cs" />
     <Compile Include="Interfaces\IBoxSquare.cs" />
     <Compile Include="Interfaces\IMachineSettings.cs" />

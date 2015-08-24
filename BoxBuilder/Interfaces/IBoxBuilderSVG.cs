@@ -7,7 +7,7 @@ using Common;
 
 namespace BoxBuilder
 {
-    public interface IBoxHandlerSVG
+    public interface IBoxBuilderSVG
     {
         string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, bool MakeBoxOpen = false, bool RotateParts = false);
     }
