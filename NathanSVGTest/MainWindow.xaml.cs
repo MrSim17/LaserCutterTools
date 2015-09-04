@@ -70,7 +70,7 @@ namespace NathanSVGTest
             StringLogger logger = new StringLogger();
 
             var boxHandler = BoxBuilder.BoxBuilderFactory.GetBoxHandler(logger);
-            var ret = boxHandler.HandleBox(box, material, machineSettings, tabsX, tabsY, tabsZ, makeTopOpen);
+            var ret = boxHandler.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, makeTopOpen);
 
             textBox1.Text = logger.Log;
 
