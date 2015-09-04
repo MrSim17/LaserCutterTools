@@ -9,6 +9,6 @@ namespace BoxBuilder
 {
     public interface IBoxBuilderSVG
     {
-        string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, bool MakeBoxOpen = false, bool RotateParts = false);
+        string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool MakeBoxOpen = false, bool RotateParts = false);
     }
 }

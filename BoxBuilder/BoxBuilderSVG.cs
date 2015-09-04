@@ -12,22 +12,15 @@ namespace BoxBuilder
         IBoxPointGenerator pointGenerator;
         IBoxPointRendererSVG pointRenderer;
         ILogger logger;
-        int tabsX;
-        int tabsY;
-        int tabsZ;
 
-        public BoxBuilderSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, int TabsX, int TabsY, int TabsZ, ILogger Logger = null)
+        public BoxBuilderSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, ILogger Logger = null)
         {
             pointGenerator = PointGenerator;
             pointRenderer = PointRenderer;
             logger = Logger;
-
-            tabsX = TabsX;
-            tabsY = TabsY;
-            tabsZ = TabsZ;
         }
 
-        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, bool MakeBoxOpen = false, bool RotateParts = false)
+        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool MakeBoxOpen = false, bool RotateParts = false)
         {
             SideStartPositionConfiguration topBottomConfig = new SideStartPositionConfiguration
             {
@@ -56,9 +49,9 @@ namespace BoxBuilder
                 Box,
                 Material,
                 MachineSettings,
-                tabsX,
-                tabsY,
-                tabsZ,
+                TabsX,
+                TabsY,
+                TabsZ,
                 MakeBoxOpen);
 
             var renderedBox = pointRenderer.RenderPoints(pointData, RotateParts);
