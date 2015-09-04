@@ -19,19 +19,23 @@ namespace BoxBuilderTests
             var cube = DefaultSettingsOneInchCube.CubeDimensions;
             var pointGenerator = BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
 
-            var pointData = pointGenerator.GeneratePoints(startConfig, cube, material, machineSettings, 3, 3, 3, false);
-
-            foreach (var key in pointData.Keys)
+            // test for tab values up to 5
+            for (int i = 2; i <= 5; i++)
             {
-                var xMin = pointData[key].Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
-                var yMin = pointData[key].Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
+                var pointData = pointGenerator.GeneratePoints(startConfig, cube, material, machineSettings, i, i, i, false);
 
-                // make sure the piece always sits on the x and y axis
-                Assert.AreEqual(0, xMin, "Piece is not sitting on the x axis.");
-                Assert.AreEqual(0, yMin, "Piece is not sitting no the y axis.");
+                foreach (var key in pointData.Keys)
+                {
+                    var xMin = pointData[key].Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
+                    var yMin = pointData[key].Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
 
-                var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
-                var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
+                    // make sure the piece always sits on the x and y axis
+                    Assert.AreEqual(0, xMin, "Piece is not sitting on the x axis.");
+                    Assert.AreEqual(0, yMin, "Piece is not sitting no the y axis.");
+
+                    var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
+                    var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
+                }
             }
         }
 
