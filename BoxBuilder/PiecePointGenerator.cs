@@ -15,17 +15,8 @@ namespace BoxBuilder
             decimal currentX = 0;
             decimal currentY = 0;
 
-            TabPosition lastTabPos = TabPosition.Crest;
-            Point lastPoint = new Point(0, 0);
-
-            if (NumTabsX % 2 == 0)
-            {
-                lastTabPos = StartPositionYMinus;
-            }
-            else
-            {
-                lastTabPos = (StartPositionYMinus == TabPosition.Crest) ? TabPosition.Trough : TabPosition.Crest;
-            }
+            TabPosition lastTabPos = StartPositionYMinus;
+            Point lastPoint = new Point(currentX, currentY);
 
             if (StartPositionX == TabPosition.Trough)
             {
