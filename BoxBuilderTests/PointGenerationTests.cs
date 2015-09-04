@@ -117,14 +117,19 @@ namespace BoxBuilderTests
                     var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
                     var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
 
-                    var xDim = Math.Abs(xMax - xMin);
-                    var yDim = Math.Abs(yMax - yMin);
+                    decimal xDim = Math.Abs(xMax - xMin);
+                    decimal yDim = Math.Abs(yMax - yMin);
 
                     // Only half of a round tool would cut into something if it was directly on a cutting line.
                     var expectedDimension = Dimension + machineSettings.ToolSpacing;
 
+                    // TODO: Fix the tiny tiny rounding error that can occurr sometimes. Seems to have to do with dividing by odd numbers of tabs.
+                    //Assert.AreEqual(expectedDimension, xDim);
+                    //Assert.AreEqual(expectedDimension, yDim);
+
                     Assert.AreEqual(expectedDimension, Math.Round(xDim, 3));
                     Assert.AreEqual(expectedDimension, Math.Round(yDim, 3));
+
                 }
 
 
