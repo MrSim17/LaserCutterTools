@@ -188,12 +188,15 @@ namespace BoxBuilder
             foreach (Point p in pointData)
             {
                 var textEl = doc.CreateElement("text", "http://www.w3.org/2000/svg");
-                textEl.InnerText = string.Format("{2}. ({0},{1})", p.X, p.Y, i++);
+                textEl.InnerText = string.Format("{2}. ({0},{1})", p.X.ToString("F3"), p.Y.ToString("F3"), i++);
 
                 var xAttrib = doc.CreateAttribute("x");
-                xAttrib.Value = p.X.ToString();
+                xAttrib.Value = p.X.ToString("F3");
                 var yAttrib = doc.CreateAttribute("y");
-                yAttrib.Value = p.Y.ToString();
+                yAttrib.Value = p.Y.ToString("F3");
+
+                var transAttrib = doc.CreateAttribute("transform");
+                transAttrib.Value = string.Format("rotate(10 {0} {1})", p.X.ToString("F3"), p.Y.ToString("F3"));
 
                 var styleAttrib = doc.CreateAttribute("style");
                 styleAttrib.Value = "fill:#000000;font-family:TimesNewRoman;font-size:0.05px;";
@@ -201,6 +204,7 @@ namespace BoxBuilder
                 textEl.Attributes.Append(xAttrib);
                 textEl.Attributes.Append(yAttrib);
                 textEl.Attributes.Append(styleAttrib);
+                textEl.Attributes.Append(transAttrib);
 
                 Group.AppendChild(textEl);
             }
