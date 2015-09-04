@@ -52,7 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DefaultSettingsOneInchCube.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="PointGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
