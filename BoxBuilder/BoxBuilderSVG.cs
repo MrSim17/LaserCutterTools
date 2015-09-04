@@ -20,7 +20,7 @@ namespace BoxBuilder
             logger = Logger;
         }
 
-        public string HandleBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool MakeBoxOpen = false, bool RotateParts = false)
+        public string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, bool MakeBoxOpen = false, bool RotateParts = false)
         {
             SideStartPositionConfiguration topBottomConfig = new SideStartPositionConfiguration
             {
