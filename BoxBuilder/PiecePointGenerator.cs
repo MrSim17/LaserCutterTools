@@ -1,12 +1,80 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
 using Common;
 
 namespace BoxBuilder
 {
     internal sealed class PiecePointGenerator : IPiecePointGenerator
     {
-        public List<Point> CreateTabedObject(decimal DimensionX, decimal DimensionY, int NumTabsX, int NumTabsY, TabPosition StartPositionX, TabPosition StartPositionY, TabPosition StartPositionXMinus, TabPosition StartPositionYMinus, decimal MaterialThickness, decimal ToolSpacing, ILogger logger, PieceSide? FlatSide = default(PieceSide?))
+        public List<Point> CreateTabedObject(decimal DimensionX, 
+            decimal DimensionY, 
+            int NumTabsX, 
+            int NumTabsY, 
+            TabPosition StartPositionX, 
+            TabPosition StartPositionY, 
+            TabPosition StartPositionXMinus, 
+            TabPosition StartPositionYMinus,
+            decimal MaterialThickness, 
+            decimal ToolSpacing, 
+            ILogger logger)
+        {
+            return CreateTabedObjectInternal(DimensionX, DimensionY, NumTabsX, NumTabsY, null, null, null, null, StartPositionX, StartPositionY, StartPositionXMinus, StartPositionYMinus, MaterialThickness, ToolSpacing, logger, CubeTopConfiguration.Closed, null);
+        }
+
+        public List<Point> CreateTabedObject(decimal DimensionX, 
+            decimal DimensionY, 
+            int NumTabsX, 
+            int NumTabsY, 
+            TabPosition StartPositionX, 
+            TabPosition StartPositionY, 
+            TabPosition StartPositionXMinus, 
+            TabPosition StartPositionYMinus, 
+            decimal MaterialThickness, 
+            decimal ToolSpacing,
+            PieceSide NonTabbedSide,
+            ILogger logger)
+        {
+            return CreateTabedObjectInternal(DimensionX, DimensionY, NumTabsX, NumTabsY, null, null, null, null, StartPositionX, StartPositionY, StartPositionXMinus, StartPositionYMinus, MaterialThickness, ToolSpacing, logger, CubeTopConfiguration.Open, NonTabbedSide);
+        }
+
+        public List<Point> CreateTabedObject(decimal DimensionX, 
+            decimal DimensionY, 
+            int NumTabsX, 
+            int NumTabsY, 
+            decimal SlotDepth, 
+            decimal Slotwidth, 
+            int SlotCount, 
+            decimal SlotAngle, 
+            TabPosition StartPositionX, 
+            TabPosition StartPositionY, 
+            TabPosition StartPositionXMinus, 
+            TabPosition StartPositionYMinus, 
+            decimal MaterialThickness, 
+            decimal ToolSpacing,
+            PieceSide NonTabbedSide,
+            ILogger logger)
+        {
+            // TODO: Slot angle is not implemented here. Parameter is just ignored currently.
+            return CreateTabedObjectInternal(DimensionX, DimensionY, NumTabsX, NumTabsY, SlotDepth, Slotwidth, SlotCount, SlotAngle, StartPositionX, StartPositionY, StartPositionXMinus, StartPositionYMinus, MaterialThickness, ToolSpacing, logger, CubeTopConfiguration.Slotted, NonTabbedSide);
+        }
+
+        private List<Point> CreateTabedObjectInternal(decimal DimensionX, 
+            decimal DimensionY, 
+            int NumTabsX, 
+            int NumTabsY,
+            decimal? SlotDepth,
+            decimal? Slotwidth,
+            int? SlotCount,
+            decimal? SlotAngle,
+            TabPosition StartPositionX, 
+            TabPosition StartPositionY, 
+            TabPosition StartPositionXMinus, 
+            TabPosition StartPositionYMinus,
+            decimal MaterialThickness, 
+            decimal ToolSpacing, 
+            ILogger logger, 
+            CubeTopConfiguration TopConfig,
+            PieceSide? FlatSide = null)
         {
             logger.Log("=========== starting new polygon ===========");
             List<Point> points = new List<Point>();
@@ -75,7 +143,7 @@ namespace BoxBuilder
                         break;
                 }
 
-                if (FlatSide != null && FlatSide == (PieceSide)side)
+                if (TopConfig == CubeTopConfiguration.Open && FlatSide == (PieceSide)side)
                 {
                     logger.Log("Making flat side.");
                     decimal deltaX = 0;
@@ -105,6 +173,24 @@ namespace BoxBuilder
                     logger.Log(string.Format("Point: ({0}, {1})", lastPoint.X, lastPoint.Y));
 
                     continue;
+                }
+                else if(TopConfig == CubeTopConfiguration.Slotted && FlatSide == (PieceSide)side)
+                {
+                    logger.Log("Making slotted side.");
+
+                    throw new NotImplementedException();
+                }
+                else if(TopConfig == CubeTopConfiguration.DiagonalSlotted && FlatSide == (PieceSide)side)
+                {
+                    logger.Log("Making diagonally slotted side.");
+
+                    throw new NotImplementedException();
+                }
+                else if(FlatSide == (PieceSide)side)
+                {
+                    logger.Log("Unknown top configuration.");
+
+                    throw new NotImplementedException();
                 }
 
                 bool isFirstTab = true;
