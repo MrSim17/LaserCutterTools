@@ -67,11 +67,11 @@ namespace BoxBuilderTests
 
                 foreach (var point in pointData[key])
                 {
-                    bool isOnOuterSquareX = Math.Round(point.X, 3) == Math.Round(xMin, 3) || Math.Round(point.X, 3) == Math.Round(xMax, 3);
-                    bool isOnOuterSquareY = Math.Round(point.Y, 3) == Math.Round(yMin, 3) || Math.Round(point.Y, 3) == Math.Round(yMax, 3);
+                    bool isOnOuterSquareX = point.X == xMin || point.X == xMax;
+                    bool isOnOuterSquareY = point.Y == yMin || point.Y == yMax;
 
-                    bool isOnInnerSquareX = Math.Round(point.X, 3) == Math.Round(xInnerMin, 3) || Math.Round(point.X, 3) == Math.Round(xInnerMax, 3);
-                    bool isOnInnerSquareY = Math.Round(point.Y, 3) == Math.Round(yInnerMin, 3) || Math.Round(point.Y, 3) == Math.Round(yInnerMax, 3);
+                    bool isOnInnerSquareX = point.X == xInnerMin || point.X == xInnerMax;
+                    bool isOnInnerSquareY = point.Y == yInnerMin || point.Y == yInnerMax;
 
                     Assert.IsTrue(isOnOuterSquareX || isOnOuterSquareY || isOnInnerSquareX || isOnInnerSquareY, "Point is not on either the outer or inner square.");
                 }
@@ -110,8 +110,15 @@ namespace BoxBuilderTests
 
                 foreach (var key in pointData.Keys)
                 {
-                    var xDim = Math.Abs(pointData[key].Max(p => p.X) - pointData[key].Min(p => p.X));
-                    var yDim = Math.Abs(pointData[key].Max(p => p.Y) - pointData[key].Min(p => p.Y));
+
+                    var xMin = pointData[key].Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
+                    var yMin = pointData[key].Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
+
+                    var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
+                    var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
+
+                    var xDim = Math.Abs(xMax - xMin);
+                    var yDim = Math.Abs(yMax - yMin);
 
                     // Only half of a round tool would cut into something if it was directly on a cutting line.
                     var expectedDimension = Dimension + machineSettings.ToolSpacing;
