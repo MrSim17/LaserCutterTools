@@ -207,24 +207,13 @@ namespace BoxBuilder
                             break;
                     }
 
-                    // TODO: need to adjust the first/last gap by the material thickness because of crest and trough
-                    // TODO: Really if y minus and y are alternate crest/trough we should shift everything one direction or the other
-                    decimal firstAndLastgap = (flatSideDimension / (SlotCount.GetValueOrDefault(0) + 1)) + (Slotwidth.GetValueOrDefault(0)/2) + (ToolSpacing/2); // divide by zero prevented by the flat side above
-                    decimal defaultGap = (flatSideDimension / (SlotCount.GetValueOrDefault(0) + 1)) - Slotwidth.GetValueOrDefault(0) + ToolSpacing;
+                    decimal gap = (flatSideDimension / (SlotCount.GetValueOrDefault(0) + 1)) 
+                        - Slotwidth.GetValueOrDefault(0)
+                        + (Slotwidth.GetValueOrDefault(0) / (SlotCount.GetValueOrDefault(0) + 1))
+                        + ToolSpacing;
 
                     for(int ii = 0; ii < SlotCount.GetValueOrDefault(0); ii++)
                     {
-                        decimal gap = 0;
-
-                        if(ii == 0) // first and last gap
-                        {
-                            gap = firstAndLastgap;
-                        }
-                        else
-                        {
-                            gap = defaultGap;
-                        }
-
                         Point topLeftP;
                         Point bottomLeftP;
                         Point bottomRightP;
@@ -234,23 +223,33 @@ namespace BoxBuilder
                         switch (FlatSide)
                         {
                             case PieceSide.X:
+                                if(ii == 0 && StartPositionYMinus == TabPosition.Crest)
+                                {
+                                    currentX += MaterialThickness;
+                                }
+
                                 currentX += gap;
                                 topLeftP = new Point(currentX, currentY);
 
-                                currentY -= SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                currentY += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
                                 bottomLeftP = new Point(currentX, currentY);
 
                                 currentX += Slotwidth.GetValueOrDefault(0) - ToolSpacing;
                                 bottomRightP = new Point(currentX, currentY);
 
-                                currentY += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                currentY -= SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
                                 topRightP = new Point(currentX, currentY);
                                 break;
                             case PieceSide.XMinus:
+                                if (ii == 0 && StartPositionY == TabPosition.Crest)
+                                {
+                                    currentX += MaterialThickness;
+                                }
+
                                 currentX -= gap;
                                 topLeftP = new Point(currentX, currentY);
 
-                                currentY += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                currentY -= SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
                                 bottomLeftP = new Point(currentX, currentY);
 
                                 currentX -= Slotwidth.GetValueOrDefault(0) - ToolSpacing;
@@ -260,6 +259,11 @@ namespace BoxBuilder
                                 topRightP = new Point(currentX, currentY);
                                 break;
                             case PieceSide.Y:
+                                if (ii == 0 && StartPositionX == TabPosition.Crest)
+                                {
+                                    currentX += MaterialThickness;
+                                }
+
                                 currentY -= gap;
                                 topLeftP = new Point(currentX, currentY);
 
@@ -273,6 +277,11 @@ namespace BoxBuilder
                                 topRightP = new Point(currentX, currentY);
                                 break;
                             case PieceSide.YMinus:
+                                if (ii == 0 && StartPositionXMinus == TabPosition.Crest)
+                                {
+                                    currentX += MaterialThickness;
+                                }
+
                                 currentY += gap;
                                 topLeftP = new Point(currentX, currentY);
 
@@ -294,20 +303,40 @@ namespace BoxBuilder
                         points.Add(bottomRightP);
                         points.Add(topRightP);
                     }
-
+                    
                     switch (FlatSide)
                     {
                         case PieceSide.X:
-                            currentX += firstAndLastgap;
+                            currentX += gap;
+
+                            if(StartPositionY == TabPosition.Crest)
+                            {
+                                currentX += MaterialThickness;
+                            }
                             break;
                         case PieceSide.XMinus:
-                            currentX -= firstAndLastgap;
+                            currentX -= gap;
+
+                            if(StartPositionYMinus == TabPosition.Crest)
+                            {
+                                currentX -= MaterialThickness;
+                            }
                             break;
                         case PieceSide.Y:
-                            currentY -= firstAndLastgap;
+                            currentY += gap;
+
+                            if(StartPositionXMinus == TabPosition.Crest)
+                            {
+                                currentY += MaterialThickness;
+                            }
                             break;
                         case PieceSide.YMinus:
-                            currentY += firstAndLastgap;
+                            currentY -= gap;
+
+                            if(StartPositionX == TabPosition.Crest)
+                            {
+                                currentY -= MaterialThickness;
+                            }
                             break;
                     }
 

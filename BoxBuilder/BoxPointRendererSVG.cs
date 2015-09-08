@@ -24,9 +24,6 @@ namespace BoxBuilder
             set { logger = value; }
         }
 
-        XmlDocument doc;
-        XmlElement svgRootNode;
-
         // TODO: padding probably shouldn't be hard coded
         decimal padding = 0.2M;
 
@@ -34,24 +31,22 @@ namespace BoxBuilder
         {
             colorProvider = ColorProvider;
             isInDebugMode = IsInDebugMode;
-            InitDoc();
         }
 
         public BoxPointRendererSVG(bool IsInDebugMode = false)
         {
             colorProvider = new ColorProviderAllBlack();
             isInDebugMode = IsInDebugMode;
-            InitDoc();
         }
 
-        private void InitDoc()
+        private static XmlDocument InitDoc()
         {
-            doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.XmlResolver = null; // don't load external stuff
             var docType = doc.CreateDocumentType("svg", "-//W3C//DTD SVG 1.1//EN", "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", null);
             doc.AppendChild(docType);
 
-            svgRootNode = doc.CreateElement("svg", "http://www.w3.org/2000/svg");
+            var svgRootNode = doc.CreateElement("svg", "http://www.w3.org/2000/svg");
             doc.AppendChild(svgRootNode);
 
             // TODO: the view box and document size should not be hard coded.
@@ -66,10 +61,22 @@ namespace BoxBuilder
             var attrViewBox = doc.CreateAttribute("viewBox");
             attrViewBox.Value = "0.00 0.00 20.00 12.00";
             svgRootNode.Attributes.Append(attrViewBox);
+
+            return doc;
+        }
+
+        public string RenderPoints(List<Point> PointData)
+        {
+            XmlDocument svgDoc = InitDoc();
+
+            AddPolygon(svgDoc, "Single Polygon", PointData, padding, padding);
+
+            return SerializeXMLDoc(svgDoc);
         }
 
         public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, bool RotateParts = false)
         {
+            XmlDocument svgDoc = InitDoc();
             decimal dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
             decimal dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
             decimal dimensionZ = FindDimensionY(PointData[CubeSide.Left]);
@@ -79,11 +86,11 @@ namespace BoxBuilder
                 decimal bottomTranslateX = padding + dimensionZ + padding;
                 decimal bottomTranslateY = padding + dimensionZ + padding;
 
-                AddPolygon("Bottom", PointData[CubeSide.Bottom], bottomTranslateX, bottomTranslateY);
+                AddPolygon(svgDoc, "Bottom", PointData[CubeSide.Bottom], bottomTranslateX, bottomTranslateY);
             }
             else
             {
-                AddPolygon("Bottom", PointData[CubeSide.Bottom], 0, 0);
+                AddPolygon(svgDoc, "Bottom", PointData[CubeSide.Bottom], 0, 0);
             }
 
             if (RotateParts)
@@ -98,11 +105,11 @@ namespace BoxBuilder
                 decimal leftTranslateX = padding;
                 decimal leftTranslateY = padding + dimensionZ + padding;
 
-                AddPolygon("Left", PointData[CubeSide.Left], leftTranslateX, leftTranslateY);
+                AddPolygon(svgDoc, "Left", PointData[CubeSide.Left], leftTranslateX, leftTranslateY);
             }
             else
             {
-                AddPolygon("Left", PointData[CubeSide.Left], 0, 0);
+                AddPolygon(svgDoc, "Left", PointData[CubeSide.Left], 0, 0);
             }
 
             if (RotateParts)
@@ -117,11 +124,11 @@ namespace BoxBuilder
                 decimal rightTranslateX = padding + dimensionZ + padding + dimensionX + padding;
                 decimal rightTranslateY = padding + dimensionZ + padding;
 
-                AddPolygon("Right", PointData[CubeSide.Right], rightTranslateX, rightTranslateY);
+                AddPolygon(svgDoc, "Right", PointData[CubeSide.Right], rightTranslateX, rightTranslateY);
             }
             else
             {
-                AddPolygon("Right", PointData[CubeSide.Right], 0, 0);
+                AddPolygon(svgDoc, "Right", PointData[CubeSide.Right], 0, 0);
             }
 
             if (translatePieces)
@@ -129,11 +136,11 @@ namespace BoxBuilder
                 decimal frontTranslateX = padding + dimensionZ + padding;
                 decimal frontTranslateY = padding + dimensionZ + padding + dimensionY + padding;
 
-                AddPolygon("Front", PointData[CubeSide.Front], frontTranslateX, frontTranslateY);
+                AddPolygon(svgDoc, "Front", PointData[CubeSide.Front], frontTranslateX, frontTranslateY);
             }
             else
             {
-                AddPolygon("Front", PointData[CubeSide.Front], 0, 0);
+                AddPolygon(svgDoc, "Front", PointData[CubeSide.Front], 0, 0);
             }
 
             if (RotateParts)
@@ -148,11 +155,11 @@ namespace BoxBuilder
                 decimal backTranslateX = padding + dimensionZ + padding;
                 decimal backTranslateY = padding;
 
-                AddPolygon("Back", PointData[CubeSide.Back], backTranslateX, backTranslateY);
+                AddPolygon(svgDoc, "Back", PointData[CubeSide.Back], backTranslateX, backTranslateY);
             }
             else
             {
-                AddPolygon("Back", PointData[CubeSide.Back], 0, 0);
+                AddPolygon(svgDoc, "Back", PointData[CubeSide.Back], 0, 0);
             }
 
             if (PointData.ContainsKey(CubeSide.Top))
@@ -162,19 +169,24 @@ namespace BoxBuilder
 
                 if (translatePieces)
                 {
-                    AddPolygon("Top", PointData[CubeSide.Top], topTranslateX, topTranslateY);
+                    AddPolygon(svgDoc, "Top", PointData[CubeSide.Top], topTranslateX, topTranslateY);
                 }
                 else
                 {
-                    AddPolygon("Top", PointData[CubeSide.Top], 0, 0);
+                    AddPolygon(svgDoc, "Top", PointData[CubeSide.Top], 0, 0);
                 }
             }
 
+            return SerializeXMLDoc(svgDoc);
+        }
+
+        private static string SerializeXMLDoc(XmlDocument Doc)
+        {
             var sb = new StringBuilder();
 
-            using (var xmlTextWriter = XmlTextWriter.Create(sb, new XmlWriterSettings { Encoding=System.Text.Encoding.UTF8, Indent = true }))
+            using (var xmlTextWriter = XmlTextWriter.Create(sb, new XmlWriterSettings { Encoding = System.Text.Encoding.UTF8, Indent = true }))
             {
-                doc.WriteTo(xmlTextWriter);
+                Doc.WriteTo(xmlTextWriter);
                 xmlTextWriter.Flush();
 
                 // TODO: figure out the UTF-8/UTF-16 mixup here
@@ -182,9 +194,11 @@ namespace BoxBuilder
             }
         }
 
-        private void AddPointOutput(List<Point> pointData, XmlElement Group)
+        private static void AddPointOutput(List<Point> pointData, XmlElement Group)
         {
+            var doc = Group.OwnerDocument;
             int i = 1;
+
             foreach (Point p in pointData)
             {
                 var textEl = doc.CreateElement("text", "http://www.w3.org/2000/svg");
@@ -196,7 +210,7 @@ namespace BoxBuilder
                 yAttrib.Value = p.Y.ToString("F3");
 
                 var transAttrib = doc.CreateAttribute("transform");
-                transAttrib.Value = string.Format("rotate(10 {0} {1})", p.X.ToString("F3"), p.Y.ToString("F3"));
+                transAttrib.Value = string.Format("rotate(20 {0} {1})", p.X.ToString("F3"), p.Y.ToString("F3"));
 
                 var styleAttrib = doc.CreateAttribute("style");
                 styleAttrib.Value = "fill:#000000;font-family:TimesNewRoman;font-size:0.05px;";
@@ -210,12 +224,12 @@ namespace BoxBuilder
             }
         }
 
-        private void AddPolygon(string Id, List<Point> PointData, decimal TranslateX, decimal TranslateY)
+        private void AddPolygon(XmlDocument Doc, string Id, List<Point> PointData, decimal TranslateX, decimal TranslateY)
         {
-            var group = doc.CreateElement("g", "http://www.w3.org/2000/svg");
-            svgRootNode.AppendChild(group);
+            var group = Doc.CreateElement("g", "http://www.w3.org/2000/svg");
+            Doc.DocumentElement.AppendChild(group);
 
-            var attrTranslate = doc.CreateAttribute("transform");
+            var attrTranslate = Doc.CreateAttribute("transform");
             attrTranslate.Value = string.Format("translate({0} {1})", TranslateX, TranslateY);
             group.Attributes.Append(attrTranslate);
 
@@ -230,6 +244,7 @@ namespace BoxBuilder
 
         private void AddPolygon(XmlElement Parent, string Id, List<Point> PointData)
         {
+            var doc = Parent.OwnerDocument;
             var polygon = doc.CreateElement("polygon", "http://www.w3.org/2000/svg");
             Parent.AppendChild(polygon);
 
@@ -266,7 +281,7 @@ namespace BoxBuilder
             polygon.Attributes.Append(attrStyle);
         }
 
-        private decimal FindDimensionX(List<Point> PointData)
+        private static decimal FindDimensionX(List<Point> PointData)
         {
             decimal minVal = 0;
             decimal maxVal = 0;
@@ -277,7 +292,7 @@ namespace BoxBuilder
             return Math.Abs(minVal - maxVal);
         }
 
-        private decimal FindDimensionY(List<Point> PointData)
+        private static decimal FindDimensionY(List<Point> PointData)
         {
             decimal minVal = 0;
             decimal maxVal = 0;

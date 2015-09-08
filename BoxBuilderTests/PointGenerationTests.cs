@@ -16,7 +16,7 @@ namespace BoxBuilderTests
             var machineSettings = DefaultSettingsOneInchCube.MachineSettings;
             StartPositionConfiguration startConfig = DefaultSettingsOneInchCube.StartConfigs;
             var cube = DefaultSettingsOneInchCube.CubeDimensions;
-            var pointGenerator = BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
+            var pointGenerator = BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
 
             // test for tab values up to 5
             for (int i = 2; i <= 5; i++)
@@ -38,6 +38,10 @@ namespace BoxBuilderTests
             }
         }
 
+
+        /// <summary>
+        /// Test Purpose: Make sure that all points lie either on the outer edge or a material thickness away from the outer edge.
+        /// </summary>
         [TestMethod]
         public void MaterialSettings_Thickness()
         {
