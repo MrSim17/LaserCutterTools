@@ -16,7 +16,7 @@ namespace BoxBuilder
         public static IBoxBuilderSVG GetBoxHandler(ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
-            IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider);
+            IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider, true);
             IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
 
             IBoxBuilderSVG handler = new BoxBuilderSVG(pointGen,

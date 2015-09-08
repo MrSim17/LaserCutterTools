@@ -53,64 +53,16 @@ namespace BoxBuilder
                 var pieceBottom = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionY, TabsX, TabsY, StartConfig.Bottom.StartPositionX, StartConfig.Bottom.StartPositionY, StartConfig.Bottom.StartPositionXMinus, StartConfig.Bottom.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, flatSide, Logger);
 
                 // Left
-                var pieceLeft = PiecePointGenerator.CreateTabedObject(
-                    Box.DimensionY,
-                    Box.DimensionZ,
-                    TabsY,
-                    TabsZ,
-                    StartConfig.Left.StartPositionX,
-                    StartConfig.Left.StartPositionY,
-                    StartConfig.Left.StartPositionXMinus,
-                    StartConfig.Left.StartPositionYMinus,
-                    Material.MaterialThickness,
-                    MachineSettings.ToolSpacing,
-                    flatSide,
-                    Logger);
+                var pieceLeft = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, StartConfig.Left.StartPositionX, StartConfig.Left.StartPositionY, StartConfig.Left.StartPositionXMinus, StartConfig.Left.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, flatSide, Logger);
 
                 // Right
-                var pieceRight = PiecePointGenerator.CreateTabedObject(
-                    Box.DimensionY,
-                    Box.DimensionZ,
-                    TabsY,
-                    TabsZ,
-                    StartConfig.Right.StartPositionX,
-                    StartConfig.Right.StartPositionY,
-                    StartConfig.Right.StartPositionXMinus,
-                    StartConfig.Right.StartPositionYMinus,
-                    Material.MaterialThickness,
-                    MachineSettings.ToolSpacing,
-                    flatSide,
-                    Logger);
+                var pieceRight = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, StartConfig.Right.StartPositionX, StartConfig.Right.StartPositionY, StartConfig.Right.StartPositionXMinus, StartConfig.Right.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, flatSide, Logger);
 
                 // Front
-                var pieceFront = PiecePointGenerator.CreateTabedObject(
-                    Box.DimensionX,
-                    Box.DimensionZ,
-                    TabsX,
-                    TabsZ,
-                    StartConfig.Front.StartPositionX,
-                    StartConfig.Front.StartPositionY,
-                    StartConfig.Front.StartPositionXMinus,
-                    StartConfig.Front.StartPositionYMinus,
-                    Material.MaterialThickness,
-                    MachineSettings.ToolSpacing,
-                    flatSide,
-                    Logger);
+                var pieceFront = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, StartConfig.Front.StartPositionX, StartConfig.Front.StartPositionY, StartConfig.Front.StartPositionXMinus, StartConfig.Front.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, flatSide, Logger);
 
                 // Back
-                var pieceBack = PiecePointGenerator.CreateTabedObject(
-                    Box.DimensionX,
-                    Box.DimensionZ,
-                    TabsX,
-                    TabsZ,
-                    StartConfig.Back.StartPositionX,
-                    StartConfig.Back.StartPositionY,
-                    StartConfig.Back.StartPositionXMinus,
-                    StartConfig.Back.StartPositionYMinus,
-                    Material.MaterialThickness,
-                    MachineSettings.ToolSpacing,
-                    flatSide,
-                    Logger);
+                var pieceBack = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, StartConfig.Back.StartPositionX, StartConfig.Back.StartPositionY, StartConfig.Back.StartPositionXMinus, StartConfig.Back.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, flatSide, Logger);
 
                 ret.Add(CubeSide.Back, pieceBack.ToList());
                 ret.Add(CubeSide.Bottom, pieceBottom.ToList());
@@ -150,10 +102,12 @@ namespace BoxBuilder
         {
             Dictionary<CubeSide, List<Point>> ret = new Dictionary<CubeSide, List<Point>>();
 
+            // Bottom
+            var pieceBottom = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionY, TabsX, TabsY, StartConfig.Bottom.StartPositionX, StartConfig.Bottom.StartPositionY, StartConfig.Bottom.StartPositionXMinus, StartConfig.Bottom.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, Logger);
+            ret.Add(CubeSide.Bottom, pieceBottom);
+
             if (SlotDirection == SlotDirection.X)
             {
-                // Bottom
-                var pieceBottom = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionY, TabsX, TabsY, StartConfig.Bottom.StartPositionX, StartConfig.Bottom.StartPositionY, StartConfig.Bottom.StartPositionXMinus, StartConfig.Bottom.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, Logger);
 
                 // Left
                 var pieceLeft = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, StartConfig.Left.StartPositionX, StartConfig.Left.StartPositionY, StartConfig.Left.StartPositionXMinus, StartConfig.Left.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
@@ -167,17 +121,13 @@ namespace BoxBuilder
                 // Back
                 var pieceBack = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, SlotDepth, Material.MaterialThickness, SlotCount, SlotAngle, StartConfig.Back.StartPositionX, StartConfig.Back.StartPositionY, StartConfig.Back.StartPositionXMinus, StartConfig.Back.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
-                ret.Add(CubeSide.Back, pieceBack.ToList());
-                ret.Add(CubeSide.Bottom, pieceBottom.ToList());
-                ret.Add(CubeSide.Front, pieceFront.ToList());
-                ret.Add(CubeSide.Left, pieceLeft.ToList());
-                ret.Add(CubeSide.Right, pieceRight.ToList());
+                ret.Add(CubeSide.Back, pieceBack);
+                ret.Add(CubeSide.Front, pieceFront);
+                ret.Add(CubeSide.Left, pieceLeft);
+                ret.Add(CubeSide.Right, pieceRight);
             }
             else
             {
-                // Bottom
-                var pieceBottom = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionY, TabsX, TabsY, StartConfig.Bottom.StartPositionX, StartConfig.Bottom.StartPositionY, StartConfig.Bottom.StartPositionXMinus, StartConfig.Bottom.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, Logger);
-
                 // Left
                 var pieceLeft = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, SlotDepth, Material.MaterialThickness, SlotCount, SlotAngle, StartConfig.Left.StartPositionX, StartConfig.Left.StartPositionY, StartConfig.Left.StartPositionXMinus, StartConfig.Left.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
@@ -190,11 +140,10 @@ namespace BoxBuilder
                 // Back
                 var pieceBack = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, StartConfig.Back.StartPositionX, StartConfig.Back.StartPositionY, StartConfig.Back.StartPositionXMinus, StartConfig.Back.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, Logger);
 
-                ret.Add(CubeSide.Back, pieceBack.ToList());
-                ret.Add(CubeSide.Bottom, pieceBottom.ToList());
-                ret.Add(CubeSide.Front, pieceFront.ToList());
-                ret.Add(CubeSide.Left, pieceLeft.ToList());
-                ret.Add(CubeSide.Right, pieceRight.ToList());
+                ret.Add(CubeSide.Back, pieceBack);
+                ret.Add(CubeSide.Front, pieceFront);
+                ret.Add(CubeSide.Left, pieceLeft);
+                ret.Add(CubeSide.Right, pieceRight);
             }
 
             return ret;

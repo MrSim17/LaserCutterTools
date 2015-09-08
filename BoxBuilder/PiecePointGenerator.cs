@@ -55,6 +55,11 @@ namespace BoxBuilder
             ILogger logger)
         {
             // TODO: Slot angle is not implemented here. Parameter is just ignored currently.
+            if(SlotAngle != 0)
+            {
+                throw new NotImplementedException("Slot angle is not implemented. At this time it only accepts a 0 value.");
+            }
+
             return CreateTabedObjectInternal(DimensionX, DimensionY, NumTabsX, NumTabsY, SlotDepth, Slotwidth, SlotCount, SlotAngle, StartPositionX, StartPositionY, StartPositionXMinus, StartPositionYMinus, MaterialThickness, ToolSpacing, logger, CubeTopConfiguration.Slotted, NonTabbedSide);
         }
 
@@ -143,7 +148,11 @@ namespace BoxBuilder
                         break;
                 }
 
-                if (TopConfig == CubeTopConfiguration.Open && FlatSide == (PieceSide)side)
+                // ============== Handle the special side variations ====================
+                if (
+                    (TopConfig == CubeTopConfiguration.Open && FlatSide == (PieceSide)side)
+                    || (TopConfig == CubeTopConfiguration.Slotted && SlotCount.GetValueOrDefault(0) == 0) // Just make the side flat if there are no slots
+                    )
                 {
                     logger.Log("Making flat side.");
                     decimal deltaX = 0;
@@ -178,7 +187,134 @@ namespace BoxBuilder
                 {
                     logger.Log("Making slotted side.");
 
-                    throw new NotImplementedException();
+                    decimal flatSideDimension = 0;
+
+                    // always subtract material thickness here because we want all of the divided sections to be the same
+                    // width relative to the INSIDE of the box instead of the outside.
+                    switch (FlatSide)
+                    {
+                        case PieceSide.X:
+                            flatSideDimension = DimensionX - (MaterialThickness * 2);
+                            break;
+                        case PieceSide.XMinus:
+                            flatSideDimension = DimensionX - (MaterialThickness * 2);
+                            break;
+                        case PieceSide.Y:
+                            flatSideDimension = DimensionY - (MaterialThickness * 2);
+                            break;
+                        case PieceSide.YMinus:
+                            flatSideDimension = DimensionY - (MaterialThickness * 2);
+                            break;
+                    }
+
+                    // TODO: need to adjust the first/last gap by the material thickness because of crest and trough
+                    // TODO: Really if y minus and y are alternate crest/trough we should shift everything one direction or the other
+                    decimal firstAndLastgap = (flatSideDimension / (SlotCount.GetValueOrDefault(0) + 1)) + (Slotwidth.GetValueOrDefault(0)/2) + (ToolSpacing/2); // divide by zero prevented by the flat side above
+                    decimal defaultGap = (flatSideDimension / (SlotCount.GetValueOrDefault(0) + 1)) - Slotwidth.GetValueOrDefault(0) + ToolSpacing;
+
+                    for(int ii = 0; ii < SlotCount.GetValueOrDefault(0); ii++)
+                    {
+                        decimal gap = 0;
+
+                        if(ii == 0) // first and last gap
+                        {
+                            gap = firstAndLastgap;
+                        }
+                        else
+                        {
+                            gap = defaultGap;
+                        }
+
+                        Point topLeftP;
+                        Point bottomLeftP;
+                        Point bottomRightP;
+                        Point topRightP;
+
+                        // create the slot points
+                        switch (FlatSide)
+                        {
+                            case PieceSide.X:
+                                currentX += gap;
+                                topLeftP = new Point(currentX, currentY);
+
+                                currentY -= SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                bottomLeftP = new Point(currentX, currentY);
+
+                                currentX += Slotwidth.GetValueOrDefault(0) - ToolSpacing;
+                                bottomRightP = new Point(currentX, currentY);
+
+                                currentY += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                topRightP = new Point(currentX, currentY);
+                                break;
+                            case PieceSide.XMinus:
+                                currentX -= gap;
+                                topLeftP = new Point(currentX, currentY);
+
+                                currentY += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                bottomLeftP = new Point(currentX, currentY);
+
+                                currentX -= Slotwidth.GetValueOrDefault(0) - ToolSpacing;
+                                bottomRightP = new Point(currentX, currentY);
+
+                                currentY += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                topRightP = new Point(currentX, currentY);
+                                break;
+                            case PieceSide.Y:
+                                currentY -= gap;
+                                topLeftP = new Point(currentX, currentY);
+
+                                currentX -= SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                bottomLeftP = new Point(currentX, currentY);
+
+                                currentY -= Slotwidth.GetValueOrDefault(0) - ToolSpacing;
+                                bottomRightP = new Point(currentX, currentY);
+
+                                currentX += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                topRightP = new Point(currentX, currentY);
+                                break;
+                            case PieceSide.YMinus:
+                                currentY += gap;
+                                topLeftP = new Point(currentX, currentY);
+
+                                currentX += SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                bottomLeftP = new Point(currentX, currentY);
+
+                                currentY += Slotwidth.GetValueOrDefault(0) - ToolSpacing;
+                                bottomRightP = new Point(currentX, currentY);
+
+                                currentX -= SlotDepth.GetValueOrDefault(0) - (ToolSpacing / 2);
+                                topRightP = new Point(currentX, currentY);
+                                break;
+                            default:
+                                throw new Exception("Unknown piece side.");
+                        }
+
+                        points.Add(topLeftP);
+                        points.Add(bottomLeftP);
+                        points.Add(bottomRightP);
+                        points.Add(topRightP);
+                    }
+
+                    switch (FlatSide)
+                    {
+                        case PieceSide.X:
+                            currentX += firstAndLastgap;
+                            break;
+                        case PieceSide.XMinus:
+                            currentX -= firstAndLastgap;
+                            break;
+                        case PieceSide.Y:
+                            currentY -= firstAndLastgap;
+                            break;
+                        case PieceSide.YMinus:
+                            currentY += firstAndLastgap;
+                            break;
+                    }
+
+                    // add the last gap
+                    points.Add(new Point(currentX, currentY));
+
+                    continue;
                 }
                 else if(TopConfig == CubeTopConfiguration.DiagonalSlotted && FlatSide == (PieceSide)side)
                 {
@@ -186,13 +322,8 @@ namespace BoxBuilder
 
                     throw new NotImplementedException();
                 }
-                else if(FlatSide == (PieceSide)side)
-                {
-                    logger.Log("Unknown top configuration.");
 
-                    throw new NotImplementedException();
-                }
-
+                // ================== Handle Tabbing ====================
                 bool isFirstTab = true;
                 bool isLastTab = false;
 
