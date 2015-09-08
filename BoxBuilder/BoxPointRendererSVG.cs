@@ -76,6 +76,11 @@ namespace BoxBuilder
 
         public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, bool RotateParts = false)
         {
+            if(RotateParts)
+            {
+                throw new NotImplementedException("Rotating the parts during rendering is not implemented after going to manual SVG generation.");
+            }
+
             XmlDocument svgDoc = InitDoc();
             decimal dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
             decimal dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
