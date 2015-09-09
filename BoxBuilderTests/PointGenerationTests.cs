@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BoxBuilder;
 using Common;
@@ -28,12 +29,17 @@ namespace BoxBuilderTests
                     var xMin = pointData[key].Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
                     var yMin = pointData[key].Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
 
-                    // make sure the piece always sits on the x and y axis
-                    Assert.AreEqual(0, xMin, "Piece is not sitting on the x axis.");
-                    Assert.AreEqual(0, yMin, "Piece is not sitting no the y axis.");
-
-                    var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
-                    var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
+                    try
+                    {
+                        // make sure the piece always sits on the x and y axis
+                        Assert.AreEqual(0, xMin, "Piece is not sitting on the x axis.");
+                        Assert.AreEqual(0, yMin, "Piece is not sitting no the y axis.");
+                    }
+                    catch (AssertFailedException)
+                    {
+                        RenderPiece(pointData[key]);
+                        throw;
+                    }
                 }
             }
         }
@@ -138,6 +144,22 @@ namespace BoxBuilderTests
 
 
                 Dimension++;
+            }
+        }
+
+        private static void RenderPiece(List<Point> PointData)
+        {
+            IBoxPointRendererSVG renderer = new BoxPointRendererSVG(true);
+            var output = renderer.RenderPoints(PointData);
+
+            OutputFile(output);
+        }
+
+        private static void OutputFile(string Body)
+        {
+            using (System.IO.TextWriter tw = new System.IO.StreamWriter("c:\\temp\\test " + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".svg"))
+            {
+                tw.Write(Body);
             }
         }
     }
