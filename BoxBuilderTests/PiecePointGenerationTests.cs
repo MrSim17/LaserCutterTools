@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 namespace BoxBuilderTests
 {
+    // TODO: All tests that test a flat or slotted side need to try all 4 sides to make sure the case statements are correct.
+    // TODO: The piece point generation tests only cover one set of start configurations. Far from complete.
+    // TODO: All sloted side tests should have a slot depth different that material thickness so we can make sure they are doing their thing.
+    // TODO: There are no tests for slots of a 0 width. These should be the same as the flat side config
+    // TODO: There are no tests for a 0 slot count. These should be the same as the flat side config
     [TestClass]
     public abstract class PiecePointGenerationTests
     {
