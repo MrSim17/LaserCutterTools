@@ -84,6 +84,26 @@ namespace BoxBuilder
             logger.Log("=========== starting new polygon ===========");
             List<Point> points = new List<Point>();
 
+            // flat side is always a crest. No matter what the caller says.
+            if(FlatSide != null)
+            {
+                switch(FlatSide)
+                {
+                    case PieceSide.X:
+                        StartPositionX = TabPosition.Crest;
+                        break;
+                    case PieceSide.XMinus:
+                        StartPositionXMinus = TabPosition.Crest;
+                        break;
+                    case PieceSide.Y:
+                        StartPositionY = TabPosition.Crest;
+                        break;
+                    case PieceSide.YMinus:
+                        StartPositionYMinus = TabPosition.Crest;
+                        break;
+                }
+            }
+
             decimal tabSize = 0;
             decimal currentX = 0;
             decimal currentY = 0;
@@ -161,25 +181,67 @@ namespace BoxBuilder
                     switch (FlatSide)
                     {
                         case PieceSide.X:
-                            deltaX = DimensionX;
+                            deltaX = (DimensionX + ToolSpacing);
+
+                            if(StartPositionYMinus == TabPosition.Trough)
+                            {
+                                deltaX -= MaterialThickness;
+                            }
+
+                            if (StartPositionY == TabPosition.Trough)
+                            {
+                                deltaX -= MaterialThickness;
+                            }
                             break;
                         case PieceSide.XMinus:
-                            deltaX = -DimensionX;
+                            deltaX = -(DimensionX + ToolSpacing);
+
+                            if(StartPositionYMinus == TabPosition.Trough)
+                            {
+                                deltaX += MaterialThickness;
+                            }
+
+                            if (StartPositionY == TabPosition.Trough)
+                            {
+                                deltaX += MaterialThickness;
+                            }
                             break;
                         case PieceSide.Y:
-                            deltaY = DimensionY;
+                            deltaY = (DimensionY + ToolSpacing);
+
+                            if(StartPositionXMinus == TabPosition.Trough)
+                            {
+                                deltaY -= MaterialThickness;
+                            }
+
+                            if (StartPositionX == TabPosition.Trough)
+                            {
+                                deltaY -= MaterialThickness;
+                            }
                             break;
                         case PieceSide.YMinus:
-                            deltaY = -DimensionY;
+                            deltaY = -(DimensionY + ToolSpacing);
+
+                            if(StartPositionXMinus ==  TabPosition.Trough)
+                            {
+                                deltaY += MaterialThickness;
+                            }
+
+                            if (StartPositionX == TabPosition.Trough)
+                            {
+                                deltaY += MaterialThickness;
+                            }
                             break;
                     }
 
-                    currentX = currentX + deltaX;
-                    currentY = currentY + deltaY;
+                    currentX += deltaX;
+                    currentY += deltaY;
 
                     lastPoint = new Point(currentX, currentY);
                     points.Add(lastPoint);
                     logger.Log(string.Format("Point: ({0}, {1})", lastPoint.X, lastPoint.Y));
+
+                    lastTabPos = TabPosition.Crest;
 
                     continue;
                 }
@@ -342,6 +404,8 @@ namespace BoxBuilder
 
                     // add the last gap
                     points.Add(new Point(currentX, currentY));
+
+                    lastTabPos = TabPosition.Crest;
 
                     continue;
                 }

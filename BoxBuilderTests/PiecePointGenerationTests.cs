@@ -57,6 +57,21 @@ namespace BoxBuilderTests
             TestUtilities.CheckLinesHaveNoSlope(pointData);
         }
 
+        [TestMethod]
+        public void OriginCheck_Default()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, logger);
+
+            Assert.AreEqual(0, TestUtilities.GetValueMinX(pointData), "Piece should always sit at the origin.");
+            Assert.AreEqual(0, TestUtilities.GetValueMinY(pointData), "Piece should always sit at the origin.");
+        }
 
         // ============= Default With Tool Spacing ===============
         [TestMethod]
@@ -104,6 +119,23 @@ namespace BoxBuilderTests
 
             TestUtilities.CheckLinesHaveNoSlope(pointData);
         }
+
+        [TestMethod]
+        public void OriginCheck_WithToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.02M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, logger);
+
+            Assert.AreEqual(0, TestUtilities.GetValueMinX(pointData), "Piece should always sit at the origin.");
+            Assert.AreEqual(0, TestUtilities.GetValueMinY(pointData), "Piece should always sit at the origin.");
+        }
+
 
         // ============= Flat Side No Tool Spacing ===============
         [TestMethod]
@@ -154,6 +186,22 @@ namespace BoxBuilderTests
             TestUtilities.CheckLinesHaveNoSlope(pointData);
         }
 
+        [TestMethod]
+        public void OriginCheck_FlatSide()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            Assert.AreEqual(0, TestUtilities.GetValueMinX(pointData), "Piece should always sit at the origin.");
+            Assert.AreEqual(0, TestUtilities.GetValueMinY(pointData), "Piece should always sit at the origin.");
+        }
+
 
         // ============= Flat Side With Tool Spacing ===============
         [TestMethod]
@@ -202,6 +250,23 @@ namespace BoxBuilderTests
 
             TestUtilities.CheckLinesHaveNoSlope(pointData);
         }
+
+        [TestMethod]
+        public void OriginCheck_FlatSide_ToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.02M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            Assert.AreEqual(0, TestUtilities.GetValueMinX(pointData), "Piece should always sit at the origin.");
+            Assert.AreEqual(0, TestUtilities.GetValueMinY(pointData), "Piece should always sit at the origin.");
+        }
+
 
         // ============= Slotted No Tool Spacing ===============
         [TestMethod]
@@ -259,6 +324,26 @@ namespace BoxBuilderTests
             TestUtilities.CheckLinesHaveNoSlope(pointData);
         }
 
+        [TestMethod]
+        public void OriginCheck_SlottedSide()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal toolSpacing = 0;
+            decimal slotWidth = 0.2M;
+            int slotCount = 3;
+            decimal slotDepth = 0.2M;
+            decimal materialThickness = 0.2M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            Assert.AreEqual(0, TestUtilities.GetValueMinX(pointData), "Piece should always sit at the origin.");
+            Assert.AreEqual(0, TestUtilities.GetValueMinY(pointData), "Piece should always sit at the origin.");
+        }
+
+
         // ============= Slotted With Tool Spacing ===============
         [TestMethod]
         public void PieceDimension_SlottedSide_ToolSpacing()
@@ -313,6 +398,25 @@ namespace BoxBuilderTests
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
 
             TestUtilities.CheckLinesHaveNoSlope(pointData);
+        }
+
+        [TestMethod]
+        public void OriginCheck_SlottedSide_ToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal toolSpacing = 0.02M;
+            decimal slotWidth = 0.2M;
+            int slotCount = 3;
+            decimal slotDepth = 0.2M;
+            decimal materialThickness = 0.2M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            Assert.AreEqual(0, TestUtilities.GetValueMinX(pointData), "Piece should always sit at the origin.");
+            Assert.AreEqual(0, TestUtilities.GetValueMinY(pointData), "Piece should always sit at the origin.");
         }
     }
 }
