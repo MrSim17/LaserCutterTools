@@ -37,7 +37,7 @@ namespace BoxBuilderTests
                     }
                     catch (AssertFailedException)
                     {
-                        RenderPiece(pointData[key]);
+                        TestUtilities.RenderPiece(pointData[key]);
                         throw;
                     }
                 }
@@ -83,7 +83,15 @@ namespace BoxBuilderTests
                     bool isOnInnerSquareX = point.X == xInnerMin || point.X == xInnerMax;
                     bool isOnInnerSquareY = point.Y == yInnerMin || point.Y == yInnerMax;
 
-                    Assert.IsTrue(isOnOuterSquareX || isOnOuterSquareY || isOnInnerSquareX || isOnInnerSquareY, "Point is not on either the outer or inner square.");
+                    try
+                    { 
+                        Assert.IsTrue(isOnOuterSquareX || isOnOuterSquareY || isOnInnerSquareX || isOnInnerSquareY, "Point is not on either the outer or inner square.");
+                    }
+                    catch (AssertFailedException)
+                    {
+                        TestUtilities.RenderPiece(pointData[key]);
+                        throw;
+                    }
                 }
             }
         }
@@ -137,29 +145,20 @@ namespace BoxBuilderTests
                     //Assert.AreEqual(expectedDimension, xDim);
                     //Assert.AreEqual(expectedDimension, yDim);
 
-                    Assert.AreEqual(expectedDimension, Math.Round(xDim, 3));
-                    Assert.AreEqual(expectedDimension, Math.Round(yDim, 3));
-
+                    try
+                    {
+                        Assert.AreEqual(expectedDimension, Math.Round(xDim, 3));
+                        Assert.AreEqual(expectedDimension, Math.Round(yDim, 3));
+                    }
+                    catch (AssertFailedException)
+                    {
+                        TestUtilities.RenderPiece(pointData[key]);
+                        throw;
+                    }
                 }
 
 
                 Dimension++;
-            }
-        }
-
-        private static void RenderPiece(List<Point> PointData)
-        {
-            IBoxPointRendererSVG renderer = new BoxPointRendererSVG(true);
-            var output = renderer.RenderPoints(PointData);
-
-            OutputFile(output);
-        }
-
-        private static void OutputFile(string Body)
-        {
-            using (System.IO.TextWriter tw = new System.IO.StreamWriter("c:\\temp\\test " + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".svg"))
-            {
-                tw.Write(Body);
             }
         }
     }
