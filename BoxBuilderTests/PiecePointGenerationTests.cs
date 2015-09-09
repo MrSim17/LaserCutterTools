@@ -11,6 +11,7 @@ namespace BoxBuilderTests
         internal abstract IPiecePointGenerator GetPointGenerator();
         internal abstract Common.ILogger GetLogger();
 
+        // ============= Default No Tool Spacing ===============
         [TestMethod]
         public void PieceDimension_Default()
         {
@@ -21,9 +22,43 @@ namespace BoxBuilderTests
 
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, 0.2M, 0, logger);
 
-            CheckDimensions(dimensionX, dimensionY, pointData);
+            TestUtilities.CheckDimensions(dimensionX, dimensionY, pointData);
         }
 
+        [TestMethod]
+        public void TabPointValidation_Default()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0;
+            Rectangle outerRect = new Rectangle(0, 0, dimensionX + toolSpacing, dimensionY + toolSpacing);
+            Rectangle innerRect = new Rectangle(materialThickness, materialThickness, dimensionX + toolSpacing - (materialThickness * 2), dimensionY + toolSpacing - (materialThickness * 2));
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, logger);
+
+            TestUtilities.CheckPointsLieOnPolygons(new List<Rectangle> { outerRect, innerRect }, pointData);
+        }
+
+        [TestMethod]
+        public void HorizontalOrVertical_Default()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, logger);
+
+            TestUtilities.CheckLinesHaveNoSlope(pointData);
+        }
+
+
+        // ============= Default With Tool Spacing ===============
         [TestMethod]
         public void PieceDimension_WithToolSpacing()
         {
@@ -35,12 +70,46 @@ namespace BoxBuilderTests
 
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, 0.2M, toolspacing, logger);
 
-            CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
+            TestUtilities.CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
         }
 
         [TestMethod]
+        public void TabPointValidation_WithToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.02M;
+            Rectangle outerRect = new Rectangle(0, 0, dimensionX + toolSpacing, dimensionY + toolSpacing);
+            Rectangle innerRect = new Rectangle(materialThickness, materialThickness, dimensionX + toolSpacing - (materialThickness * 2), dimensionY + toolSpacing - (materialThickness * 2));
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, logger);
+
+            TestUtilities.CheckPointsLieOnPolygons(new List<Rectangle> { outerRect, innerRect }, pointData);
+        }
+
+        [TestMethod]
+        public void HorizontalOrVertical_WithToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.02M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, logger);
+
+            TestUtilities.CheckLinesHaveNoSlope(pointData);
+        }
+
+        // ============= Flat Side No Tool Spacing ===============
+        [TestMethod]
         public void PieceDimension_FlatSide()
         {
+            // TODO: the flat side dimension validation only checks with the flat side on one side. Should check all sides.
             var pointGenerator = GetPointGenerator();
             var logger = GetLogger();
             decimal dimensionX = 1.5M;
@@ -49,9 +118,44 @@ namespace BoxBuilderTests
 
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, 0.2M, toolspacing, PieceSide.X, logger);
 
-            CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
+            TestUtilities.CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
         }
 
+        [TestMethod]
+        public void TabPointValidation_FlatSide()
+        {
+            // TODO: the tab validation should do the flat side on all sides. Currently it only does it on one side.
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.0M;
+            Rectangle outerRect = new Rectangle(0, 0, dimensionX + toolSpacing, dimensionY + toolSpacing);
+            Rectangle innerRect = new Rectangle(materialThickness, materialThickness, dimensionX + toolSpacing - (materialThickness * 2), dimensionY + toolSpacing - (materialThickness * 2));
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckPointsLieOnPolygons(new List<Rectangle> { outerRect, innerRect }, pointData);
+        }
+
+        [TestMethod]
+        public void HorizontalOrVertical_FlatSide()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckLinesHaveNoSlope(pointData);
+        }
+
+
+        // ============= Flat Side With Tool Spacing ===============
         [TestMethod]
         public void PieceDimension_FlatSide_ToolSpacing()
         {
@@ -63,9 +167,43 @@ namespace BoxBuilderTests
 
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, 0.2M, toolspacing, PieceSide.X, logger);
 
-            CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
+            TestUtilities.CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
         }
 
+        [TestMethod]
+        public void TabPointValidation_FlatSide_ToolSpacing()
+        {
+            // TODO: the tab validation should do the flat side on all sides. Currently it only does it on one side.
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.0M;
+            Rectangle outerRect = new Rectangle(0, 0, dimensionX + toolSpacing, dimensionY + toolSpacing);
+            Rectangle innerRect = new Rectangle(materialThickness, materialThickness, dimensionX + toolSpacing - (materialThickness * 2), dimensionY + toolSpacing - (materialThickness * 2));
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckPointsLieOnPolygons(new List<Rectangle> { outerRect, innerRect }, pointData);
+        }
+
+        [TestMethod]
+        public void HorizontalOrVertical_FlatSide_ToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal materialThickness = 0.2M;
+            decimal toolSpacing = 0.02M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckLinesHaveNoSlope(pointData);
+        }
+
+        // ============= Slotted No Tool Spacing ===============
         [TestMethod]
         public void PieceDimension_SlottedSide()
         {
@@ -80,9 +218,48 @@ namespace BoxBuilderTests
 
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, 0.2M, toolspacing, PieceSide.X, logger);
 
-            CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
+            TestUtilities.CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
         }
 
+        [TestMethod]
+        public void TabValidation_SlottedSide()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal toolSpacing = 0;
+            decimal slotWidth = 0.2M;
+            int slotCount = 3;
+            decimal slotDepth = 0.2M;
+            decimal materialThickness = 0.2M;
+            Rectangle outerRect = new Rectangle(0, 0, dimensionX + toolSpacing, dimensionY + toolSpacing);
+            Rectangle innerRect = new Rectangle(materialThickness, materialThickness, dimensionX + toolSpacing - (materialThickness * 2), dimensionY + toolSpacing - (materialThickness * 2));
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckPointsLieOnPolygons(new List<Rectangle> { outerRect, innerRect }, pointData);
+        }
+
+        [TestMethod]
+        public void HorizontalOrVertical_SlottedSide()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal toolSpacing = 0;
+            decimal slotWidth = 0.2M;
+            int slotCount = 3;
+            decimal slotDepth = 0.2M;
+            decimal materialThickness = 0.2M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckLinesHaveNoSlope(pointData);
+        }
+
+        // ============= Slotted With Tool Spacing ===============
         [TestMethod]
         public void PieceDimension_SlottedSide_ToolSpacing()
         {
@@ -97,21 +274,45 @@ namespace BoxBuilderTests
 
             var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, 0.2M, toolspacing, PieceSide.X, logger);
 
-            CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
+            TestUtilities.CheckDimensions(dimensionX + toolspacing, dimensionY + toolspacing, pointData);
         }
 
-        private static void CheckDimensions(decimal XDimension, decimal YDimension, List<Point> PointData)
+        [TestMethod]
+        public void TabValidation_SlottedSide_ToolSpacing()
         {
-            try
-            {
-                Assert.AreEqual(XDimension, TestUtilities.CalculateDimensionX(PointData), "X dimension is incorrect.");
-                Assert.AreEqual(YDimension, TestUtilities.CalculateDimensionY(PointData), "Y dimension is incorrect.");
-            }
-            catch (AssertFailedException)
-            {
-                TestUtilities.RenderPiece(PointData);
-                throw;
-            }
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal toolSpacing = 0;
+            decimal slotWidth = 0.2M;
+            int slotCount = 3;
+            decimal slotDepth = 0.2M;
+            decimal materialThickness = 0.2M;
+            Rectangle outerRect = new Rectangle(0, 0, dimensionX + toolSpacing, dimensionY + toolSpacing);
+            Rectangle innerRect = new Rectangle(materialThickness, materialThickness, dimensionX + toolSpacing - (materialThickness * 2), dimensionY + toolSpacing - (materialThickness * 2));
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckPointsLieOnPolygons(new List<Rectangle> { outerRect, innerRect }, pointData);
+        }
+
+        [TestMethod]
+        public void HorizontalOrVertical_SlottedSide_ToolSpacing()
+        {
+            var pointGenerator = GetPointGenerator();
+            var logger = GetLogger();
+            decimal dimensionX = 1.5M;
+            decimal dimensionY = 1.5M;
+            decimal toolSpacing = 0.02M;
+            decimal slotWidth = 0.2M;
+            int slotCount = 3;
+            decimal slotDepth = 0.2M;
+            decimal materialThickness = 0.2M;
+
+            var pointData = pointGenerator.CreateTabedObject(dimensionX, dimensionY, 3, 3, slotDepth, slotWidth, slotCount, 0, TabPosition.Crest, TabPosition.Trough, TabPosition.Crest, TabPosition.Trough, materialThickness, toolSpacing, PieceSide.X, logger);
+
+            TestUtilities.CheckLinesHaveNoSlope(pointData);
         }
     }
 }
