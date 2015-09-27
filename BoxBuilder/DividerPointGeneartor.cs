@@ -15,7 +15,7 @@ namespace BoxBuilder
             decimal deltaX = 0;
             decimal deltaY = 0;
             decimal curX = 0;
-            decimal curY = DimensionY + MachineSettings.ToolSpacing;
+            decimal curY = 0;
             List<Point> points = new List<Point>();
 
             // create the starting point
@@ -33,7 +33,7 @@ namespace BoxBuilder
 
             // create the right side tab
             deltaX = 0;
-            deltaY = -(SlotDepth + MachineSettings.ToolSpacing);
+            deltaY = SlotDepth + MachineSettings.ToolSpacing;
 
             curX += deltaX;
             curY += deltaY;
@@ -51,7 +51,7 @@ namespace BoxBuilder
 
             // Finish out the height of the divider
             deltaX = 0;
-            deltaY = -((DimensionY + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing));
+            deltaY = (DimensionY + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing);
 
             curX += deltaX;
             curY += deltaY;
@@ -69,7 +69,7 @@ namespace BoxBuilder
 
             // Come back up most of the height of the divider
             deltaX = 0;
-            deltaY = (DimensionY + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing);
+            deltaY = -((DimensionY + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing));
 
             curX += deltaX;
             curY += deltaY;
