@@ -3,9 +3,11 @@ using System;
 
 namespace BoxBuilder
 {
+    // TODO: Should not be creating the points based on the SVG point system. The y deltas should be inverted and it should start at a
+    // higher Y value.
     internal sealed class DividerPointGeneartor : IDividerPointGenerator
     {
-        public List<Point> GeneratePoints(IMaterial Material, IMachineSettings MachineSettings, decimal DimensionX, decimal DimensionY, decimal SlotDepth, decimal SlotAngle)
+        public List<Point> GeneratePoints(IMaterial Material, IMachineSettings MachineSettings, decimal Width, decimal Height, decimal SlotDepth, decimal SlotAngle)
         {
             if(SlotAngle != 0)
             {
@@ -23,7 +25,7 @@ namespace BoxBuilder
 
             // create the flat top
             // TODO: Might want to add some options to create space to grab stuff instead of a flat top.
-            deltaX = DimensionX + MachineSettings.ToolSpacing;
+            deltaX = Width + MachineSettings.ToolSpacing;
             deltaY = 0;
 
             curX += deltaX;
@@ -51,7 +53,7 @@ namespace BoxBuilder
 
             // Finish out the height of the divider
             deltaX = 0;
-            deltaY = (DimensionY + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing);
+            deltaY = (Height + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing);
 
             curX += deltaX;
             curY += deltaY;
@@ -59,7 +61,7 @@ namespace BoxBuilder
             points.Add(new Point(curX, curY));
 
             // Come back the width of the divider part that is inside the box
-            deltaX = -((DimensionX + MachineSettings.ToolSpacing) - (Material.MaterialThickness * 2));
+            deltaX = -((Width + MachineSettings.ToolSpacing) - (Material.MaterialThickness * 2));
             deltaY = 0;
 
             curX += deltaX;
@@ -69,7 +71,7 @@ namespace BoxBuilder
 
             // Come back up most of the height of the divider
             deltaX = 0;
-            deltaY = -((DimensionY + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing));
+            deltaY = -((Height + MachineSettings.ToolSpacing) - (SlotDepth + MachineSettings.ToolSpacing));
 
             curX += deltaX;
             curY += deltaY;

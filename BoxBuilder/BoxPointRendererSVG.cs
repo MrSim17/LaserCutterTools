@@ -74,7 +74,7 @@ namespace BoxBuilder
             return SerializeXMLDoc(svgDoc);
         }
 
-        public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, bool RotateParts = false)
+        public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, Dictionary<PartType, List<Point>> AdditionalParts, bool RotateParts = false)
         {
             if(RotateParts)
             {
@@ -85,6 +85,15 @@ namespace BoxBuilder
             decimal dimensionX = FindDimensionX(PointData[CubeSide.Bottom]);
             decimal dimensionY = FindDimensionY(PointData[CubeSide.Bottom]);
             decimal dimensionZ = FindDimensionY(PointData[CubeSide.Left]);
+
+            // TODO: Do some better placement for the additional parts. Supports the need for separating out the placement concern.
+            if(AdditionalParts != null && AdditionalParts.Count > 0)
+            {
+                if(AdditionalParts.ContainsKey(PartType.Divider))
+                {
+                    AddPolygon(svgDoc, "Divider", AdditionalParts[PartType.Divider], 0, 0);
+                }
+            }
 
             if (translatePieces)
             {
@@ -100,6 +109,7 @@ namespace BoxBuilder
 
             if (RotateParts)
             {
+                throw new NotImplementedException("Rotating parts is not implemented.");
                 // TODO: instead of rotating with a transform change the parameters for generating the piece
                 // TODO: add part rotation to the manual xml generation
                 //HelperMethods.RotateSVG(left, 90);
@@ -119,6 +129,7 @@ namespace BoxBuilder
 
             if (RotateParts)
             {
+                throw new NotImplementedException("Rotating parts is not implemented.");
                 // TODO: instead of rotating with a transform change the parameters for generating the piece
                 // TODO: add part rotation to the manual xml generation
                 //HelperMethods.RotateSVG(right, 270);
@@ -150,6 +161,7 @@ namespace BoxBuilder
 
             if (RotateParts)
             {
+                throw new NotImplementedException("Rotating parts is not implemented.");
                 // TODO: instead of rotating with a transform change the parameters for generating the piece
                 // TODO: add part rotation to the manual xml generation
                 //HelperMethods.RotateSVG(back, 180);

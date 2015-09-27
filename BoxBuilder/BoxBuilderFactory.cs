@@ -18,9 +18,11 @@ namespace BoxBuilder
             IColorProvider colorProvider = new ColorProviderAllDifferent();
             IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider, true);
             IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
+            IDividerPointGenerator dividerGenerator = new DividerPointGeneartor();
 
             IBoxBuilderSVG handler = new BoxBuilderSVG(pointGen,
                 pointRender,
+                dividerGenerator,
                 Logger);
 
             return handler;

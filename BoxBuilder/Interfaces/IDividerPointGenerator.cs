@@ -15,6 +15,6 @@ namespace BoxBuilder
         /// <param name="SlotDepth"></param>
         /// <param name="SlotAngle"></param>
         /// <returns></returns>
-        List<Point> GeneratePoints(IMaterial Material, IMachineSettings MachineSettings, decimal DimensionX, decimal DimensionY, decimal SlotDepth, decimal SlotAngle);
+        List<Point> GeneratePoints(IMaterial Material, IMachineSettings MachineSettings, decimal Width, decimal Height, decimal SlotDepth, decimal SlotAngle);
     }
 }
