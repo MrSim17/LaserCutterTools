@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BoxBuilder;
 using Common;
@@ -16,7 +17,7 @@ namespace BoxBuilderTests
             var machineSettings = DefaultSettingsOneInchCube.MachineSettings;
             StartPositionConfiguration startConfig = DefaultSettingsOneInchCube.StartConfigs;
             var cube = DefaultSettingsOneInchCube.CubeDimensions;
-            var pointGenerator = BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
+            var pointGenerator = BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
 
             // test for tab values up to 5
             for (int i = 2; i <= 5; i++)
@@ -28,16 +29,25 @@ namespace BoxBuilderTests
                     var xMin = pointData[key].Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
                     var yMin = pointData[key].Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
 
-                    // make sure the piece always sits on the x and y axis
-                    Assert.AreEqual(0, xMin, "Piece is not sitting on the x axis.");
-                    Assert.AreEqual(0, yMin, "Piece is not sitting no the y axis.");
-
-                    var xMax = pointData[key].Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
-                    var yMax = pointData[key].Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
+                    try
+                    {
+                        // make sure the piece always sits on the x and y axis
+                        Assert.AreEqual(0, xMin, "Piece is not sitting on the x axis.");
+                        Assert.AreEqual(0, yMin, "Piece is not sitting no the y axis.");
+                    }
+                    catch (AssertFailedException)
+                    {
+                        TestUtilities.RenderPiece(pointData[key]);
+                        throw;
+                    }
                 }
             }
         }
 
+
+        /// <summary>
+        /// Test Purpose: Make sure that all points lie either on the outer edge or a material thickness away from the outer edge.
+        /// </summary>
         [TestMethod]
         public void MaterialSettings_Thickness()
         {
@@ -73,7 +83,15 @@ namespace BoxBuilderTests
                     bool isOnInnerSquareX = point.X == xInnerMin || point.X == xInnerMax;
                     bool isOnInnerSquareY = point.Y == yInnerMin || point.Y == yInnerMax;
 
-                    Assert.IsTrue(isOnOuterSquareX || isOnOuterSquareY || isOnInnerSquareX || isOnInnerSquareY, "Point is not on either the outer or inner square.");
+                    try
+                    { 
+                        Assert.IsTrue(isOnOuterSquareX || isOnOuterSquareY || isOnInnerSquareX || isOnInnerSquareY, "Point is not on either the outer or inner square.");
+                    }
+                    catch (AssertFailedException)
+                    {
+                        TestUtilities.RenderPiece(pointData[key]);
+                        throw;
+                    }
                 }
             }
         }
@@ -127,9 +145,16 @@ namespace BoxBuilderTests
                     //Assert.AreEqual(expectedDimension, xDim);
                     //Assert.AreEqual(expectedDimension, yDim);
 
-                    Assert.AreEqual(expectedDimension, Math.Round(xDim, 3));
-                    Assert.AreEqual(expectedDimension, Math.Round(yDim, 3));
-
+                    try
+                    {
+                        Assert.AreEqual(expectedDimension, Math.Round(xDim, 3));
+                        Assert.AreEqual(expectedDimension, Math.Round(yDim, 3));
+                    }
+                    catch (AssertFailedException)
+                    {
+                        TestUtilities.RenderPiece(pointData[key]);
+                        throw;
+                    }
                 }
 
 

@@ -58,5 +58,42 @@ namespace BoxBuilder
 
             return renderedBox;
         }
+
+        public string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, decimal SlotDepth, int SlotCount, decimal SlotAngle, bool RotateParts = false)
+        {
+            SideStartPositionConfiguration topBottomConfig = new SideStartPositionConfiguration
+            {
+                StartPositionX = TabPosition.Crest,
+                StartPositionXMinus = TabPosition.Crest,
+                StartPositionY = TabPosition.Crest,
+                StartPositionYMinus = TabPosition.Crest
+            };
+
+            SideStartPositionConfiguration sideConfig = new SideStartPositionConfiguration
+            {
+                StartPositionX = TabPosition.Crest,
+                StartPositionXMinus = TabPosition.Trough,
+                StartPositionY = TabPosition.Trough,
+                StartPositionYMinus = TabPosition.Crest
+            };
+
+            StartPositionConfiguration startConfig = new StartPositionConfiguration(topBottomConfig, topBottomConfig, sideConfig, sideConfig, sideConfig, sideConfig);
+
+            var pointData = pointGenerator.GeneratePoints(startConfig,
+                Box,
+                Material,
+                MachineSettings,
+                TabsX,
+                TabsY,
+                TabsZ,
+                SlotDepth, 
+                SlotCount, 
+                SlotAngle, 
+                SlotDirection.X); // TODO: no hardcoded slot direction MUST ADD UI OPTION!
+
+            var renderedBox = pointRenderer.RenderPoints(pointData, RotateParts);
+
+            return renderedBox;
+        }
     }
 }

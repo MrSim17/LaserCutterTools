@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using BoxBuilder;
 using ColorProvider;
 using Common;
@@ -43,7 +32,7 @@ namespace NathanSVGTest
 
         private string OutputBoxBuilder()
         {
-            var box = new BoxBuilder.BoxSquare
+            var box = new BoxSquare
             {
                 DimensionX = decimal.Parse(txtSizeX.Text),
                 DimensionY = decimal.Parse(txtSizeY.Text),
@@ -66,11 +55,21 @@ namespace NathanSVGTest
 
             // TODO: make checkbox for rotating the parts to the correct orientation
             bool makeTopOpen = chkMakeOpen.IsChecked.GetValueOrDefault(false);
+            int slotCount = int.Parse(txtNumSlots.Text);
 
             StringLogger logger = new StringLogger();
 
-            var boxHandler = BoxBuilder.BoxBuilderFactory.GetBoxHandler(logger);
-            var ret = boxHandler.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, makeTopOpen);
+            var boxHandler = BoxBuilderFactory.GetBoxHandler(logger);
+            string ret = string.Empty;
+
+            if (slotCount > 0 && makeTopOpen)
+            {
+                ret = boxHandler.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, 1, slotCount, 0);
+            }
+            else
+            {
+                ret = boxHandler.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, makeTopOpen);
+            }
 
             textBox1.Text = logger.Log;
 

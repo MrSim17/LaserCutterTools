@@ -3,18 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <!-- TODO: there does not need to be columns. OR the columns need to match the layout. -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280*" />
             <ColumnDefinition Width="223*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
-        <TextBox HorizontalAlignment="Left" Margin="12,105,0,0" Name="textBox1" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+        <Button Content="Create Box" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+        <TextBox HorizontalAlignment="Left" Margin="12,140,0,0" Name="textBox1" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
         <Label Content="Size X:" Height="28" HorizontalAlignment="Left" Margin="110,10,0,0" Name="label1" VerticalAlignment="Top" Width="60" />
         <Label Content="Size Y:" Height="28" HorizontalAlignment="Left" Margin="230,12,0,0" Name="label2" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="155,12,0,0" Name="txtSizeX" VerticalAlignment="Top" Width="60" Text="1.5" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="0,12,0,0" Name="txtSizeY" VerticalAlignment="Top" Width="60" Grid.Column="1" Text="1.5" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="155,12,0,0" Name="txtSizeX" VerticalAlignment="Top" Width="60" Text="4" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="0,12,0,0" Name="txtSizeY" VerticalAlignment="Top" Width="60" Grid.Column="1" Text="4" />
         <Label Content="Size Z:" Height="28" HorizontalAlignment="Left" Margin="77,12,0,0" Name="label3" VerticalAlignment="Top" Grid.Column="1" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="127,12,0,0" Name="txtSizeZ" VerticalAlignment="Top" Width="60" Grid.Column="1" Text="1.5" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="127,12,0,0" Name="txtSizeZ" VerticalAlignment="Top" Width="60" Grid.Column="1" Text="4" />
         <Label Content="Thickness:" Height="28" HorizontalAlignment="Left" Margin="91,71,0,0" Name="label4" VerticalAlignment="Top" Width="73" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="155,73,0,0" Name="txtThickness" Text="0.2" VerticalAlignment="Top" Width="60" />
         <Label Content="Tabs X:" Height="28" HorizontalAlignment="Left" Margin="106,39,0,0" Name="label5" VerticalAlignment="Top" Width="60" />
@@ -25,7 +26,9 @@
         <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="127,41,0,0" Name="txtTabsZ" Text="2" VerticalAlignment="Top" Width="60" />
         <Label Content="Tool:" Height="28" HorizontalAlignment="Left" Margin="230,71,0,0" Name="label8" VerticalAlignment="Top" Width="44" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="0,73,0,0" Name="txtTool" Text="0.002" VerticalAlignment="Top" Width="60" Grid.Column="1" />
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="12,46,0,0" Name="button2" VerticalAlignment="Top" Width="75" Click="button2_Click" />
-        <CheckBox x:Name="chkMakeOpen" Content="Make Top Open" Grid.Column="1" HorizontalAlignment="Left" Margin="77,73,0,0" VerticalAlignment="Top"/>
+        <Button Content="Create Hash" Height="23" HorizontalAlignment="Left" Margin="10,46,0,0" Name="button2" VerticalAlignment="Top" Width="75" Click="button2_Click" />
+        <CheckBox x:Name="chkMakeOpen" IsChecked="True" Content="Make Top Open" Grid.Column="1" HorizontalAlignment="Left" Margin="77,73,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtNumSlots" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="60" Margin="155,104,0,0"/>
+        <Label x:Name="lblNumSlots" Content="Num Slots:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="87,99,0,0"/>
     </Grid>
 </Window>

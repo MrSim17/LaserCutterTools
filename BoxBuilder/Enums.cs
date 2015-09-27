@@ -23,4 +23,18 @@
         Front,
         Back
     }
+
+    public enum CubeTopConfiguration
+    {
+        Closed,
+        Open,
+        Slotted,
+        DiagonalSlotted
+    }
+
+    public enum SlotDirection
+    {
+        X,
+        Y
+    }
 }
