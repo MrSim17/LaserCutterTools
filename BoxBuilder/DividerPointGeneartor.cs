@@ -3,7 +3,7 @@ using System;
 
 namespace BoxBuilder
 {
-    internal sealed class DeviderPointGeneartor : IDividerPointGenerator
+    internal sealed class DividerPointGeneartor : IDividerPointGenerator
     {
         public List<Point> GeneratePoints(IMaterial Material, IMachineSettings MachineSettings, decimal DimensionX, decimal DimensionY, decimal SlotDepth, decimal SlotAngle)
         {
