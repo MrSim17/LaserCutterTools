@@ -51,7 +51,7 @@
     <Compile Include="BoxBuilderFactory.cs" />
     <Compile Include="BoxBuilderSVG.cs" />
     <Compile Include="BoxPointRendererSVG.cs" />
-    <Compile Include="DividerPointGeneartor.cs" />
+    <Compile Include="DividerPointGenerator.cs" />
     <Compile Include="Interfaces\IBoxPointRendererSVG.cs" />
     <Compile Include="Interfaces\IDividerPointGenerator.cs" />
     <Compile Include="PiecePointGenerator.cs" />

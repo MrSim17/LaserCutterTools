@@ -5,7 +5,7 @@ namespace BoxBuilder
 {
     // TODO: Should not be creating the points based on the SVG point system. The y deltas should be inverted and it should start at a
     // higher Y value.
-    internal sealed class DividerPointGeneartor : IDividerPointGenerator
+    internal sealed class DividerPointGenerator : IDividerPointGenerator
     {
         public List<Point> GeneratePoints(IMaterial Material, IMachineSettings MachineSettings, decimal Width, decimal Height, decimal SlotDepth, decimal SlotAngle)
         {
