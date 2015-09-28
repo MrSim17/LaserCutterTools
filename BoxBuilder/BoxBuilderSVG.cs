@@ -68,11 +68,9 @@ namespace BoxBuilder
             return renderedBox;
         }
 
-        public string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, decimal SlotDepth, int SlotCount, decimal SlotAngle, bool RotateParts = false)
+        public string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, decimal SlotDepth, decimal SlotPadding, int SlotCount, decimal SlotAngle, SlotDirection SlotDirection, bool RotateParts = false)
         {
             // handle all the box parts
-            var slotDirection = SlotDirection.X; // TODO: no hardcoded slot direction MUST ADD UI OPTION!
-
             SideStartPositionConfiguration topBottomConfig = new SideStartPositionConfiguration
             {
                 StartPositionX = TabPosition.Crest,
@@ -99,15 +97,16 @@ namespace BoxBuilder
                 TabsY,
                 TabsZ,
                 SlotDepth, 
+                SlotPadding,
                 SlotCount, 
                 SlotAngle,
-                slotDirection);
+                SlotDirection);
 
             // add the divider
             decimal dividerWidth = 0;
             decimal dividerHeight = Box.DimensionZ - Material.MaterialThickness;
 
-            if (slotDirection == SlotDirection.X)
+            if (SlotDirection == SlotDirection.X)
             {
                 dividerWidth = Box.DimensionY;
             }

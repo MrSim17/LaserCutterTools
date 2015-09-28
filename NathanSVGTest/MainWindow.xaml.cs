@@ -9,6 +9,7 @@ namespace NathanSVGTest
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    // TODO: Add a UI function to save and load settings so I don't have to remember them.
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -65,8 +66,13 @@ namespace NathanSVGTest
 
             if (slotCount > 0 && makeTopOpen)
             {
+                decimal slotDepth = box.DimensionZ / 4; // TODO: Do not hard code slot depth
+                decimal slotPadding = 0.01M; // TODO: Do not hard code slot padding
+
                 // TODO: Make the slot depth selection either better or add something to the UI.
-                ret = boxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, box.DimensionZ/4, slotCount, 0);
+                // TODO: Add slot direction to the UI.
+                // TODO: Add slot padding to the UI.
+                ret = boxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, slotDepth, slotPadding, slotCount, 0, SlotDirection.X);
             }
             else
             {
