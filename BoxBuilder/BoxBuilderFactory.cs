@@ -13,14 +13,16 @@ namespace BoxBuilder
             return pointGen;
         }
 
-        public static IBoxBuilderSVG GetBoxHandler(ILogger Logger)
+        public static IBoxBuilderSVG GetBoxBuilder(ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
-            IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider, true);
+            IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider);
             IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
+            IDividerPointGenerator dividerGenerator = new DividerPointGeneartor();
 
             IBoxBuilderSVG handler = new BoxBuilderSVG(pointGen,
                 pointRender,
+                dividerGenerator,
                 Logger);
 
             return handler;

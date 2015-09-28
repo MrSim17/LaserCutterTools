@@ -1,22 +1,31 @@
 ﻿using Common;
-
+using System.Collections.Generic;
 
 namespace BoxBuilder
 {
     /// <summary>
-    /// This class handles organizing the generation of the points and then passing them to the rendering engine to produce the final result.
-    /// Tihs class also has the responsibility of determining the start configurations for all the pieces to be rendered.
+    /// Overall this class organizes all the work into one single output.
+    /// 
+    /// Responsibilities:
+    /// 1. Manages all start configurations to make sure the pieces will fit together
+    /// 2. Runs Piece point generation
+    /// 3. Decides the divider size based on the slot direction
+    /// 4. Runs divider point generation
+    /// 5. Runs rendering
+    /// 
     /// </summary>
     internal sealed class BoxBuilderSVG : IBoxBuilderSVG
     {
         IBoxPointGenerator pointGenerator;
         IBoxPointRendererSVG pointRenderer;
+        IDividerPointGenerator dividerGenerator;
         ILogger logger;
 
-        public BoxBuilderSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, ILogger Logger = null)
+        public BoxBuilderSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, IDividerPointGenerator DividerGenerator, ILogger Logger = null)
         {
             pointGenerator = PointGenerator;
             pointRenderer = PointRenderer;
+            dividerGenerator = DividerGenerator;
             logger = Logger;
         }
 
@@ -54,13 +63,16 @@ namespace BoxBuilder
                 TabsZ,
                 MakeBoxOpen);
 
-            var renderedBox = pointRenderer.RenderPoints(pointData, RotateParts);
+            var renderedBox = pointRenderer.RenderPoints(pointData, null, RotateParts);
 
             return renderedBox;
         }
 
         public string BuildBox(IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, decimal SlotDepth, int SlotCount, decimal SlotAngle, bool RotateParts = false)
         {
+            // handle all the box parts
+            var slotDirection = SlotDirection.X; // TODO: no hardcoded slot direction MUST ADD UI OPTION!
+
             SideStartPositionConfiguration topBottomConfig = new SideStartPositionConfiguration
             {
                 StartPositionX = TabPosition.Crest,
@@ -88,10 +100,27 @@ namespace BoxBuilder
                 TabsZ,
                 SlotDepth, 
                 SlotCount, 
-                SlotAngle, 
-                SlotDirection.X); // TODO: no hardcoded slot direction MUST ADD UI OPTION!
+                SlotAngle,
+                slotDirection);
 
-            var renderedBox = pointRenderer.RenderPoints(pointData, RotateParts);
+            // add the divider
+            decimal dividerWidth = 0;
+            decimal dividerHeight = Box.DimensionZ - Material.MaterialThickness;
+
+            if (slotDirection == SlotDirection.X)
+            {
+                dividerWidth = Box.DimensionY;
+            }
+            else
+            {
+                dividerWidth = Box.DimensionX;
+            }
+
+            var divider = dividerGenerator.GeneratePoints(Material, MachineSettings, dividerWidth, dividerHeight, SlotDepth, SlotAngle);
+            var additionalParts = new Dictionary<PartType, List<Point>>() { { PartType.Divider, divider } };
+
+            // Render the box
+            var renderedBox = pointRenderer.RenderPoints(pointData, additionalParts, RotateParts);
 
             return renderedBox;
         }

@@ -7,6 +7,10 @@ namespace BoxBuilder
     /// <summary>
     /// The box point generator organizes the start configurations and other settings to generate points for each piece.
     /// The points generated here are not rendered into a visual form. They are the raw data.
+    /// Responsibilities:
+    /// 1. Run generation for all box parts
+    /// 2. Exclude pieces based on whether or not the box is open
+    /// 3. Decide the slot width
     /// </summary>
     internal sealed class BoxPointGenerator : IBoxPointGenerator
     { 

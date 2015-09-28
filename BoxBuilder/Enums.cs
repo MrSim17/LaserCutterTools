@@ -37,4 +37,9 @@
         X,
         Y
     }
+
+    public enum PartType
+    {
+        Divider
+    }
 }
