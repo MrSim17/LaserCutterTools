@@ -100,8 +100,9 @@ namespace BoxBuilder
             return ret;
         }
 
-        public Dictionary<CubeSide, List<Point>> GeneratePoints(StartPositionConfiguration StartConfig, IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, decimal SlotDepth, int SlotCount, decimal SlotAngle, SlotDirection SlotDirection)
+        public Dictionary<CubeSide, List<Point>> GeneratePoints(StartPositionConfiguration StartConfig, IBoxSquare Box, IMaterial Material, IMachineSettings MachineSettings, int TabsX, int TabsY, int TabsZ, decimal SlotDepth, decimal SlotPadding, int SlotCount, decimal SlotAngle, SlotDirection SlotDirection)
         {
+            decimal slotWidth = Material.MaterialThickness + SlotPadding;
             Dictionary<CubeSide, List<Point>> ret = new Dictionary<CubeSide, List<Point>>();
 
             // Bottom
@@ -118,10 +119,10 @@ namespace BoxBuilder
                 var pieceRight = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, StartConfig.Right.StartPositionX, StartConfig.Right.StartPositionY, StartConfig.Right.StartPositionXMinus, StartConfig.Right.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
                 // Front
-                var pieceFront = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, SlotDepth, Material.MaterialThickness, SlotCount, SlotAngle, StartConfig.Front.StartPositionX, StartConfig.Front.StartPositionY, StartConfig.Front.StartPositionXMinus, StartConfig.Front.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
+                var pieceFront = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, SlotDepth, slotWidth, SlotCount, SlotAngle, StartConfig.Front.StartPositionX, StartConfig.Front.StartPositionY, StartConfig.Front.StartPositionXMinus, StartConfig.Front.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
                 // Back
-                var pieceBack = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, SlotDepth, Material.MaterialThickness, SlotCount, SlotAngle, StartConfig.Back.StartPositionX, StartConfig.Back.StartPositionY, StartConfig.Back.StartPositionXMinus, StartConfig.Back.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
+                var pieceBack = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, SlotDepth, slotWidth, SlotCount, SlotAngle, StartConfig.Back.StartPositionX, StartConfig.Back.StartPositionY, StartConfig.Back.StartPositionXMinus, StartConfig.Back.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
                 ret.Add(CubeSide.Back, pieceBack);
                 ret.Add(CubeSide.Front, pieceFront);
@@ -131,10 +132,10 @@ namespace BoxBuilder
             else
             {
                 // Left
-                var pieceLeft = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, SlotDepth, Material.MaterialThickness, SlotCount, SlotAngle, StartConfig.Left.StartPositionX, StartConfig.Left.StartPositionY, StartConfig.Left.StartPositionXMinus, StartConfig.Left.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
+                var pieceLeft = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, SlotDepth, slotWidth, SlotCount, SlotAngle, StartConfig.Left.StartPositionX, StartConfig.Left.StartPositionY, StartConfig.Left.StartPositionXMinus, StartConfig.Left.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
                 // Right
-                var pieceRight = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, SlotDepth, Material.MaterialThickness, SlotCount, SlotAngle, StartConfig.Right.StartPositionX, StartConfig.Right.StartPositionY, StartConfig.Right.StartPositionXMinus, StartConfig.Right.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
+                var pieceRight = PiecePointGenerator.CreateTabedObject(Box.DimensionY, Box.DimensionZ, TabsY, TabsZ, SlotDepth, slotWidth, SlotCount, SlotAngle, StartConfig.Right.StartPositionX, StartConfig.Right.StartPositionY, StartConfig.Right.StartPositionXMinus, StartConfig.Right.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, PieceSide.X, Logger);
 
                 // Front
                 var pieceFront = PiecePointGenerator.CreateTabedObject(Box.DimensionX, Box.DimensionZ, TabsX, TabsZ, StartConfig.Front.StartPositionX, StartConfig.Front.StartPositionY, StartConfig.Front.StartPositionXMinus, StartConfig.Front.StartPositionYMinus, Material.MaterialThickness, MachineSettings.ToolSpacing, Logger);

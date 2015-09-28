@@ -38,9 +38,10 @@ namespace BoxBuilder
         /// <param name="TabsY"></param>
         /// <param name="TabsZ"></param>
         /// <param name="SlotDepth"></param>
-        /// <param name="SlotCount"></param>
-        /// <param name="SlotAngle"></param>
-        /// <param name="SlotDirection"></param>
+        /// <param name="SlotPadding">Extra space around the slot so that the divider can fit looser or tighter depending on configuration.</param>
+        /// <param name="SlotCount">Number of slots available for dividers.</param>
+        /// <param name="SlotAngle">Angle of the slots. This will cause dividers to be angled. 0 == vertical.</param>
+        /// <param name="SlotDirection">Decides whether slots run down the X or Y direction of the box.</param>
         /// <returns></returns>
         Dictionary<CubeSide, List<Point>> GeneratePoints(StartPositionConfiguration StartConfig,
             IBoxSquare Box,
@@ -50,6 +51,7 @@ namespace BoxBuilder
             int TabsY,
             int TabsZ,
             decimal SlotDepth,
+            decimal SlotPadding,
             int SlotCount,
             decimal SlotAngle,
             SlotDirection SlotDirection);

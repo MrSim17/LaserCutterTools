@@ -1,10 +1,11 @@
 ﻿using SvgNet.SvgElements;
-using System.Drawing;
+using System.Drawing; // TODO: Get rid of useless SVG library. Generates unreliable results!
 using ColorProvider;
 using Common;
 
 namespace HashBuilder
 {
+    // TODO: Separate out hash point generation from hash point rendering.
     public sealed class HashBuilder
     {
         IColorProvider colorProvider;

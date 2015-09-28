@@ -8,6 +8,7 @@ using Common;
 
 namespace HashBuilder
 {
+    // TODO: Most has builder helper methods really should be their own component.
     public sealed class HelperMethods
     {
         public static List<PathData> CreateHashLines(float Width, Double height, float GapWidth, float LineSpacing, int HashCount, ILogger Logger)
