@@ -44,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorProviderAllBlack.cs" />
+    <Compile Include="ColorProviderAllDifferent.cs" />
+    <Compile Include="ColorProviderAlternating.cs" />
+    <Compile Include="ColorProviderRandom.cs" />
     <Compile Include="IColorProvider.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
