@@ -32,6 +32,7 @@ namespace BoxBuilder
         public BoxPointRendererSVG(IColorProvider ColorProvider)
         {
             Logger = new NullLogger();
+            colorProvider = ColorProvider;
         }
 
         public BoxPointRendererSVG()
