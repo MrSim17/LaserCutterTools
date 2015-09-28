@@ -6,6 +6,7 @@ using Common;
 namespace HashBuilder
 {
     // TODO: Separate out hash point generation from hash point rendering.
+    // TODO: When separating out hash point rendering out use a common library with BoxBuilder.
     public sealed class HashBuilder
     {
         IColorProvider colorProvider;
