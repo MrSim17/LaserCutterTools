@@ -24,6 +24,7 @@ namespace NathanSVGTest
 
         private void OutputFile(string Body)
         {
+            // TODO: make an option to select the location and file name for a box.
             using (System.IO.TextWriter tw = new System.IO.StreamWriter("c:\\temp\\test " + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".svg"))
             {
                 tw.Write(Body);
@@ -59,16 +60,17 @@ namespace NathanSVGTest
 
             StringLogger logger = new StringLogger();
 
-            var boxHandler = BoxBuilderFactory.GetBoxHandler(logger);
+            var boxBuilder = BoxBuilderFactory.GetBoxBuilder(logger);
             string ret = string.Empty;
 
             if (slotCount > 0 && makeTopOpen)
             {
-                ret = boxHandler.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, 1, slotCount, 0);
+                // TODO: Make the slot depth selection either better or add something to the UI.
+                ret = boxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, box.DimensionZ/4, slotCount, 0);
             }
             else
             {
-                ret = boxHandler.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, makeTopOpen);
+                ret = boxBuilder.BuildBox(box, material, machineSettings, tabsX, tabsY, tabsZ, makeTopOpen);
             }
 
             textBox1.Text = logger.Log;

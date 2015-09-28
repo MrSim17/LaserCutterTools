@@ -9,34 +9,34 @@ using Common;
 namespace BoxBuilder
 {
     // TODO: Contemplate separating the concerns of rotating parts and arranging them from rendering the actual XML.
+    /// <summary>
+    /// Responsibilities:
+    /// 1. Translate and rotate all parts to their final position for rendering
+    /// 2. Convert raw points into SVG text output
+    /// 3. Manage the colors and combinations of colors for the rendered pieces
+    /// 4. Output debugging point values
+    /// 5. Create a document to contain all parts in SVG format.
+    /// </summary>
     public sealed class BoxPointRendererSVG : IBoxPointRendererSVG
     {
-        bool translatePieces = true;
-        ILogger logger = new NullLogger();
+        bool translatePieces = true; // TODO: TranslatePieces variable should be eliminated when moved out to separate component
         IColorProvider colorProvider;
-        bool makeBoxOpen = false;
-        PieceSide? flatSide = null;
-        bool isInDebugMode = false;
+        decimal padding = 0.2M; // TODO: padding probably shouldn't be hard coded
 
         public ILogger Logger
         {
-            get { return logger; }
-            set { logger = value; }
+            get;
+            set;
         }
 
-        // TODO: padding probably shouldn't be hard coded
-        decimal padding = 0.2M;
-
-        public BoxPointRendererSVG(IColorProvider ColorProvider, bool IsInDebugMode = false)
+        public BoxPointRendererSVG(IColorProvider ColorProvider)
         {
-            colorProvider = ColorProvider;
-            isInDebugMode = IsInDebugMode;
+            Logger = new NullLogger();
         }
 
-        public BoxPointRendererSVG(bool IsInDebugMode = false)
+        public BoxPointRendererSVG()
         {
             colorProvider = new ColorProviderAllBlack();
-            isInDebugMode = IsInDebugMode;
         }
 
         private static XmlDocument InitDoc()
@@ -65,16 +65,16 @@ namespace BoxBuilder
             return doc;
         }
 
-        public string RenderPoints(List<Point> PointData)
+        public string RenderPoints(List<Point> PointData, bool UseDebugMode = false)
         {
             XmlDocument svgDoc = InitDoc();
 
-            AddPolygon(svgDoc, "Single Polygon", PointData, padding, padding);
+            AddPolygon(svgDoc, "Single Polygon", PointData, padding, padding, UseDebugMode);
 
             return SerializeXMLDoc(svgDoc);
         }
 
-        public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, Dictionary<PartType, List<Point>> AdditionalParts, bool RotateParts = false)
+        public string RenderPoints(Dictionary<CubeSide, List<Point>> PointData, Dictionary<PartType, List<Point>> AdditionalParts, bool RotateParts = false, bool UseDebugMode = false)
         {
             if(RotateParts)
             {
@@ -91,7 +91,7 @@ namespace BoxBuilder
             {
                 if(AdditionalParts.ContainsKey(PartType.Divider))
                 {
-                    AddPolygon(svgDoc, "Divider", AdditionalParts[PartType.Divider], 0, 0);
+                    AddPolygon(svgDoc, "Divider", AdditionalParts[PartType.Divider], 0, 0, UseDebugMode);
                 }
             }
 
@@ -100,11 +100,11 @@ namespace BoxBuilder
                 decimal bottomTranslateX = padding + dimensionZ + padding;
                 decimal bottomTranslateY = padding + dimensionZ + padding;
 
-                AddPolygon(svgDoc, "Bottom", PointData[CubeSide.Bottom], bottomTranslateX, bottomTranslateY);
+                AddPolygon(svgDoc, "Bottom", PointData[CubeSide.Bottom], bottomTranslateX, bottomTranslateY, UseDebugMode);
             }
             else
             {
-                AddPolygon(svgDoc, "Bottom", PointData[CubeSide.Bottom], 0, 0);
+                AddPolygon(svgDoc, "Bottom", PointData[CubeSide.Bottom], 0, 0, UseDebugMode);
             }
 
             if (RotateParts)
@@ -120,11 +120,11 @@ namespace BoxBuilder
                 decimal leftTranslateX = padding;
                 decimal leftTranslateY = padding + dimensionZ + padding;
 
-                AddPolygon(svgDoc, "Left", PointData[CubeSide.Left], leftTranslateX, leftTranslateY);
+                AddPolygon(svgDoc, "Left", PointData[CubeSide.Left], leftTranslateX, leftTranslateY, UseDebugMode);
             }
             else
             {
-                AddPolygon(svgDoc, "Left", PointData[CubeSide.Left], 0, 0);
+                AddPolygon(svgDoc, "Left", PointData[CubeSide.Left], 0, 0, UseDebugMode);
             }
 
             if (RotateParts)
@@ -140,11 +140,11 @@ namespace BoxBuilder
                 decimal rightTranslateX = padding + dimensionZ + padding + dimensionX + padding;
                 decimal rightTranslateY = padding + dimensionZ + padding;
 
-                AddPolygon(svgDoc, "Right", PointData[CubeSide.Right], rightTranslateX, rightTranslateY);
+                AddPolygon(svgDoc, "Right", PointData[CubeSide.Right], rightTranslateX, rightTranslateY, UseDebugMode);
             }
             else
             {
-                AddPolygon(svgDoc, "Right", PointData[CubeSide.Right], 0, 0);
+                AddPolygon(svgDoc, "Right", PointData[CubeSide.Right], 0, 0, UseDebugMode);
             }
 
             if (translatePieces)
@@ -152,11 +152,11 @@ namespace BoxBuilder
                 decimal frontTranslateX = padding + dimensionZ + padding;
                 decimal frontTranslateY = padding + dimensionZ + padding + dimensionY + padding;
 
-                AddPolygon(svgDoc, "Front", PointData[CubeSide.Front], frontTranslateX, frontTranslateY);
+                AddPolygon(svgDoc, "Front", PointData[CubeSide.Front], frontTranslateX, frontTranslateY, UseDebugMode);
             }
             else
             {
-                AddPolygon(svgDoc, "Front", PointData[CubeSide.Front], 0, 0);
+                AddPolygon(svgDoc, "Front", PointData[CubeSide.Front], 0, 0, UseDebugMode);
             }
 
             if (RotateParts)
@@ -172,11 +172,11 @@ namespace BoxBuilder
                 decimal backTranslateX = padding + dimensionZ + padding;
                 decimal backTranslateY = padding;
 
-                AddPolygon(svgDoc, "Back", PointData[CubeSide.Back], backTranslateX, backTranslateY);
+                AddPolygon(svgDoc, "Back", PointData[CubeSide.Back], backTranslateX, backTranslateY, UseDebugMode);
             }
             else
             {
-                AddPolygon(svgDoc, "Back", PointData[CubeSide.Back], 0, 0);
+                AddPolygon(svgDoc, "Back", PointData[CubeSide.Back], 0, 0, UseDebugMode);
             }
 
             if (PointData.ContainsKey(CubeSide.Top))
@@ -186,11 +186,11 @@ namespace BoxBuilder
 
                 if (translatePieces)
                 {
-                    AddPolygon(svgDoc, "Top", PointData[CubeSide.Top], topTranslateX, topTranslateY);
+                    AddPolygon(svgDoc, "Top", PointData[CubeSide.Top], topTranslateX, topTranslateY, UseDebugMode);
                 }
                 else
                 {
-                    AddPolygon(svgDoc, "Top", PointData[CubeSide.Top], 0, 0);
+                    AddPolygon(svgDoc, "Top", PointData[CubeSide.Top], 0, 0, UseDebugMode);
                 }
             }
 
@@ -241,7 +241,7 @@ namespace BoxBuilder
             }
         }
 
-        private void AddPolygon(XmlDocument Doc, string Id, List<Point> PointData, decimal TranslateX, decimal TranslateY)
+        private void AddPolygon(XmlDocument Doc, string Id, List<Point> PointData, decimal TranslateX, decimal TranslateY, bool UseDebugMode)
         {
             var group = Doc.CreateElement("g", "http://www.w3.org/2000/svg");
             Doc.DocumentElement.AppendChild(group);
@@ -252,7 +252,7 @@ namespace BoxBuilder
 
             AddPolygon(group, Id, PointData);
 
-            if (isInDebugMode)
+            if (UseDebugMode)
             {
                 // output debug information
                 AddPointOutput(PointData, group);

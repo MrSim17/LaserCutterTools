@@ -12,7 +12,7 @@ namespace BoxBuilderTests
     {
         internal static void RenderPiece(List<Point> PointData)
         {
-            IBoxPointRendererSVG renderer = new BoxPointRendererSVG(true);
+            IBoxPointRendererSVG renderer = new BoxPointRendererSVG();
             var output = renderer.RenderPoints(PointData);
 
             OutputFile(output);

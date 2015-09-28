@@ -4,8 +4,15 @@ using System.Collections.Generic;
 namespace BoxBuilder
 {
     /// <summary>
-    /// This class handles organizing the generation of the points and then passing them to the rendering engine to produce the final result.
-    /// Tihs class also has the responsibility of determining the start configurations for all the pieces to be rendered.
+    /// Overall this class organizes all the work into one single output.
+    /// 
+    /// Responsibilities:
+    /// 1. Manages all start configurations to make sure the pieces will fit together
+    /// 2. Runs Piece point generation
+    /// 3. Decides the divider size based on the slot direction
+    /// 4. Runs divider point generation
+    /// 5. Runs rendering
+    /// 
     /// </summary>
     internal sealed class BoxBuilderSVG : IBoxBuilderSVG
     {
