@@ -11,6 +11,7 @@ namespace BoxBuilder
     /// 1. Run generation for all box parts
     /// 2. Exclude pieces based on whether or not the box is open
     /// 3. Decide the slot width
+    /// 4. Translate dimensions based on the measurement model
     /// </summary>
     internal sealed class PointGeneratorBox : IPointGeneratorBox
     { 
@@ -47,6 +48,7 @@ namespace BoxBuilder
             Dictionary<CubeSide, List<Point>> ret = new Dictionary<CubeSide, List<Point>>();
             var adjustedBox = Box;
 
+            // Translate the dimensions if the inside measurement model is used
             if(Box.MeasurementModel == MeasurementModel.Inside)
             {
                 adjustedBox = new BoxSquare
@@ -116,6 +118,7 @@ namespace BoxBuilder
 
             var adjustedBox = Box;
 
+            // Translate the dimensions if the inside measurement model is used
             if (Box.MeasurementModel == MeasurementModel.Inside)
             {
                 adjustedBox = new BoxSquare
