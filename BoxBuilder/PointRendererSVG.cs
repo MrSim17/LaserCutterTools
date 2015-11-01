@@ -17,7 +17,7 @@ namespace BoxBuilder
     /// 4. Output debugging point values
     /// 5. Create a document to contain all parts in SVG format.
     /// </summary>
-    public sealed class BoxPointRendererSVG : IBoxPointRendererSVG
+    public sealed class PointRendererSVG : IPointRendererSVG
     {
         bool translatePieces = true; // TODO: TranslatePieces variable should be eliminated when moved out to separate component
         IColorProvider colorProvider;
@@ -29,13 +29,13 @@ namespace BoxBuilder
             set;
         }
 
-        public BoxPointRendererSVG(IColorProvider ColorProvider)
+        public PointRendererSVG(IColorProvider ColorProvider)
         {
             Logger = new NullLogger();
             colorProvider = ColorProvider;
         }
 
-        public BoxPointRendererSVG()
+        public PointRendererSVG()
         {
             colorProvider = new ColorProviderAllBlack();
         }

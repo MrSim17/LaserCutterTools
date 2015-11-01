@@ -13,7 +13,7 @@ namespace BoxBuilderTests
     [TestClass]
     public abstract class PiecePointGenerationTests
     {
-        internal abstract IPiecePointGenerator GetPointGenerator();
+        internal abstract IPointGeneratorPiece GetPointGenerator();
         internal abstract Common.ILogger GetLogger();
 
         // ============= Default No Tool Spacing ===============

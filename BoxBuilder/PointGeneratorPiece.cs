@@ -4,7 +4,7 @@ using Common;
 
 namespace BoxBuilder
 {
-    internal sealed class PiecePointGenerator : IPiecePointGenerator
+    internal sealed class PointGeneratorPiece : IPointGeneratorPiece
     {
         public List<Point> CreateTabedObject(decimal DimensionX, 
             decimal DimensionY, 

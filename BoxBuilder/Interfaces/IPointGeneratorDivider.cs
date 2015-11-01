@@ -2,7 +2,7 @@
 
 namespace BoxBuilder
 {
-    internal interface IDividerPointGenerator
+    internal interface IPointGeneratorDivider
     {
         /// <summary>
         /// 

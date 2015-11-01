@@ -46,22 +46,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxHandlerSquareAutoTab.cs" />
-    <Compile Include="BoxPointGenerator.cs" />
+    <Compile Include="PointGeneratorBox.cs" />
     <Compile Include="BoxSquare.cs" />
     <Compile Include="BoxBuilderFactory.cs" />
     <Compile Include="BoxBuilderSVG.cs" />
-    <Compile Include="BoxPointRendererSVG.cs" />
-    <Compile Include="DividerPointGenerator.cs" />
-    <Compile Include="Interfaces\IBoxPointRendererSVG.cs" />
-    <Compile Include="Interfaces\IDividerPointGenerator.cs" />
-    <Compile Include="PiecePointGenerator.cs" />
+    <Compile Include="PointRendererSVG.cs" />
+    <Compile Include="PointGeneratorDivider.cs" />
+    <Compile Include="Interfaces\IPointRendererSVG.cs" />
+    <Compile Include="Interfaces\IPointGeneratorDivider.cs" />
+    <Compile Include="PointGeneratorPiece.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Interfaces\IBoxBuilderSVG.cs" />
-    <Compile Include="Interfaces\IBoxPointGenerator.cs" />
+    <Compile Include="Interfaces\IPointGeneratorBox.cs" />
     <Compile Include="Interfaces\IBoxSquare.cs" />
     <Compile Include="Interfaces\IMachineSettings.cs" />
     <Compile Include="Interfaces\IMaterial.cs" />
-    <Compile Include="Interfaces\IPiecePointGenerator.cs" />
+    <Compile Include="Interfaces\IPointGeneratorPiece.cs" />
     <Compile Include="MachineSettings.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Point.cs" />

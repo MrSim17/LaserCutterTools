@@ -5,10 +5,10 @@ namespace BoxBuilder
 {
     public sealed class BoxBuilderFactory
     {
-        internal static IBoxPointGenerator GetBoxPointGenerator(ILogger Logger)
+        internal static IPointGeneratorBox GetBoxPointGenerator(ILogger Logger)
         {
-            IPiecePointGenerator piecePointGen = new PiecePointGenerator();
-            IBoxPointGenerator pointGen = new BoxPointGenerator(piecePointGen, Logger);
+            IPointGeneratorPiece piecePointGen = new PointGeneratorPiece();
+            IPointGeneratorBox pointGen = new PointGeneratorBox(piecePointGen, Logger);
 
             return pointGen;
         }
@@ -16,9 +16,9 @@ namespace BoxBuilder
         public static IBoxBuilderSVG GetBoxBuilder(ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
-            IBoxPointRendererSVG pointRender = new BoxPointRendererSVG(colorProvider);
-            IBoxPointGenerator pointGen = GetBoxPointGenerator(Logger);
-            IDividerPointGenerator dividerGenerator = new DividerPointGenerator();
+            IPointRendererSVG pointRender = new PointRendererSVG(colorProvider);
+            IPointGeneratorBox pointGen = GetBoxPointGenerator(Logger);
+            IPointGeneratorDivider dividerGenerator = new PointGeneratorDivider();
 
             IBoxBuilderSVG handler = new BoxBuilderSVG(pointGen,
                 pointRender,

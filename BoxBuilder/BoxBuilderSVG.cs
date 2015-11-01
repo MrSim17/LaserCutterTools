@@ -16,12 +16,12 @@ namespace BoxBuilder
     /// </summary>
     internal sealed class BoxBuilderSVG : IBoxBuilderSVG
     {
-        IBoxPointGenerator pointGenerator;
-        IBoxPointRendererSVG pointRenderer;
-        IDividerPointGenerator dividerGenerator;
+        IPointGeneratorBox pointGenerator;
+        IPointRendererSVG pointRenderer;
+        IPointGeneratorDivider dividerGenerator;
         ILogger logger;
 
-        public BoxBuilderSVG(IBoxPointGenerator PointGenerator, IBoxPointRendererSVG PointRenderer, IDividerPointGenerator DividerGenerator, ILogger Logger = null)
+        public BoxBuilderSVG(IPointGeneratorBox PointGenerator, IPointRendererSVG PointRenderer, IPointGeneratorDivider DividerGenerator, ILogger Logger = null)
         {
             pointGenerator = PointGenerator;
             pointRenderer = PointRenderer;

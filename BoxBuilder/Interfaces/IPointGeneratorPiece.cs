@@ -3,7 +3,7 @@ using Common;
 
 namespace BoxBuilder
 {
-    interface IPiecePointGenerator
+    interface IPointGeneratorPiece
     {
         List<Point> CreateTabedObject
             (

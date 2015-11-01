@@ -17,9 +17,9 @@ namespace BoxBuilderTests
             return new NullLogger();
         }
 
-        internal override IPiecePointGenerator GetPointGenerator()
+        internal override IPointGeneratorPiece GetPointGenerator()
         {
-            return new PiecePointGenerator();
+            return new PointGeneratorPiece();
         }
     }
 }

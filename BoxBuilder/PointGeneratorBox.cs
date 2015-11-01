@@ -12,11 +12,11 @@ namespace BoxBuilder
     /// 2. Exclude pieces based on whether or not the box is open
     /// 3. Decide the slot width
     /// </summary>
-    internal sealed class BoxPointGenerator : IBoxPointGenerator
+    internal sealed class PointGeneratorBox : IPointGeneratorBox
     { 
         ILogger logger = new NullLogger();
 
-        public IPiecePointGenerator PiecePointGenerator { get; set; }
+        public IPointGeneratorPiece PiecePointGenerator { get; set; }
 
         public ILogger Logger
         {
@@ -24,12 +24,12 @@ namespace BoxBuilder
             set { logger = value; }
         }
 
-        public BoxPointGenerator(IPiecePointGenerator PiecePointGenerator)
+        public PointGeneratorBox(IPointGeneratorPiece PiecePointGenerator)
         {
             this.PiecePointGenerator = PiecePointGenerator;
         }
 
-        public BoxPointGenerator(IPiecePointGenerator PiecePointGenerator, ILogger Logger)
+        public PointGeneratorBox(IPointGeneratorPiece PiecePointGenerator, ILogger Logger)
         {
             this.PiecePointGenerator = PiecePointGenerator;
             this.logger = Logger;
