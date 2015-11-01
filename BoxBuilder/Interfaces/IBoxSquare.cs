@@ -19,5 +19,10 @@
         /// Z dimension in inches.
         /// </summary>
         decimal DimensionZ { get; set; }
+
+        /// <summary>
+        /// Determines whether or not the measurements are from the outer edges or inner edges of the box.
+        /// </summary>
+        MeasurementModel MeasurementModel { get; set; }
     }
 }

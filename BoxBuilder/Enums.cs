@@ -42,4 +42,18 @@
     {
         Divider
     }
+
+    public enum MeasurementModel
+    {
+        /// <summary>
+        /// Measurements are for the inside capacity of the box. Dimensions are measured from the inside edges.
+        /// This means that the box will fit these measurements inside of the box.
+        /// </summary>
+        Inside,
+        /// <summary>
+        /// Measurements are for the outside bounds of the box. Dimensions are measured from the outside edges.
+        /// This means that the box will be this size and fit into that measurement if placed in something else.
+        /// </summary>
+        Outside
+    }
 }
