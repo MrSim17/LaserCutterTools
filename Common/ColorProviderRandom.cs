@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace ColorProvider
+namespace LaserCutterTools.Common.ColorMgmt
 {
     public sealed class ColorProviderRandom : IColorProvider
     {

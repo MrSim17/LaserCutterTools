@@ -1,6 +1,6 @@
-﻿using ColorProvider;
-using Common;
+﻿using LaserCutterTools.Common.ColorMgmt;
 using LaserCutterTools.Common.Rendering;
+using LaserCutterTools.Common.Logging;
 
 namespace BoxBuilder
 {

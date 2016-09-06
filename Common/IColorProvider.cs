@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ColorProvider
+namespace LaserCutterTools.Common.ColorMgmt
 {
     public interface IColorProvider
     {

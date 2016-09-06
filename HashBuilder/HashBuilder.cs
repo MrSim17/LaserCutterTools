@@ -1,7 +1,7 @@
 ﻿using SvgNet.SvgElements;
 using System.Drawing; // TODO: Get rid of useless SVG library. Generates unreliable results!
-using ColorProvider;
-using Common;
+using LaserCutterTools.Common.ColorMgmt;
+using LaserCutterTools.Common.Logging;
 
 namespace HashBuilder
 {
@@ -20,7 +20,7 @@ namespace HashBuilder
 
         public HashBuilder()
         {
-            colorProvider = new ColorProvider.ColorProviderAlternating();
+            colorProvider = new ColorProviderAlternating();
             logger = new StringLogger();
         }
 

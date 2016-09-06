@@ -1,6 +1,6 @@
-﻿using Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LaserCutterTools.Common;
+using LaserCutterTools.Common.Logging;
 
 namespace BoxBuilder
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
 using BoxBuilder;
-using System.Collections.Generic;
+using LaserCutterTools.Common.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxBuilderTests
 {
@@ -13,7 +13,7 @@ namespace BoxBuilderTests
     public abstract class PiecePointGenerationTests
     {
         internal abstract IPointGeneratorPiece GetPointGenerator();
-        internal abstract Common.ILogger GetLogger();
+        internal abstract ILogger GetLogger();
 
         // ============= Default No Tool Spacing ===============
         [TestMethod]

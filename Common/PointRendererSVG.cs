@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using ColorProvider;
+using LaserCutterTools.Common.ColorMgmt;
 
 namespace LaserCutterTools.Common.Rendering
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using BoxBuilder;
-using ColorProvider;
-using Common;
+using LaserCutterTools.Common.Logging;
+using LaserCutterTools.Common.ColorMgmt;
 
 namespace NathanSVGTest
 {
