@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelperMethods.cs" />
     <Compile Include="PointGeneratorBox.cs" />
     <Compile Include="BoxSquare.cs" />
     <Compile Include="BoxBuilderFactory.cs" />

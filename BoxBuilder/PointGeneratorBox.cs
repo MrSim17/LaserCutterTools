@@ -15,25 +15,20 @@ namespace BoxBuilder
     /// </summary>
     internal sealed class PointGeneratorBox : IPointGeneratorBox
     { 
-        ILogger logger = new NullLogger();
-
         public IPointGeneratorPiece PiecePointGenerator { get; set; }
 
-        public ILogger Logger
-        {
-            get { return logger; }
-            set { logger = value; }
-        }
+        public ILogger Logger { get; set; }
 
         public PointGeneratorBox(IPointGeneratorPiece PiecePointGenerator)
         {
+            Logger = new NullLogger();
             this.PiecePointGenerator = PiecePointGenerator;
         }
 
         public PointGeneratorBox(IPointGeneratorPiece PiecePointGenerator, ILogger Logger)
         {
             this.PiecePointGenerator = PiecePointGenerator;
-            this.logger = Logger;
+            this.Logger = Logger;
         }
 
         public Dictionary<CubeSide, List<Point>> GeneratePoints(StartPositionConfiguration StartConfig, 
