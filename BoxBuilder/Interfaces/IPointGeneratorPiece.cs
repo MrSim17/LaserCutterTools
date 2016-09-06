@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LaserCutterTools.Common;
 using Common;
 
 namespace BoxBuilder

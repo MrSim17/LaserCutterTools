@@ -1,4 +1,4 @@
-﻿namespace BoxBuilder
+﻿namespace LaserCutterTools.Common
 {
     public struct Point
     {

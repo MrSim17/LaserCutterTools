@@ -50,9 +50,9 @@
     <Compile Include="BoxSquare.cs" />
     <Compile Include="BoxBuilderFactory.cs" />
     <Compile Include="BoxBuilderSVG.cs" />
-    <Compile Include="PointRendererSVG.cs" />
+    <Compile Include="PointRendererBoxSVG.cs" />
     <Compile Include="PointGeneratorDivider.cs" />
-    <Compile Include="Interfaces\IPointRendererSVG.cs" />
+    <Compile Include="Interfaces\IPointRendererBoxSVG.cs" />
     <Compile Include="Interfaces\IPointGeneratorDivider.cs" />
     <Compile Include="PointGeneratorPiece.cs" />
     <Compile Include="Enums.cs" />
@@ -64,7 +64,6 @@
     <Compile Include="Interfaces\IPointGeneratorPiece.cs" />
     <Compile Include="MachineSettings.cs" />
     <Compile Include="Material.cs" />
-    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartPositionConfiguration.cs" />
   </ItemGroup>

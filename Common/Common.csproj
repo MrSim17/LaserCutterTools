@@ -50,6 +50,9 @@
     <Compile Include="ColorProviderRandom.cs" />
     <Compile Include="IColorProvider.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="IPointRendererSVG.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="PointRendererSVG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

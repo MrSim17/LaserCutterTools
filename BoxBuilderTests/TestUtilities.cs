@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BoxBuilder;
+using LaserCutterTools.Common;
+using LaserCutterTools.Common.Rendering;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxBuilderTests

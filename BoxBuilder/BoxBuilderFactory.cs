@@ -1,5 +1,6 @@
 ﻿using ColorProvider;
 using Common;
+using LaserCutterTools.Common.Rendering;
 
 namespace BoxBuilder
 {
@@ -16,7 +17,7 @@ namespace BoxBuilder
         public static IBoxBuilderSVG GetBoxBuilder(ILogger Logger)
         {
             IColorProvider colorProvider = new ColorProviderAllDifferent();
-            IPointRendererSVG pointRender = new PointRendererSVG(colorProvider);
+            IPointRendererBoxSVG pointRender = new PointRendererBoxSVG(new PointRendererSVG(colorProvider));
             IPointGeneratorBox pointGen = GetBoxPointGenerator(Logger);
             IPointGeneratorDivider dividerGenerator = new PointGeneratorDivider();
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BoxBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LaserCutterTools.Common;
 
 namespace BoxBuilderTests
 {

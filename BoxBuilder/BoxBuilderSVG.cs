@@ -1,5 +1,6 @@
 ﻿using Common;
 using System.Collections.Generic;
+using LaserCutterTools.Common;
 
 namespace BoxBuilder
 {
@@ -17,11 +18,11 @@ namespace BoxBuilder
     internal sealed class BoxBuilderSVG : IBoxBuilderSVG
     {
         IPointGeneratorBox pointGenerator;
-        IPointRendererSVG pointRenderer;
+        IPointRendererBoxSVG pointRenderer;
         IPointGeneratorDivider dividerGenerator;
         ILogger logger;
 
-        public BoxBuilderSVG(IPointGeneratorBox PointGenerator, IPointRendererSVG PointRenderer, IPointGeneratorDivider DividerGenerator, ILogger Logger = null)
+        public BoxBuilderSVG(IPointGeneratorBox PointGenerator, IPointRendererBoxSVG PointRenderer, IPointGeneratorDivider DividerGenerator, ILogger Logger = null)
         {
             pointGenerator = PointGenerator;
             pointRenderer = PointRenderer;
