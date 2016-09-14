@@ -44,36 +44,46 @@ namespace GearBuilder
             return new PolarPointDouble(r, a);
         }
 
-        public List<Point> createGear(double NumTeeth, double Diameter, double Pitch, double PressureAngle)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NumTeeth"></param>
+        /// <param name="PitchDiameter">Circle centered on and perpendicular to the axis, and passing through the pitch point. A predefined diametral position on the gear where the circular tooth thickness, pressure angle and helix angles are defined.</param>
+        /// <param name="DiametralPitch">Ratio of the number of teeth to the pitch diameter</param>
+        /// <param name="PressureAngle">The complement of the angle between the direction that the teeth exert force on each other, and the line joining the centers of the two gears. For involute gears, the teeth always exert force along the line of action, which, for involute gears, is a straight line; and thus, for involute gears, the pressure angle is constant.</param>
+        /// <returns></returns>
+        public Dictionary<string, List<Point>> createGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle)
         {
-            double sc = 100;
-            double A = 1 / Pitch;
-            double B = 1.157 / Pitch;
-            double OD = (NumTeeth + 2) / Pitch;
-            double RD = (NumTeeth - 2.3) / Pitch;
-            double BC = Diameter * Math.Cos(PressureAngle * (Math.PI / 180));
-            double CP = Math.PI / Pitch;
+            // Reference: http://westmichiganspline.com/theory/
+
+            double scale = 100;
+            double outerCircleDiameter = (NumTeeth + 2) / DiametralPitch;
+            double RD = (NumTeeth - 2.3) / DiametralPitch;
+            // base circle is used to draw the involute
+            //base diameter = pitch diameter x the cosine of the pressure angle
+            double baseCircleDiameter = PitchDiameter * Math.Cos(PressureAngle * (Math.PI / 180));
+            double CP = Math.PI / DiametralPitch;
             double rmin = RD / 2;
-            double rmax = OD / 2;
-            double rbase = BC / 2;
+            double rmax = outerCircleDiameter / 2;
+            double baseCircleRadius = baseCircleDiameter / 2;
             var points = new List<PolarPointDouble>();
-            double ac = 0;
-            double aca = 0;
-            double w = Math.Ceiling(OD / 2 * sc) * 2;
+            double angleCurrent = 0;
+            double w = Math.Ceiling(outerCircleDiameter / 2 * scale) * 2;
             double h = w;
 
             // calc
             points.Add(new PolarPointDouble(rmin, 0));
 
-            int pn = 0;
+            int pointNum = 0;
             double step = 1;
             bool first = true;
 
             for (double i = 1; i < 100; i += step)
             {
                 // get a point...
-                var bpl = polarToLinear(new PolarPointDouble(rbase, -i));        //base point linear
-                var len = ((rbase * Math.PI * 2) / 360) * i;                //length
+                var bpl = polarToLinear(new PolarPointDouble(baseCircleRadius, -i));        //base point linear
+                // The length is the arc around the circle unwound (2*PI*R) divided into 360 parts then multiplied times the step we made
+                var len = ((baseCircleRadius * Math.PI * 2) / 360) * i;                //length
                 var opl = polarToLinear(new PolarPointDouble(len, -i + 90));      //add line
                 var np = linearToPolar(new PointDouble(bpl.X + opl.X, bpl.Y + opl.Y));
 
@@ -85,13 +95,12 @@ namespace GearBuilder
                         step = (2 / NumTeeth) * 10;
                     }
 
-                    if (np.R < Diameter / 2)
+                    if (np.R < PitchDiameter / 2)
                     {
-                        ac = np.A;
-                        aca = i;
+                        angleCurrent = np.A;
                     }
 
-                    pn++;
+                    pointNum++;
 
                     if (np.R > rmax)
                     {
@@ -107,7 +116,7 @@ namespace GearBuilder
 
             // tukrozes
             double fa = 360 / NumTeeth;                       // final a
-            double ma = fa / 2 + 2 * ac;               // mirror a
+            double ma = fa / 2 + 2 * angleCurrent;               // mirror a
             double fpa = (fa - ma) > 0 ? 0 : -(fa - ma) / 2;   // first point a
             int m = points.Count;
             points[0] = new PolarPointDouble(rmin, fpa);           // fix first point a
@@ -116,14 +125,15 @@ namespace GearBuilder
             {
                 points.RemoveAt(m - 1);
                 m--;
-                pn--;
+                pointNum--;
             }
 
-            for (int i = pn; i >= 0; i--)
+            // mirror the first set of involute generated points
+            for (int i = pointNum; i >= 0; i--)
             {
-                var bp = points[i];
-                var na = ma - bp.A;
-                points.Add(new PolarPointDouble(bp.R, na));
+                var pointToMirror = points[i];
+                var newAngle = ma - pointToMirror.A;
+                points.Add(new PolarPointDouble(pointToMirror.R, newAngle));
             }
 
             // Copy the first tooth around the gear
@@ -140,12 +150,54 @@ namespace GearBuilder
             }
 
             // Convert the points from doubles to decimals for rendering
-            var output = new List<Point>();
+            var gearPoly = ConvertDoubleToDecimal(ConvertPolarPointsToLinear(points));
+            var outerCirclePoly = ConvertDoubleToDecimal(DrawCircle(rmax, new PointDouble(0, 0), 1000));
+            var rMinCircle = ConvertDoubleToDecimal(DrawCircle(rmin, new PointDouble(0, 0), 1000));
+            var baseCircle = ConvertDoubleToDecimal(DrawCircle(baseCircleRadius, new PointDouble(0, 0), 1000));
+            var pitchDiameterCircle = ConvertDoubleToDecimal(DrawCircle(PitchDiameter/2, new PointDouble(0, 0), 1000));
 
-            foreach(var p in points)
+            var ret = new Dictionary<string, List<Point>>();
+            ret.Add("Gear", gearPoly);
+            ret.Add("OuterCircle", outerCirclePoly);
+            ret.Add("RMin", rMinCircle);
+            ret.Add("BaseCircle", baseCircle);
+            ret.Add("PitchDiameterCircle", pitchDiameterCircle);
+
+            return ret;
+        }
+
+        private static List<PointDouble> DrawCircle(double Radius, PointDouble Center, int PointCount)
+        {
+            List<PolarPointDouble> points = new List<PolarPointDouble>();
+
+            for(int i = 0; i < PointCount; i++)
+            {
+                points.Add(new PolarPointDouble(Radius, (360/(double)PointCount) * i));
+            }
+
+            return ConvertPolarPointsToLinear(points);
+        }
+
+        private static List<PointDouble> ConvertPolarPointsToLinear(List<PolarPointDouble> Points)
+        {
+            var output = new List<PointDouble>();
+
+            foreach (var p in Points)
             {
                 var linearPoint = polarToLinear(p);
-                output.Add(new Point((decimal)linearPoint.X, (decimal)linearPoint.Y));
+                output.Add(new PointDouble(linearPoint.X, linearPoint.Y));
+            }
+
+            return output;
+        }
+
+        private static List<Point> ConvertDoubleToDecimal(List<PointDouble> Points)
+        {
+            var output = new List<Point>();
+
+            foreach (var p in Points)
+            {
+                output.Add(new Point((decimal)p.X, (decimal)p.Y));
             }
 
             return output;
