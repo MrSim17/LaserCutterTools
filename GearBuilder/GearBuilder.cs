@@ -13,8 +13,9 @@ namespace GearBuilder
             double x;
             double y;
 
-            double AM = 180 / Math.PI;
-            a = ((a + 360) % 360) / AM;
+            // Reference: http://www.purplemath.com/modules/radians.htm
+            double AM = Math.PI / 180; // used to convert degrees to radians
+            a = ((a + 360) % 360) * AM;
 
             x = Math.Cos(a) * r;
             y = -Math.Sin(a) * r;
@@ -29,7 +30,8 @@ namespace GearBuilder
             double r;
             double a;
 
-            double AM = 180 / Math.PI;
+            // Reference: http://www.purplemath.com/modules/radians.htm
+            double AM = 180 / Math.PI; // used to convert radians to degrees
 
             r = Math.Sqrt(x * x + y * y);
             a = Math.Asin(y / r) * AM;
@@ -55,21 +57,28 @@ namespace GearBuilder
         public Dictionary<string, List<Point>> createGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle)
         {
             // Reference: http://westmichiganspline.com/theory/
+            // Reference: http://www.om-entp.com/pdf/gear_basics.pdf
+            // REference: https://en.wikipedia.org/wiki/Gear
 
-            double scale = 100;
+            // TODO: Figure out why these two variables use constants
             double outerCircleDiameter = (NumTeeth + 2) / DiametralPitch;
-            double RD = (NumTeeth - 2.3) / DiametralPitch;
+            double rootCircleDiameter = (NumTeeth - 2.3) / DiametralPitch;
             // base circle is used to draw the involute
             //base diameter = pitch diameter x the cosine of the pressure angle
+            // math.pi / 180 is to convert degrees into radians
+            // MSDN says COS only accepts radians
+            // https://msdn.microsoft.com/en-us/library/system.math.cos(v=vs.110).aspx
             double baseCircleDiameter = PitchDiameter * Math.Cos(PressureAngle * (Math.PI / 180));
-            double CP = Math.PI / DiametralPitch;
-            double rmin = RD / 2;
-            double rmax = outerCircleDiameter / 2;
             double baseCircleRadius = baseCircleDiameter / 2;
+            double rmin = rootCircleDiameter / 2;
+            double rmax = outerCircleDiameter / 2;
             var points = new List<PolarPointDouble>();
             double angleCurrent = 0;
-            double w = Math.Ceiling(outerCircleDiameter / 2 * scale) * 2;
-            double h = w;
+
+            // Originally used for SVG generation
+            //double scale = 100;
+            //double width = Math.Ceiling(outerCircleDiameter / 2 * scale) * 2;
+            //double height = width;
 
             // calc
             points.Add(new PolarPointDouble(rmin, 0));
@@ -149,6 +158,7 @@ namespace GearBuilder
                 }
             }
 
+            // TODO: Translate the gear to be in quadrant 1
             // Convert the points from doubles to decimals for rendering
             var gearPoly = ConvertDoubleToDecimal(ConvertPolarPointsToLinear(points));
             var outerCirclePoly = ConvertDoubleToDecimal(DrawCircle(rmax, new PointDouble(0, 0), 1000));
