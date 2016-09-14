@@ -99,5 +99,15 @@ namespace NathanSVGTest
             textBox1.Text = ((StringLogger)builder.Logger).Log;
             OutputFile(hash);
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var gb = new GearBuilder.GearBuilder();
+            var points = gb.createGear(20, 5, 4, 27);
+
+            var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
+            var output = r.RenderPoints(points);
+            OutputFile(output);
+        }
     }
 }

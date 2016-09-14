@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxBuilderTests", "BoxBuilderTests\BoxBuilderTests.csproj", "{046787F6-B784-488F-9CEB-306DC0CBD2FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GearBuilder", "GearBuilder\GearBuilder.csproj", "{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,18 @@ Global
 		{046787F6-B784-488F-9CEB-306DC0CBD2FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{046787F6-B784-488F-9CEB-306DC0CBD2FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{046787F6-B784-488F-9CEB-306DC0CBD2FA}.Release|x86.Build.0 = Release|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
