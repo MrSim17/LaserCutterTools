@@ -102,9 +102,9 @@ namespace NathanSVGTest
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            var gb = new GearBuilder.GearBuilder();
+            var gb = new GearBuilder.PointGeneratorGear();
             // modifying only the pressure angle changes the tooth profile and changes the radius of the base circle
-            var points = gb.createGear(16, 4, 4, 27);
+            var points = gb.createGear(16, 4, 4, 15, true);
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
             var output = r.RenderPoints(points);

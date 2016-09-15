@@ -4,7 +4,7 @@ using LaserCutterTools.Common;
 
 namespace GearBuilder
 {
-    public class GearBuilder
+    public sealed class PointGeneratorGear : IPointGeneratorGear
     {
         private static PointDouble polarToLinear(PolarPointDouble p)
         {
@@ -54,7 +54,7 @@ namespace GearBuilder
         /// <param name="DiametralPitch">Ratio of the number of teeth to the pitch diameter</param>
         /// <param name="PressureAngle">The complement of the angle between the direction that the teeth exert force on each other, and the line joining the centers of the two gears. For involute gears, the teeth always exert force along the line of action, which, for involute gears, is a straight line; and thus, for involute gears, the pressure angle is constant.</param>
         /// <returns></returns>
-        public Dictionary<string, List<Point>> createGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle)
+        public Dictionary<string, List<Point>> createGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle, bool Debug = false)
         {
             // Reference: http://westmichiganspline.com/theory/
             // Reference: http://www.om-entp.com/pdf/gear_basics.pdf
@@ -161,17 +161,25 @@ namespace GearBuilder
             // TODO: Translate the gear to be in quadrant 1
             // Convert the points from doubles to decimals for rendering
             var gearPoly = ConvertDoubleToDecimal(ConvertPolarPointsToLinear(points));
-            var outerCirclePoly = ConvertDoubleToDecimal(DrawCircle(rmax, new PointDouble(0, 0), 1000));
-            var rMinCircle = ConvertDoubleToDecimal(DrawCircle(rmin, new PointDouble(0, 0), 1000));
-            var baseCircle = ConvertDoubleToDecimal(DrawCircle(baseCircleRadius, new PointDouble(0, 0), 1000));
-            var pitchDiameterCircle = ConvertDoubleToDecimal(DrawCircle(PitchDiameter/2, new PointDouble(0, 0), 1000));
+
+            var minX = Math.Abs(HelperMethods.GetValueMinX(gearPoly));
+            var minY = Math.Abs(HelperMethods.GetValueMinY(gearPoly));
 
             var ret = new Dictionary<string, List<Point>>();
-            ret.Add("Gear", gearPoly);
-            ret.Add("OuterCircle", outerCirclePoly);
-            ret.Add("RMin", rMinCircle);
-            ret.Add("BaseCircle", baseCircle);
-            ret.Add("PitchDiameterCircle", pitchDiameterCircle);
+            ret.Add("Gear", HelperMethods.TranslatePolygon(minX, minY, gearPoly));
+
+            if (Debug)
+            {
+                var outerCirclePoly = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(rmax, new PointDouble(0, 0), 1000)));
+                var rMinCircle = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(rmin, new PointDouble(0, 0), 1000)));
+                var baseCircle = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(baseCircleRadius, new PointDouble(0, 0), 1000)));
+                var pitchDiameterCircle = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(PitchDiameter / 2, new PointDouble(0, 0), 1000)));
+
+                ret.Add("OuterCircle", outerCirclePoly);
+                ret.Add("RMin", rMinCircle);
+                ret.Add("BaseCircle", baseCircle);
+                ret.Add("PitchDiameterCircle", pitchDiameterCircle);
+            }
 
             return ret;
         }

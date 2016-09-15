@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GearBuilder.cs" />
+    <Compile Include="IPointGeneratorGear.cs" />
+    <Compile Include="PointGeneratorGear.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

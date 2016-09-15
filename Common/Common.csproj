@@ -48,6 +48,7 @@
     <Compile Include="ColorProviderAllDifferent.cs" />
     <Compile Include="ColorProviderAlternating.cs" />
     <Compile Include="ColorProviderRandom.cs" />
+    <Compile Include="HelperMethods.cs" />
     <Compile Include="IColorProvider.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IPointRendererSVG.cs" />

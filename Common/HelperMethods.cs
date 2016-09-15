@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LaserCutterTools.Common;
 
-namespace BoxBuilder
+namespace LaserCutterTools.Common
 {
-    internal sealed class HelperMethods
+    public sealed class HelperMethods
     {
         public static List<Point> RotatePolygon(decimal RotationDegrees)
         {
@@ -70,12 +69,49 @@ namespace BoxBuilder
             return newPolygon;
         }
 
+        public static List<Point> TranslatePolygon(decimal X, decimal Y, List<Point> Polygon)
+        {
+            var ret = new List<Point>();
+
+            foreach(var p in Polygon)
+            {
+                ret.Add(new Point(p.X + X, p.Y + Y));
+            }
+
+            return ret;
+        }
+
+        public static List<PointDouble> TranslatePolygon(double X, double Y, List<PointDouble> Polygon)
+        {
+            var ret = new List<PointDouble>();
+
+            foreach (var p in Polygon)
+            {
+                ret.Add(new PointDouble(p.X + X, p.Y + Y));
+            }
+
+            return ret;
+        }
+
         internal static Point GetPolygonDimension(List<Point> PointData)
         {
             return new Point(GetPolygonDimensionX(PointData), GetPolygonDimensionY(PointData));
         }
 
+        internal static PointDouble GetPolygonDimension(List<PointDouble> PointData)
+        {
+            return new PointDouble(GetPolygonDimensionX(PointData), GetPolygonDimensionY(PointData));
+        }
+
         internal static decimal GetPolygonDimensionX(List<Point> PointData)
+        {
+            var minX = GetValueMinX(PointData);
+            var maxX = GetValueMaxX(PointData);
+
+            return Math.Abs(maxX - minX);
+        }
+
+        internal static double GetPolygonDimensionX(List<PointDouble> PointData)
         {
             var minX = GetValueMinX(PointData);
             var maxX = GetValueMaxX(PointData);
@@ -91,7 +127,20 @@ namespace BoxBuilder
             return Math.Abs(maxY - minY);
         }
 
+        internal static double GetPolygonDimensionY(List<PointDouble> PointData)
+        {
+            var minY = GetValueMinY(PointData);
+            var maxY = GetValueMaxY(PointData);
+
+            return Math.Abs(maxY - minY);
+        }
+
         internal static decimal GetValueMaxX(List<Point> PointData)
+        {
+            return PointData.Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
+        }
+
+        internal static double GetValueMaxX(List<PointDouble> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
         }
@@ -101,15 +150,29 @@ namespace BoxBuilder
             return PointData.Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
         }
 
-        internal static decimal GetValueMinX(List<Point> PointData)
+        internal static double GetValueMaxY(List<PointDouble> PointData)
+        {
+            return PointData.Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
+        }
+
+        public static decimal GetValueMinX(List<Point> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
         }
 
-        internal static decimal GetValueMinY(List<Point> PointData)
+        public static double GetValueMinX(List<PointDouble> PointData)
+        {
+            return PointData.Aggregate((curMin, newPoint) => curMin.X <= newPoint.X ? curMin : newPoint).X;
+        }
+
+        public static decimal GetValueMinY(List<Point> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
         }
 
+        public static double GetValueMinY(List<PointDouble> PointData)
+        {
+            return PointData.Aggregate((curMin, newPoint) => curMin.Y <= newPoint.Y ? curMin : newPoint).Y;
+        }
     }
 }
