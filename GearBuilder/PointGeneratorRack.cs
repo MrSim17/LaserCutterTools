@@ -10,6 +10,20 @@ namespace LaserCutterTools.GearBuilder
     {
         // TODO: Account for tool width
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NumTeeth">Number of teeth on the rack. Determines the length of the rack.</param>
+        /// <param name="PressureAngle"></param>
+        /// <param name="circularPitch">Circumference of the pitch circle divided by the number of teeth.</param>
+        /// <param name="Backlash">Minimal distance between meshing gears.</param>
+        /// <param name="Clearance">Minimal distance between the apex of a tooth and the trough of the other gear.</param>
+        /// <param name="Addendum"></param>
+        /// <param name="SupportBarWidth">Thickness of the material attached to the rack teeth.</param>
+        /// <param name="SlotDepth">Depth of the slot.</param>
+        /// <param name="MaterialThickness">Thickness of the material used to make this part.</param>
+        /// <param name="ToolSpacing">Width of the tool used to cut this part.</param>
+        /// <returns></returns>
         public List<PointDouble> CreateRackWithSlots(int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth, double SlotDepth, double MaterialThickness, double ToolSpacing)
         {
             var tmpRack = CreateRack(NumTeeth, PressureAngle, circularPitch, Backlash, Clearance, Addendum, SupportBarWidth);
@@ -31,12 +45,16 @@ namespace LaserCutterTools.GearBuilder
         }
 
         /// <summary>
-        /// NOTE: This part ends at (0,0)
+        /// 
         /// </summary>
-        /// <param name="PressureAngle">Common values are 14.5, 20 and 25 degrees.</param>
-        /// <param name="circularPitch">The circumference of the pitch circle divided by the number of teeth.</param>
+        /// <param name="NumTeeth">Number of teeth on the rack. Determines the length of the rack.</param>
+        /// <param name="PressureAngle"></param>
+        /// <param name="circularPitch">Circumference of the pitch circle divided by the number of teeth.</param>
+        /// <param name="Backlash">Minimal distance between meshing gears.</param>
+        /// <param name="Clearance">Minimal distance between the apex of a tooth and the trough of the other gear.</param>
+        /// <param name="Addendum"></param>
+        /// <param name="SupportBarWidth">Thickness of the material attached to the rack teeth.</param>
         /// <returns></returns>
-
         public List<PointDouble> CreateRack(int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth)
         {
             List<PointDouble> rack = new List<PointDouble>();
