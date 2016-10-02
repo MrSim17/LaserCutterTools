@@ -6,6 +6,27 @@ namespace LaserCutterTools.Common
 {
     public sealed class HelperMethods
     {
+        public static List<PointDouble> MovePolygonToQuadrantOne(List<PointDouble> Polygon)
+        {
+            double translateX = 0;
+            double translateY = 0;
+
+            double minX = GetValueMinX(Polygon);
+            double minY = GetValueMinY(Polygon);
+
+            if(minX < 0)
+            {
+                translateX = Math.Abs(minX);
+            }
+
+            if(minY < 0)
+            {
+                translateY = Math.Abs(minY);
+            }
+
+            return HelperMethods.TranslatePolygon(translateX, translateY, Polygon);
+        }
+
         public static List<Point> ConvertDoubleToDecimal(List<PointDouble> Points)
         {
             var output = new List<Point>();

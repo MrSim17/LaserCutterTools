@@ -44,10 +44,7 @@ namespace GearBuilder
 
             // move part to quadrant 1
             // TODO: This may be unnecessary if the above loop is fixed. A bit of amasking of strange calculations above.
-            var translateX = HelperMethods.GetValueMinX(rack);
-            var translateY = HelperMethods.GetValueMinY(rack);
-
-            return HelperMethods.TranslatePolygon(Math.Abs(translateX), Math.Abs(translateY), rack);
+            return HelperMethods.MovePolygonToQuadrantOne(rack);
         }
 
         private static List<PointDouble> createRackTooth(double PressureAngle, double CircularPitch, double Clearance, double Backlash, double Addendum)

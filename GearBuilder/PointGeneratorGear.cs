@@ -158,7 +158,6 @@ namespace GearBuilder
                 }
             }
 
-            // TODO: Translate the gear to be in quadrant 1
             // Convert the points from doubles to decimals for rendering
             var gearPoly = HelperMethods.ConvertDoubleToDecimal(ConvertPolarPointsToLinear(points));
 
