@@ -122,6 +122,9 @@ namespace NathanSVGTest
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
+            IPointGeneratorGuard guardGenerator = new PointGeneratorGuard();
+            IPointGeneratorRack rackGenerator = new PointGeneratorRack();
+
             var material = new Material();
             material.MaterialThickness = 0.116M;
 
@@ -130,7 +133,6 @@ namespace NathanSVGTest
             machineSettings.MaxX = 20;
             machineSettings.MaxY = 12;
 
-            var rb = new PointGeneratorRack();
 
             // spur gear info
             double pitchDiameter = 3;
@@ -147,11 +149,10 @@ namespace NathanSVGTest
             var numTeethRack = 10;
             var supportBarWidth = 1;
 
-            var rackPart = rb.CreateRackWithSlots(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth, holderThickness, (double)material.MaterialThickness, (double)machineSettings.ToolSpacing);
+            var rackPart = rackGenerator.CreateRackWithSlots(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth, holderThickness, (double)material.MaterialThickness, (double)machineSettings.ToolSpacing);
 
             // create a sandwitch part
             var dimensions = HelperMethods.GetPolygonDimension(rackPart);
-            var guardGenerator = new PointGeneratorGuard();
             var guardPart = guardGenerator.CreateGuardWithSlots(dimensions.X, dimensions.Y, holderThickness, (double)machineSettings.ToolSpacing, (double)material.MaterialThickness);
 
             // create part to hold the pieces together

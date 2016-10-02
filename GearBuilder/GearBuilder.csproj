@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPointGeneratorGear.cs" />
+    <Compile Include="Interfaces\IPointGeneratorGear.cs" />
+    <Compile Include="Interfaces\IPointGeneratorGuard.cs" />
+    <Compile Include="Interfaces\IPointGeneratorRack.cs" />
     <Compile Include="PointGeneratorGear.cs" />
     <Compile Include="PointGeneratorGuard.cs" />
     <Compile Include="PointGeneratorRack.cs" />

@@ -8,7 +8,7 @@ using LaserCutterTools.Common;
 namespace LaserCutterTools.GearBuilder
 {
     // TODO: add interface for rack generation
-    public sealed class PointGeneratorRack
+    public sealed class PointGeneratorRack : IPointGeneratorRack
     {
         // TODO: Account for tool width
 
@@ -30,20 +30,6 @@ namespace LaserCutterTools.GearBuilder
             tmpRack.InsertRange(tmpRack.Count - 1, slotTwo);
 
             return tmpRack;
-        }
-
-        private static List<PointDouble> CreateSlot(double SlotDepth, double ToolSpacing, double MaterialThickness)
-        {
-            // NOTE: Adjusting for tool spacing on the slot but nowhere else
-            var slot = new List<PointDouble>
-            {
-                new PointDouble(0, MaterialThickness - ToolSpacing),
-                new PointDouble(SlotDepth -ToolSpacing, MaterialThickness - ToolSpacing),
-                new PointDouble(SlotDepth - ToolSpacing, 0),
-                new PointDouble(0, 0)
-            };
-
-            return slot;
         }
 
         /// <summary>
@@ -82,6 +68,20 @@ namespace LaserCutterTools.GearBuilder
             // move part to quadrant 1
             // TODO: This may be unnecessary if the above loop is fixed. A bit of amasking of strange calculations above.
             return HelperMethods.MovePolygonToQuadrantOne(rack);
+        }
+
+        private static List<PointDouble> CreateSlot(double SlotDepth, double ToolSpacing, double MaterialThickness)
+        {
+            // NOTE: Adjusting for tool spacing on the slot but nowhere else
+            var slot = new List<PointDouble>
+            {
+                new PointDouble(0, MaterialThickness - ToolSpacing),
+                new PointDouble(SlotDepth -ToolSpacing, MaterialThickness - ToolSpacing),
+                new PointDouble(SlotDepth - ToolSpacing, 0),
+                new PointDouble(0, 0)
+            };
+
+            return slot;
         }
 
         private static List<PointDouble> createRackTooth(double PressureAngle, double CircularPitch, double Clearance, double Backlash, double Addendum)

@@ -23,7 +23,7 @@ namespace LaserCutterTools.GearBuilder
             return new PointDouble(x, y);
         }
 
-        private PolarPointDouble linearToPolar(PointDouble c)
+        private static PolarPointDouble linearToPolar(PointDouble c)
         {
             double x = c.X;
             double y = c.Y;
