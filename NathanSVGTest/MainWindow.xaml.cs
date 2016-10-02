@@ -152,8 +152,7 @@ namespace NathanSVGTest
             // create a sandwitch part
             var dimensions = HelperMethods.GetPolygonDimension(rackPart);
             var guardGenerator = new PointGeneratorGuard();
-
-            var guardPart = guardGenerator.CreateGuard(dimensions.X, dimensions.Y);
+            var guardPart = guardGenerator.CreateGuardWithSlots(dimensions.X, dimensions.Y, holderThickness, (double)machineSettings.ToolSpacing, (double)material.MaterialThickness);
 
             // create part to hold the pieces together
             // TODO: Move this to a point generator
@@ -177,10 +176,10 @@ namespace NathanSVGTest
             var partsToRender = new Dictionary<string, List<PointDouble>>()
             {
                 { "Guard 1", guardPart },
-                { "Rack", rackPart },
-                { "Guard 2", guardPart },
-                { "Holder 1", holderPart },
-                { "Holder 2", holderPart },
+                //{ "Rack", rackPart },
+                //{ "Guard 2", guardPart },
+                //{ "Holder 1", holderPart },
+                //{ "Holder 2", holderPart },
             };
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
