@@ -7,6 +7,7 @@ using LaserCutterTools.Common;
 
 namespace GearBuilder
 {
+    // TODO: add interface for rack generation
     public sealed class PointGeneratorRack
     {
         /// <summary>

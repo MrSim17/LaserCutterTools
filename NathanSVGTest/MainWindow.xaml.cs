@@ -4,6 +4,8 @@ using BoxBuilder;
 using LaserCutterTools.Common.Logging;
 using LaserCutterTools.Common.ColorMgmt;
 using LaserCutterTools.Common;
+using System.Collections.Generic;
+using GearBuilder;
 
 namespace NathanSVGTest
 {
@@ -120,7 +122,10 @@ namespace NathanSVGTest
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            var rb = new GearBuilder.PointGeneratorRack();
+            var material = new Material();
+            material.MaterialThickness = 0.116M;
+
+            var rb = new PointGeneratorRack();                                                                                                                                                                                           
 
             // spur gear info
             double pitchDiameter = 3;
@@ -134,12 +139,28 @@ namespace NathanSVGTest
             var clearance = 0.05;
             var addendum = 1/diametralPitch;
             var numTeethRack = 10;
+            var supportBarWidth = 1;
 
-            var points = rb.createRackShape(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum);
+            var points = rb.createRackShape(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth);
+
+            // create a sandwitch part
+            // TODO: Convert this into a point generator
+            var dimensions = HelperMethods.GetPolygonDimension(points);
+            var guardGenerator = new PointGeneratorGuard();
+
+            var guardPart = guardGenerator.GeneratePoints(dimensions.X, dimensions.Y);
+
+            // collect all the parts
+            var partsToRender = new Dictionary<string, List<PointDouble>>()
+            {
+                { "Guard 1", guardPart },
+                { "Rack", points },
+                { "Guard 2", guardPart }
+            };
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
-            // TODO: get rid of double to decimal conversions
-            var output = r.RenderPoints(HelperMethods.ConvertDoubleToDecimal(points));
+            var output = r.RenderPoints(partsToRender);
+
             OutputFile(output);
         }
     }

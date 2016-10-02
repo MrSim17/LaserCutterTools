@@ -126,17 +126,17 @@ namespace LaserCutterTools.Common
             return ret;
         }
 
-        internal static Point GetPolygonDimension(List<Point> PointData)
+        public static Point GetPolygonDimension(List<Point> PointData)
         {
             return new Point(GetPolygonDimensionX(PointData), GetPolygonDimensionY(PointData));
         }
 
-        internal static PointDouble GetPolygonDimension(List<PointDouble> PointData)
+        public static PointDouble GetPolygonDimension(List<PointDouble> PointData)
         {
             return new PointDouble(GetPolygonDimensionX(PointData), GetPolygonDimensionY(PointData));
         }
 
-        internal static decimal GetPolygonDimensionX(List<Point> PointData)
+        public static decimal GetPolygonDimensionX(List<Point> PointData)
         {
             var minX = GetValueMinX(PointData);
             var maxX = GetValueMaxX(PointData);
@@ -144,7 +144,7 @@ namespace LaserCutterTools.Common
             return Math.Abs(maxX - minX);
         }
 
-        internal static double GetPolygonDimensionX(List<PointDouble> PointData)
+        public static double GetPolygonDimensionX(List<PointDouble> PointData)
         {
             var minX = GetValueMinX(PointData);
             var maxX = GetValueMaxX(PointData);
@@ -152,7 +152,7 @@ namespace LaserCutterTools.Common
             return Math.Abs(maxX - minX);
         }
 
-        internal static decimal GetPolygonDimensionY(List<Point> PointData)
+        public static decimal GetPolygonDimensionY(List<Point> PointData)
         {
             var minY = GetValueMinY(PointData);
             var maxY = GetValueMaxY(PointData);
@@ -160,7 +160,7 @@ namespace LaserCutterTools.Common
             return Math.Abs(maxY - minY);
         }
 
-        internal static double GetPolygonDimensionY(List<PointDouble> PointData)
+        public static double GetPolygonDimensionY(List<PointDouble> PointData)
         {
             var minY = GetValueMinY(PointData);
             var maxY = GetValueMaxY(PointData);
@@ -168,22 +168,22 @@ namespace LaserCutterTools.Common
             return Math.Abs(maxY - minY);
         }
 
-        internal static decimal GetValueMaxX(List<Point> PointData)
+        public static decimal GetValueMaxX(List<Point> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
         }
 
-        internal static double GetValueMaxX(List<PointDouble> PointData)
+        public static double GetValueMaxX(List<PointDouble> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.X >= newPoint.X ? curMin : newPoint).X;
         }
 
-        internal static decimal GetValueMaxY(List<Point> PointData)
+        public static decimal GetValueMaxY(List<Point> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
         }
 
-        internal static double GetValueMaxY(List<PointDouble> PointData)
+        public static double GetValueMaxY(List<PointDouble> PointData)
         {
             return PointData.Aggregate((curMin, newPoint) => curMin.Y >= newPoint.Y ? curMin : newPoint).Y;
         }
