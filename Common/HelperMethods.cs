@@ -6,6 +6,18 @@ namespace LaserCutterTools.Common
 {
     public sealed class HelperMethods
     {
+        public static List<Point> ConvertDoubleToDecimal(List<PointDouble> Points)
+        {
+            var output = new List<Point>();
+
+            foreach (var p in Points)
+            {
+                output.Add(new Point((decimal)p.X, (decimal)p.Y));
+            }
+
+            return output;
+        }
+
         public static List<Point> RotatePolygon(decimal RotationDegrees)
         {
             throw new NotImplementedException();

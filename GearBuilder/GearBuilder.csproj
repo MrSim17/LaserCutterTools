@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="IPointGeneratorGear.cs" />
     <Compile Include="PointGeneratorGear.cs" />
+    <Compile Include="PointGeneratorRack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

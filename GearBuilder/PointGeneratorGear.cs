@@ -160,7 +160,7 @@ namespace GearBuilder
 
             // TODO: Translate the gear to be in quadrant 1
             // Convert the points from doubles to decimals for rendering
-            var gearPoly = ConvertDoubleToDecimal(ConvertPolarPointsToLinear(points));
+            var gearPoly = HelperMethods.ConvertDoubleToDecimal(ConvertPolarPointsToLinear(points));
 
             var minX = Math.Abs(HelperMethods.GetValueMinX(gearPoly));
             var minY = Math.Abs(HelperMethods.GetValueMinY(gearPoly));
@@ -170,10 +170,10 @@ namespace GearBuilder
 
             if (Debug)
             {
-                var outerCirclePoly = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(rmax, new PointDouble(0, 0), 1000)));
-                var rMinCircle = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(rmin, new PointDouble(0, 0), 1000)));
-                var baseCircle = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(baseCircleRadius, new PointDouble(0, 0), 1000)));
-                var pitchDiameterCircle = HelperMethods.TranslatePolygon(minX, minY, ConvertDoubleToDecimal(DrawCircle(PitchDiameter / 2, new PointDouble(0, 0), 1000)));
+                var outerCirclePoly = HelperMethods.TranslatePolygon(minX, minY, HelperMethods.ConvertDoubleToDecimal(DrawCircle(rmax, new PointDouble(0, 0), 1000)));
+                var rMinCircle = HelperMethods.TranslatePolygon(minX, minY, HelperMethods.ConvertDoubleToDecimal(DrawCircle(rmin, new PointDouble(0, 0), 1000)));
+                var baseCircle = HelperMethods.TranslatePolygon(minX, minY, HelperMethods.ConvertDoubleToDecimal(DrawCircle(baseCircleRadius, new PointDouble(0, 0), 1000)));
+                var pitchDiameterCircle = HelperMethods.TranslatePolygon(minX, minY, HelperMethods.ConvertDoubleToDecimal(DrawCircle(PitchDiameter / 2, new PointDouble(0, 0), 1000)));
 
                 ret.Add("OuterCircle", outerCirclePoly);
                 ret.Add("RMin", rMinCircle);
@@ -204,18 +204,6 @@ namespace GearBuilder
             {
                 var linearPoint = polarToLinear(p);
                 output.Add(new PointDouble(linearPoint.X, linearPoint.Y));
-            }
-
-            return output;
-        }
-
-        private static List<Point> ConvertDoubleToDecimal(List<PointDouble> Points)
-        {
-            var output = new List<Point>();
-
-            foreach (var p in Points)
-            {
-                output.Add(new Point((decimal)p.X, (decimal)p.Y));
             }
 
             return output;

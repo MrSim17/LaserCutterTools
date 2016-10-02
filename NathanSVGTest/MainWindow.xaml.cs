@@ -3,6 +3,7 @@ using System.Windows;
 using BoxBuilder;
 using LaserCutterTools.Common.Logging;
 using LaserCutterTools.Common.ColorMgmt;
+using LaserCutterTools.Common;
 
 namespace NathanSVGTest
 {
@@ -104,10 +105,41 @@ namespace NathanSVGTest
         {
             var gb = new GearBuilder.PointGeneratorGear();
             // modifying only the pressure angle changes the tooth profile and changes the radius of the base circle
-            var points = gb.createGear(16, 4, 4, 15, true);
+
+            int numTeeth = 30;
+            double pitchDiameter = 3;
+            double diametralPitch = 10;
+            double pressureAngle = 20;
+
+            var points = gb.createGear(numTeeth, pitchDiameter, diametralPitch, pressureAngle);//(30, 3, 10, 20, true);
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
             var output = r.RenderPoints(points);
+            OutputFile(output);
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            var rb = new GearBuilder.PointGeneratorRack();
+
+            // spur gear info
+            double pitchDiameter = 3;
+            var pressureAngle = 20;
+            int numTeeth = 30;
+            double diametralPitch = 10;
+
+            // rack info
+            var circularPitch = (2 * Math.PI * (pitchDiameter/2))/numTeeth;
+            var backlash = 0.05;
+            var clearance = 0.05;
+            var addendum = 1/diametralPitch;
+            var numTeethRack = 10;
+
+            var points = rb.createRackShape(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum);
+
+            var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
+            // TODO: get rid of double to decimal conversions
+            var output = r.RenderPoints(HelperMethods.ConvertDoubleToDecimal(points));
             OutputFile(output);
         }
     }

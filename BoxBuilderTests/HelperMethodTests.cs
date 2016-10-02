@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BoxBuilder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LaserCutterTools.Common;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxBuilderTests
 {
@@ -18,7 +17,7 @@ namespace BoxBuilderTests
                 new Point(0, -2)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonHorizontally(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonHorizontally(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -54,7 +53,7 @@ namespace BoxBuilderTests
                 new Point(4, 1)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonHorizontally(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonHorizontally(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -90,7 +89,7 @@ namespace BoxBuilderTests
                 new Point(4, -1)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonHorizontally(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonHorizontally(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -126,7 +125,7 @@ namespace BoxBuilderTests
                 new Point(-4, -1)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonHorizontally(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonHorizontally(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -162,7 +161,7 @@ namespace BoxBuilderTests
                 new Point(-4, 1)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonHorizontally(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonHorizontally(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -199,7 +198,7 @@ namespace BoxBuilderTests
                 new Point(0, -2)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonHorizontally(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonHorizontally(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -235,7 +234,7 @@ namespace BoxBuilderTests
                 new Point(1, 4)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonVertically(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonVertically(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -270,7 +269,7 @@ namespace BoxBuilderTests
                 new Point(1, -4)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonVertically(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonVertically(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -305,7 +304,7 @@ namespace BoxBuilderTests
                 new Point(-1, -4)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonVertically(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonVertically(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
@@ -340,7 +339,7 @@ namespace BoxBuilderTests
                 new Point(-1, 4)
             };
 
-            var rotatedPoly = BoxBuilder.HelperMethods.FlipPolygonVertically(poly);
+            var rotatedPoly = HelperMethods.FlipPolygonVertically(poly);
 
             List<Point> ExpectedPoly = new List<Point>
             {
