@@ -66,7 +66,7 @@ namespace LaserCutterTools.Common.Rendering
         {
             XmlDocument svgDoc = InitDoc();
 
-            foreach(var poly in PointData)
+            foreach (var poly in PointData)
             {
                 AddPolygon(svgDoc.DocumentElement, poly.Item1, poly.Item2, UseDebugMode);
             }
@@ -84,6 +84,37 @@ namespace LaserCutterTools.Common.Rendering
             }
 
             return SerializeXMLDoc(svgDoc);
+        }
+
+        public string RenderPoints(List<PointDouble> PointData, bool UseDebugMode = false)
+        {
+            var convertedPoints = HelperMethods.ConvertDoubleToDecimal(PointData);
+
+            return RenderPoints(convertedPoints, UseDebugMode);
+        }
+
+        public string RenderPoints(List<Tuple<string, List<PointDouble>>> PointData, bool UseDebugMode = false)
+        {
+            var convertedPoints = new List<Tuple<string, List<Point>>>();
+
+            foreach (var p in PointData)
+            {
+                convertedPoints.Add(new Tuple<string, List<Point>>(p.Item1, HelperMethods.ConvertDoubleToDecimal(p.Item2)));
+            }
+
+            return RenderPoints(convertedPoints, UseDebugMode);
+        }
+
+        public string RenderPoints(Dictionary<string, List<PointDouble>> PointData, bool UseDebugMode = false)
+        {
+            var convertedPoints = new Dictionary<string, List<Point>>();
+
+            foreach (var kvp in PointData)
+            {
+                convertedPoints.Add(kvp.Key, HelperMethods.ConvertDoubleToDecimal(kvp.Value));
+            }
+
+            return RenderPoints(convertedPoints, UseDebugMode);
         }
 
         private static string SerializeXMLDoc(XmlDocument Doc)

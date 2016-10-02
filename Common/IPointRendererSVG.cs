@@ -7,6 +7,11 @@ namespace LaserCutterTools.Common.Rendering
     {
         string RenderPoints(List<Point> PointData, bool UseDebugMode = false);
         string RenderPoints(List<Tuple<string, List<Point>>> PointData, bool UseDebugMode = false);
-        string RenderPoints(Dictionary<string, List<Point>> PointData, bool UserDebugMode = false);
+        string RenderPoints(Dictionary<string, List<Point>> PointData, bool UseDebugMode = false);
+
+        string RenderPoints(List<PointDouble> PointData, bool UseDebugMode = false);
+        string RenderPoints(List<Tuple<string, List<PointDouble>>> PointData, bool UseDebugMode = false);
+        string RenderPoints(Dictionary<string, List<PointDouble>> PointData, bool UseDebugMode = false);
+
     }
 }
