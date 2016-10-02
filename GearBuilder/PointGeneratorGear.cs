@@ -54,7 +54,7 @@ namespace GearBuilder
         /// <param name="DiametralPitch">Ratio of the number of teeth to the pitch diameter</param>
         /// <param name="PressureAngle">The complement of the angle between the direction that the teeth exert force on each other, and the line joining the centers of the two gears. For involute gears, the teeth always exert force along the line of action, which, for involute gears, is a straight line; and thus, for involute gears, the pressure angle is constant.</param>
         /// <returns></returns>
-        public Dictionary<string, List<Point>> createGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle, bool Debug = false)
+        public Dictionary<string, List<Point>> CreateGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle, bool Debug = false)
         {
             // Reference: http://westmichiganspline.com/theory/
             // Reference: http://www.om-entp.com/pdf/gear_basics.pdf

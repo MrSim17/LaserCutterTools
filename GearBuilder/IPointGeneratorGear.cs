@@ -5,6 +5,6 @@ namespace GearBuilder
 {
     public interface IPointGeneratorGear
     {
-        Dictionary<string, List<Point>> createGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle, bool Debug = false);
+        Dictionary<string, List<Point>> CreateGear(double NumTeeth, double PitchDiameter, double DiametralPitch, double PressureAngle, bool Debug = false);
     }
 }

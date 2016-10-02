@@ -17,7 +17,7 @@ namespace GearBuilder
         /// <param name="circularPitch">The circumference of the pitch circle divided by the number of teeth.</param>
         /// <returns></returns>
 
-        public List<PointDouble> createRackShape(int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth)
+        public List<PointDouble> CreateRack(int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth)
         {
             List<PointDouble> rack = new List<PointDouble>();
 

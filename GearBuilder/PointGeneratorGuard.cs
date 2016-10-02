@@ -9,7 +9,7 @@ namespace GearBuilder
 {
     public sealed class PointGeneratorGuard
     {
-        public List<PointDouble> GeneratePoints(double DimensionX, double DimensionY)
+        public List<PointDouble> CreateGuard(double DimensionX, double DimensionY)
         {
             var cornerTopLeft = new PointDouble(0, DimensionY);
             var cornerTopRight = new PointDouble(DimensionX, DimensionY);

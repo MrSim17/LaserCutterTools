@@ -113,7 +113,7 @@ namespace NathanSVGTest
             double diametralPitch = 10;
             double pressureAngle = 20;
 
-            var points = gb.createGear(numTeeth, pitchDiameter, diametralPitch, pressureAngle);//(30, 3, 10, 20, true);
+            var points = gb.CreateGear(numTeeth, pitchDiameter, diametralPitch, pressureAngle);//(30, 3, 10, 20, true);
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
             var output = r.RenderPoints(points);
@@ -141,14 +141,14 @@ namespace NathanSVGTest
             var numTeethRack = 10;
             var supportBarWidth = 1;
 
-            var points = rb.createRackShape(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth);
+            var points = rb.CreateRack(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth);
 
             // create a sandwitch part
             // TODO: Convert this into a point generator
             var dimensions = HelperMethods.GetPolygonDimension(points);
             var guardGenerator = new PointGeneratorGuard();
 
-            var guardPart = guardGenerator.GeneratePoints(dimensions.X, dimensions.Y);
+            var guardPart = guardGenerator.CreateGuard(dimensions.X, dimensions.Y);
 
             // collect all the parts
             var partsToRender = new Dictionary<string, List<PointDouble>>()
