@@ -10,6 +10,8 @@ namespace LaserCutterTools.GearBuilder
     // TODO: add interface for rack generation
     public sealed class PointGeneratorRack
     {
+        // TODO: Account for tool width
+
         /// <summary>
         /// 
         /// </summary>

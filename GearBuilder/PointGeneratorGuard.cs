@@ -9,6 +9,7 @@ namespace LaserCutterTools.GearBuilder
 {
     public sealed class PointGeneratorGuard
     {
+        // TODO: Account for tool width
         public List<PointDouble> CreateGuard(double DimensionX, double DimensionY)
         {
             var cornerTopLeft = new PointDouble(0, DimensionY);

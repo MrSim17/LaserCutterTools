@@ -125,7 +125,12 @@ namespace NathanSVGTest
             var material = new Material();
             material.MaterialThickness = 0.116M;
 
-            var rb = new PointGeneratorRack();                                                                                                                                                                                           
+            var machineSettings = new MachineSettings();
+            machineSettings.ToolSpacing = 0.012M;
+            machineSettings.MaxX = 20;
+            machineSettings.MaxY = 12;
+
+            var rb = new PointGeneratorRack();
 
             // spur gear info
             double pitchDiameter = 3;
@@ -144,22 +149,43 @@ namespace NathanSVGTest
             var points = rb.CreateRack(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth);
 
             // create a sandwitch part
-            // TODO: Convert this into a point generator
             var dimensions = HelperMethods.GetPolygonDimension(points);
             var guardGenerator = new PointGeneratorGuard();
 
             var guardPart = guardGenerator.CreateGuard(dimensions.X, dimensions.Y);
+
+            // create part to hold the pieces together
+            // TODO: Account for tool width
+            // TODO: Move this to a point generator
+            double partThickness = 0.5;
+            double contentsWidth = (double)material.MaterialThickness * 3;
+            //double contentsWidth = 0.5;
+            double contentsDepth = 0.5;
+
+            var holderPart = new List<PointDouble>
+            {
+                new PointDouble(0, (partThickness + contentsDepth + (double)machineSettings.ToolSpacing)),
+                new PointDouble(partThickness + (double)machineSettings.ToolSpacing, partThickness + contentsDepth + (double)machineSettings.ToolSpacing),
+                new PointDouble(partThickness + (double)machineSettings.ToolSpacing, partThickness + (double)machineSettings.ToolSpacing),
+                new PointDouble(partThickness + contentsWidth, partThickness + (double)machineSettings.ToolSpacing),
+                new PointDouble(partThickness + contentsWidth, partThickness + contentsDepth + (double)machineSettings.ToolSpacing),
+                new PointDouble(partThickness + contentsWidth + partThickness + (double)machineSettings.ToolSpacing, partThickness + contentsDepth + (double)machineSettings.ToolSpacing),
+                new PointDouble(partThickness + contentsWidth + partThickness + (double)machineSettings.ToolSpacing, 0),
+                new PointDouble(0, 0),
+            };
 
             // collect all the parts
             var partsToRender = new Dictionary<string, List<PointDouble>>()
             {
                 { "Guard 1", guardPart },
                 { "Rack", points },
-                { "Guard 2", guardPart }
+                { "Guard 2", guardPart },
+                { "Holder 1", holderPart },
+                { "Holder 2", holderPart },
             };
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
-            var output = r.RenderPoints(partsToRender);
+            var output = r.RenderPoints(partsToRender, false);
 
             OutputFile(output);
         }
