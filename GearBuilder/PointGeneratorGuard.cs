@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LaserCutterTools.Common;
 
-namespace GearBuilder
+namespace LaserCutterTools.GearBuilder
 {
     public sealed class PointGeneratorGuard
     {

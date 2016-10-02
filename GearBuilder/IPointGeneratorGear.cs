@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using LaserCutterTools.Common;
 
-namespace GearBuilder
+namespace LaserCutterTools.GearBuilder
 {
     public interface IPointGeneratorGear
     {

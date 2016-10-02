@@ -5,7 +5,7 @@ using LaserCutterTools.Common.Logging;
 using LaserCutterTools.Common.ColorMgmt;
 using LaserCutterTools.Common;
 using System.Collections.Generic;
-using GearBuilder;
+using LaserCutterTools.GearBuilder;
 
 namespace NathanSVGTest
 {
@@ -105,7 +105,7 @@ namespace NathanSVGTest
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            var gb = new GearBuilder.PointGeneratorGear();
+            var gb = new PointGeneratorGear();
             // modifying only the pressure angle changes the tooth profile and changes the radius of the base circle
 
             int numTeeth = 30;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LaserCutterTools.Common;
 
-namespace GearBuilder
+namespace LaserCutterTools.GearBuilder
 {
     // TODO: add interface for rack generation
     public sealed class PointGeneratorRack
