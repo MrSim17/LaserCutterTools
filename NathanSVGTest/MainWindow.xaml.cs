@@ -139,6 +139,7 @@ namespace NathanSVGTest
             double diametralPitch = 10;
 
             // rack info
+            double holderThickness = 0.5;
             var circularPitch = (2 * Math.PI * (pitchDiameter/2))/numTeeth;
             var backlash = 0.05;
             var clearance = 0.05;
@@ -146,31 +147,29 @@ namespace NathanSVGTest
             var numTeethRack = 10;
             var supportBarWidth = 1;
 
-            var points = rb.CreateRack(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth);
+            var rackPart = rb.CreateRackWithSlots(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth, holderThickness, (double)material.MaterialThickness, (double)machineSettings.ToolSpacing);
 
             // create a sandwitch part
-            var dimensions = HelperMethods.GetPolygonDimension(points);
+            var dimensions = HelperMethods.GetPolygonDimension(rackPart);
             var guardGenerator = new PointGeneratorGuard();
 
             var guardPart = guardGenerator.CreateGuard(dimensions.X, dimensions.Y);
 
             // create part to hold the pieces together
-            // TODO: Account for tool width
             // TODO: Move this to a point generator
-            double partThickness = 0.5;
             double contentsWidth = (double)material.MaterialThickness * 3;
             //double contentsWidth = 0.5;
             double contentsDepth = 0.5;
 
             var holderPart = new List<PointDouble>
             {
-                new PointDouble(0, (partThickness + contentsDepth + (double)machineSettings.ToolSpacing)),
-                new PointDouble(partThickness + (double)machineSettings.ToolSpacing, partThickness + contentsDepth + (double)machineSettings.ToolSpacing),
-                new PointDouble(partThickness + (double)machineSettings.ToolSpacing, partThickness + (double)machineSettings.ToolSpacing),
-                new PointDouble(partThickness + contentsWidth, partThickness + (double)machineSettings.ToolSpacing),
-                new PointDouble(partThickness + contentsWidth, partThickness + contentsDepth + (double)machineSettings.ToolSpacing),
-                new PointDouble(partThickness + contentsWidth + partThickness + (double)machineSettings.ToolSpacing, partThickness + contentsDepth + (double)machineSettings.ToolSpacing),
-                new PointDouble(partThickness + contentsWidth + partThickness + (double)machineSettings.ToolSpacing, 0),
+                new PointDouble(0, (holderThickness + contentsDepth + (double)machineSettings.ToolSpacing)),
+                new PointDouble(holderThickness + (double)machineSettings.ToolSpacing, holderThickness + contentsDepth + (double)machineSettings.ToolSpacing),
+                new PointDouble(holderThickness + (double)machineSettings.ToolSpacing, holderThickness + (double)machineSettings.ToolSpacing),
+                new PointDouble(holderThickness + contentsWidth, holderThickness + (double)machineSettings.ToolSpacing),
+                new PointDouble(holderThickness + contentsWidth, holderThickness + contentsDepth + (double)machineSettings.ToolSpacing),
+                new PointDouble(holderThickness + contentsWidth + holderThickness + (double)machineSettings.ToolSpacing, holderThickness + contentsDepth + (double)machineSettings.ToolSpacing),
+                new PointDouble(holderThickness + contentsWidth + holderThickness + (double)machineSettings.ToolSpacing, 0),
                 new PointDouble(0, 0),
             };
 
@@ -178,14 +177,14 @@ namespace NathanSVGTest
             var partsToRender = new Dictionary<string, List<PointDouble>>()
             {
                 { "Guard 1", guardPart },
-                { "Rack", points },
+                { "Rack", rackPart },
                 { "Guard 2", guardPart },
                 { "Holder 1", holderPart },
                 { "Holder 2", holderPart },
             };
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
-            var output = r.RenderPoints(partsToRender, false);
+            var output = r.RenderPoints(partsToRender, true);
 
             OutputFile(output);
         }

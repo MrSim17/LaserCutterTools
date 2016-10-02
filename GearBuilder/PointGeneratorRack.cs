@@ -12,8 +12,42 @@ namespace LaserCutterTools.GearBuilder
     {
         // TODO: Account for tool width
 
+        public List<PointDouble> CreateRackWithSlots(int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth, double SlotDepth, double MaterialThickness, double ToolSpacing)
+        {
+            var tmpRack = CreateRack(NumTeeth, PressureAngle, circularPitch, Backlash, Clearance, Addendum, SupportBarWidth);
+
+            // add the slots
+            var dimension = HelperMethods.GetPolygonDimension(tmpRack);
+
+            // add slot one .5 inches from the bottom
+            var slotOne = HelperMethods.TranslatePolygon(0, dimension.Y - 0.5, CreateSlot(SlotDepth, ToolSpacing, MaterialThickness));
+
+            tmpRack.InsertRange(tmpRack.Count - 1, slotOne);
+
+            // add slot two .5 inches from the top
+            var slotTwo = HelperMethods.TranslatePolygon(0, 0.5, CreateSlot(SlotDepth, ToolSpacing, MaterialThickness));
+
+            tmpRack.InsertRange(tmpRack.Count - 1, slotTwo);
+
+            return tmpRack;
+        }
+
+        private static List<PointDouble> CreateSlot(double SlotDepth, double ToolSpacing, double MaterialThickness)
+        {
+            // NOTE: Adjusting for tool spacing on the slot but nowhere else
+            var slot = new List<PointDouble>
+            {
+                new PointDouble(0, MaterialThickness - ToolSpacing),
+                new PointDouble(SlotDepth -ToolSpacing, MaterialThickness - ToolSpacing),
+                new PointDouble(SlotDepth - ToolSpacing, 0),
+                new PointDouble(0, 0)
+            };
+
+            return slot;
+        }
+
         /// <summary>
-        /// 
+        /// NOTE: This part ends at (0,0)
         /// </summary>
         /// <param name="PressureAngle">Common values are 14.5, 20 and 25 degrees.</param>
         /// <param name="circularPitch">The circumference of the pitch circle divided by the number of teeth.</param>
