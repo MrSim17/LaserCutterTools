@@ -176,14 +176,14 @@ namespace NathanSVGTest
             var partsToRender = new Dictionary<string, List<PointDouble>>()
             {
                 { "Guard 1", guardPart },
-                //{ "Rack", rackPart },
-                //{ "Guard 2", guardPart },
-                //{ "Holder 1", holderPart },
-                //{ "Holder 2", holderPart },
+                { "Rack", rackPart },
+                { "Guard 2", guardPart },
+                { "Holder 1", holderPart },
+                { "Holder 2", holderPart }
             };
 
             var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
-            var output = r.RenderPoints(partsToRender, true);
+            var output = r.RenderPoints(partsToRender);
 
             OutputFile(output);
         }
