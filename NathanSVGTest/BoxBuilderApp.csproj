@@ -99,21 +99,21 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoxBuilder\BoxBuilder.csproj">
+    <ProjectReference Include="..\BoxBuilder\LaserCutterTools.BoxBuilder.csproj">
       <Project>{E88A291D-1395-426A-9F87-4A473B650C95}</Project>
-      <Name>BoxBuilder</Name>
+      <Name>LaserCutterTools.BoxBuilder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\LaserCutterTools.Common.csproj">
       <Project>{9E69EFBE-72AF-4F6B-B83D-6291331E7CEF}</Project>
-      <Name>Common</Name>
+      <Name>LaserCutterTools.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GearBuilder\GearBuilder.csproj">
+    <ProjectReference Include="..\GearBuilder\LaserCutterTools.GearBuilder.csproj">
       <Project>{60d3857c-1ee9-49b0-ac3a-0a529a60b0fb}</Project>
-      <Name>GearBuilder</Name>
+      <Name>LaserCutterTools.GearBuilder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HashBuilder\HashBuilder.csproj">
+    <ProjectReference Include="..\HashBuilder\LaserCutterTools.HashBuilder.csproj">
       <Project>{053C0724-527B-4D3E-99C2-971CDA8EF91E}</Project>
-      <Name>HashBuilder</Name>
+      <Name>LaserCutterTools.HashBuilder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

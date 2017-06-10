@@ -60,13 +60,13 @@
     <Compile Include="HelperMethodTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoxBuilder\BoxBuilder.csproj">
+    <ProjectReference Include="..\BoxBuilder\LaserCutterTools.BoxBuilder.csproj">
       <Project>{e88a291d-1395-426a-9f87-4a473b650c95}</Project>
-      <Name>BoxBuilder</Name>
+      <Name>LaserCutterTools.BoxBuilder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\LaserCutterTools.Common.csproj">
       <Project>{9e69efbe-72af-4f6b-b83d-6291331e7cef}</Project>
-      <Name>Common</Name>
+      <Name>LaserCutterTools.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

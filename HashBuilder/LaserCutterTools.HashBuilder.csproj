@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\LaserCutterTools.Common.csproj">
       <Project>{9e69efbe-72af-4f6b-b83d-6291331e7cef}</Project>
-      <Name>Common</Name>
+      <Name>LaserCutterTools.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,15 +4,15 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxBuilderApp", "NathanSVGTest\BoxBuilderApp.csproj", "{A04DB8B1-3672-4DBF-B0DD-4AE95DEA373C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxBuilder", "BoxBuilder\BoxBuilder.csproj", "{E88A291D-1395-426A-9F87-4A473B650C95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserCutterTools.BoxBuilder", "BoxBuilder\LaserCutterTools.BoxBuilder.csproj", "{E88A291D-1395-426A-9F87-4A473B650C95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashBuilder", "HashBuilder\HashBuilder.csproj", "{053C0724-527B-4D3E-99C2-971CDA8EF91E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserCutterTools.HashBuilder", "HashBuilder\LaserCutterTools.HashBuilder.csproj", "{053C0724-527B-4D3E-99C2-971CDA8EF91E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{9E69EFBE-72AF-4F6B-B83D-6291331E7CEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserCutterTools.Common", "Common\LaserCutterTools.Common.csproj", "{9E69EFBE-72AF-4F6B-B83D-6291331E7CEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxBuilderTests", "BoxBuilderTests\BoxBuilderTests.csproj", "{046787F6-B784-488F-9CEB-306DC0CBD2FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GearBuilder", "GearBuilder\GearBuilder.csproj", "{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserCutterTools.GearBuilder", "GearBuilder\LaserCutterTools.GearBuilder.csproj", "{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
