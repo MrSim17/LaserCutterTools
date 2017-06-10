@@ -2,7 +2,7 @@
 using System;
 using LaserCutterTools.Common;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     // TODO: Should not be creating the points based on the SVG point system. The y deltas should be inverted and it should start at a
     // higher Y value.

@@ -3,7 +3,7 @@ using System.Linq;
 using LaserCutterTools.Common;
 using LaserCutterTools.Common.Logging;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     /// <summary>
     /// The box point generator organizes the start configurations and other settings to generate points for each piece.

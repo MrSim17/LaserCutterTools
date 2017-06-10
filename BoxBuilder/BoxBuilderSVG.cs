@@ -2,7 +2,7 @@
 using LaserCutterTools.Common;
 using LaserCutterTools.Common.Logging;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     /// <summary>
     /// Overall this class organizes all the work into one single output.

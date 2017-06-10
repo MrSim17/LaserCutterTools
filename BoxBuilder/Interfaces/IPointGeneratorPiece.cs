@@ -2,7 +2,7 @@
 using LaserCutterTools.Common;
 using LaserCutterTools.Common.Logging;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     interface IPointGeneratorPiece
     {

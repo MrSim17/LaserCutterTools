@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Windows;
-using BoxBuilder;
+using LaserCutterTools.BoxBuilder;
 using LaserCutterTools.Common.Logging;
 using LaserCutterTools.Common.ColorMgmt;
+using LaserCutterTools.Common;
+using System.Collections.Generic;
+using LaserCutterTools.GearBuilder;
 
 namespace NathanSVGTest
 {
@@ -17,7 +20,7 @@ namespace NathanSVGTest
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void btnCreateBox_Click(object sender, RoutedEventArgs e)
         {
             string output = OutputBoxBuilder();
             OutputFile(output);
@@ -84,7 +87,7 @@ namespace NathanSVGTest
             return ret;
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void btnCreateHash_Click(object sender, RoutedEventArgs e)
         {
             HashBuilder.HashBuilder builder = new HashBuilder.HashBuilder(new ColorProviderAlternating());
 
@@ -98,6 +101,57 @@ namespace NathanSVGTest
 
             textBox1.Text = ((StringLogger)builder.Logger).Log;
             OutputFile(hash);
+        }
+
+        private void btnCreateGear_Click(object sender, RoutedEventArgs e)
+        {
+            IPointGeneratorGear gb = GearBuilderFactory.GetPointGeneratorGear();
+            // modifying only the pressure angle changes the tooth profile and changes the radius of the base circle
+
+            int numTeeth = 30;
+            double pitchDiameter = 3;
+            double diametralPitch = 10;
+            double pressureAngle = 20;
+
+            var points = gb.CreateGear(numTeeth, pitchDiameter, diametralPitch, pressureAngle);//(30, 3, 10, 20, true);
+
+            var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
+            var output = r.RenderPoints(points);
+            OutputFile(output);
+        }
+
+        private void btnCreateRail_Click(object sender, RoutedEventArgs e)
+        {
+            IRailBuilderSVG railBuilder = GearBuilderFactory.GetRailBuilderSVG();
+
+            IMaterial material = new Material();
+            material.MaterialThickness = 0.116M;
+
+            IMachineSettings machineSettings = new MachineSettings();
+            machineSettings.ToolSpacing = 0.012M;
+            machineSettings.MaxX = 20;
+            machineSettings.MaxY = 12;
+
+            // spur gear info
+            double pitchDiameter = 3;
+            var pressureAngle = 20;
+            int numTeeth = 30;
+            double diametralPitch = 10;
+
+            // rack info
+            double holderThickness = 0.5;
+            var circularPitch = (2 * Math.PI * (pitchDiameter/2))/numTeeth;
+            var addendum = 1/diametralPitch;
+            var numTeethRack = 10;
+            var supportBarWidth = 1;
+
+
+            //double contentsWidth = 0.5;
+            double contentsDepth = 0.5;
+
+            var output = railBuilder.BildRail(material, machineSettings, pitchDiameter, pressureAngle, numTeeth, diametralPitch, holderThickness, contentsDepth, numTeethRack, supportBarWidth);
+
+            OutputFile(output);
         }
     }
 }

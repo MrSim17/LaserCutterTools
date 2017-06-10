@@ -1,4 +1,6 @@
-﻿namespace BoxBuilder
+﻿using LaserCutterTools.Common;
+
+namespace LaserCutterTools.BoxBuilder
 {
     public interface IBoxBuilderSVG
     {

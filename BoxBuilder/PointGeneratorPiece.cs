@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LaserCutterTools.Common.Logging;
 using LaserCutterTools.Common;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     internal sealed class PointGeneratorPiece : IPointGeneratorPiece
     {

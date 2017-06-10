@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using BoxBuilder;
+using LaserCutterTools.BoxBuilder;
+using LaserCutterTools.Common;
 using LaserCutterTools.Common.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -54,7 +55,7 @@ namespace BoxBuilderTests
             var machineSettings = DefaultSettingsOneInchCube.MachineSettings;
             StartPositionConfiguration startConfig = DefaultSettingsOneInchCube.StartConfigs;
             var cube = DefaultSettingsOneInchCube.CubeDimensions;
-            var pointGenerator = BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
+            var pointGenerator = LaserCutterTools.BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
 
             var pointData = pointGenerator.GeneratePoints(startConfig, cube, material, machineSettings, 3, 3, 3, false);
 
@@ -114,7 +115,7 @@ namespace BoxBuilderTests
 
             while (Dimension < maxDimension)
             {
-                var pointGenerator = BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
+                var pointGenerator = LaserCutterTools.BoxBuilder.BoxBuilderFactory.GetBoxPointGenerator(new NullLogger());
 
                 var cube = new BoxSquare
                 {

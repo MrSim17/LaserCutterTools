@@ -1,4 +1,4 @@
-﻿namespace BoxBuilder
+﻿namespace LaserCutterTools.BoxBuilder
 {
     public sealed class BoxSquare : IBoxSquare
     {

@@ -2,7 +2,7 @@
 using LaserCutterTools.Common.Rendering;
 using LaserCutterTools.Common.Logging;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     public sealed class BoxBuilderFactory
     {

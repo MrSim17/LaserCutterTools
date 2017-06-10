@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using LaserCutterTools.Common;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     internal interface IPointRendererBoxSVG
     {

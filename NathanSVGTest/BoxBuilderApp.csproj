@@ -107,6 +107,10 @@
       <Project>{9E69EFBE-72AF-4F6B-B83D-6291331E7CEF}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GearBuilder\GearBuilder.csproj">
+      <Project>{60d3857c-1ee9-49b0-ac3a-0a529a60b0fb}</Project>
+      <Name>GearBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HashBuilder\HashBuilder.csproj">
       <Project>{053C0724-527B-4D3E-99C2-971CDA8EF91E}</Project>
       <Name>HashBuilder</Name>
