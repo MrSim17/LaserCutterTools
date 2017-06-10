@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     public sealed class StartPositionConfiguration
     {

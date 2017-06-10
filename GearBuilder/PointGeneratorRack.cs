@@ -6,7 +6,7 @@ using LaserCutterTools.Common;
 namespace LaserCutterTools.GearBuilder
 {
     // TODO: add interface for rack generation
-    public sealed class PointGeneratorRack : IPointGeneratorRack
+    internal sealed class PointGeneratorRack : IPointGeneratorRack
     {
         // TODO: Account for tool width
 
@@ -24,7 +24,7 @@ namespace LaserCutterTools.GearBuilder
         /// <param name="MaterialThickness">Thickness of the material used to make this part.</param>
         /// <param name="ToolSpacing">Width of the tool used to cut this part.</param>
         /// <returns></returns>
-        public List<PointDouble> CreateRackWithSlots(int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth, double SlotDepth, double MaterialThickness, double ToolSpacing)
+        public List<PointDouble> CreateRackWithSlots(IMaterial Material, IMachineSettings MachineSettings, int NumTeeth, double PressureAngle, double circularPitch, double Backlash, double Clearance, double Addendum, double SupportBarWidth, double SlotDepth)
         {
             var tmpRack = CreateRack(NumTeeth, PressureAngle, circularPitch, Backlash, Clearance, Addendum, SupportBarWidth);
 
@@ -32,12 +32,12 @@ namespace LaserCutterTools.GearBuilder
             var dimension = HelperMethods.GetPolygonDimension(tmpRack);
 
             // add slot one .5 inches from the bottom
-            var slotOne = HelperMethods.TranslatePolygon(0, dimension.Y - 0.5, CreateSlot(SlotDepth, ToolSpacing, MaterialThickness));
+            var slotOne = HelperMethods.TranslatePolygon(0, dimension.Y - 0.5, CreateSlot(SlotDepth, (double)MachineSettings.ToolSpacing, (double) Material.MaterialThickness));
 
             tmpRack.InsertRange(tmpRack.Count - 1, slotOne);
 
             // add slot two .5 inches from the top
-            var slotTwo = HelperMethods.TranslatePolygon(0, 0.5, CreateSlot(SlotDepth, ToolSpacing, MaterialThickness));
+            var slotTwo = HelperMethods.TranslatePolygon(0, 0.5, CreateSlot(SlotDepth, (double)MachineSettings.ToolSpacing, (double)Material.MaterialThickness));
 
             tmpRack.InsertRange(tmpRack.Count - 1, slotTwo);
 

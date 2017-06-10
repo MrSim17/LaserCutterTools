@@ -8,8 +8,8 @@
     <ProjectGuid>{E88A291D-1395-426A-9F87-4A473B650C95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BoxBuilder</RootNamespace>
-    <AssemblyName>BoxBuilder</AssemblyName>
+    <RootNamespace>LaserCutterTools.BoxBuilder</RootNamespace>
+    <AssemblyName>LasercutterTools.BoxBuilder</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -58,11 +58,7 @@
     <Compile Include="Interfaces\IBoxBuilderSVG.cs" />
     <Compile Include="Interfaces\IPointGeneratorBox.cs" />
     <Compile Include="Interfaces\IBoxSquare.cs" />
-    <Compile Include="Interfaces\IMachineSettings.cs" />
-    <Compile Include="Interfaces\IMaterial.cs" />
     <Compile Include="Interfaces\IPointGeneratorPiece.cs" />
-    <Compile Include="MachineSettings.cs" />
-    <Compile Include="Material.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartPositionConfiguration.cs" />
   </ItemGroup>

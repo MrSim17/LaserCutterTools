@@ -4,7 +4,7 @@ using LaserCutterTools.Common;
 
 namespace LaserCutterTools.GearBuilder
 {
-    public sealed class PointGeneratorGear : IPointGeneratorGear
+    internal sealed class PointGeneratorGear : IPointGeneratorGear
     {
         private static PointDouble polarToLinear(PolarPointDouble p)
         {

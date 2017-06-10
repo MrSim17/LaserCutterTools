@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using BoxBuilder;
+using LaserCutterTools.BoxBuilder;
 using LaserCutterTools.Common.Logging;
 using LaserCutterTools.Common.ColorMgmt;
 using LaserCutterTools.Common;
@@ -20,7 +20,7 @@ namespace NathanSVGTest
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void btnCreateBox_Click(object sender, RoutedEventArgs e)
         {
             string output = OutputBoxBuilder();
             OutputFile(output);
@@ -87,7 +87,7 @@ namespace NathanSVGTest
             return ret;
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void btnCreateHash_Click(object sender, RoutedEventArgs e)
         {
             HashBuilder.HashBuilder builder = new HashBuilder.HashBuilder(new ColorProviderAlternating());
 
@@ -103,9 +103,9 @@ namespace NathanSVGTest
             OutputFile(hash);
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void btnCreateGear_Click(object sender, RoutedEventArgs e)
         {
-            var gb = new PointGeneratorGear();
+            IPointGeneratorGear gb = GearBuilderFactory.GetPointGeneratorGear();
             // modifying only the pressure angle changes the tooth profile and changes the radius of the base circle
 
             int numTeeth = 30;
@@ -120,19 +120,17 @@ namespace NathanSVGTest
             OutputFile(output);
         }
 
-        private void button3_Click(object sender, RoutedEventArgs e)
+        private void btnCreateRail_Click(object sender, RoutedEventArgs e)
         {
-            IPointGeneratorGuard guardGenerator = new PointGeneratorGuard();
-            IPointGeneratorRack rackGenerator = new PointGeneratorRack();
+            IRailBuilderSVG railBuilder = GearBuilderFactory.GetRailBuilderSVG();
 
-            var material = new Material();
+            IMaterial material = new Material();
             material.MaterialThickness = 0.116M;
 
-            var machineSettings = new MachineSettings();
+            IMachineSettings machineSettings = new MachineSettings();
             machineSettings.ToolSpacing = 0.012M;
             machineSettings.MaxX = 20;
             machineSettings.MaxY = 12;
-
 
             // spur gear info
             double pitchDiameter = 3;
@@ -143,48 +141,15 @@ namespace NathanSVGTest
             // rack info
             double holderThickness = 0.5;
             var circularPitch = (2 * Math.PI * (pitchDiameter/2))/numTeeth;
-            var backlash = 0.05;
-            var clearance = 0.05;
             var addendum = 1/diametralPitch;
             var numTeethRack = 10;
             var supportBarWidth = 1;
 
-            var rackPart = rackGenerator.CreateRackWithSlots(numTeethRack, pressureAngle, circularPitch, backlash, clearance, addendum, supportBarWidth, holderThickness, (double)material.MaterialThickness, (double)machineSettings.ToolSpacing);
 
-            // create a sandwitch part
-            var dimensions = HelperMethods.GetPolygonDimension(rackPart);
-            var guardPart = guardGenerator.CreateGuardWithSlots(dimensions.X, dimensions.Y, holderThickness, (double)machineSettings.ToolSpacing, (double)material.MaterialThickness);
-
-            // create part to hold the pieces together
-            // TODO: Move this to a point generator
-            double contentsWidth = (double)material.MaterialThickness * 3;
             //double contentsWidth = 0.5;
             double contentsDepth = 0.5;
 
-            var holderPart = new List<PointDouble>
-            {
-                new PointDouble(0, (holderThickness + contentsDepth + (double)machineSettings.ToolSpacing)),
-                new PointDouble(holderThickness + (double)machineSettings.ToolSpacing, holderThickness + contentsDepth + (double)machineSettings.ToolSpacing),
-                new PointDouble(holderThickness + (double)machineSettings.ToolSpacing, holderThickness + (double)machineSettings.ToolSpacing),
-                new PointDouble(holderThickness + contentsWidth, holderThickness + (double)machineSettings.ToolSpacing),
-                new PointDouble(holderThickness + contentsWidth, holderThickness + contentsDepth + (double)machineSettings.ToolSpacing),
-                new PointDouble(holderThickness + contentsWidth + holderThickness + (double)machineSettings.ToolSpacing, holderThickness + contentsDepth + (double)machineSettings.ToolSpacing),
-                new PointDouble(holderThickness + contentsWidth + holderThickness + (double)machineSettings.ToolSpacing, 0),
-                new PointDouble(0, 0),
-            };
-
-            // collect all the parts
-            var partsToRender = new Dictionary<string, List<PointDouble>>()
-            {
-                { "Guard 1", guardPart },
-                { "Rack", rackPart },
-                { "Guard 2", guardPart },
-                { "Holder 1", holderPart },
-                { "Holder 2", holderPart }
-            };
-
-            var r = new LaserCutterTools.Common.Rendering.PointRendererSVG();
-            var output = r.RenderPoints(partsToRender);
+            var output = railBuilder.BildRail(material, machineSettings, pitchDiameter, pressureAngle, numTeeth, diametralPitch, holderThickness, contentsDepth, numTeethRack, supportBarWidth);
 
             OutputFile(output);
         }

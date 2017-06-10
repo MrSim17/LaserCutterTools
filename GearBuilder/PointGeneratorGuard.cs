@@ -3,7 +3,7 @@ using LaserCutterTools.Common;
 
 namespace LaserCutterTools.GearBuilder
 {
-    public sealed class PointGeneratorGuard : IPointGeneratorGuard
+    internal sealed class PointGeneratorGuard : IPointGeneratorGuard
     {
         // TODO: Account for tool width
 

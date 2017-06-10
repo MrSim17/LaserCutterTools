@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BoxBuilder;
+using LaserCutterTools.BoxBuilder;
 using LaserCutterTools.Common.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,4 +1,4 @@
-﻿namespace BoxBuilder
+﻿namespace LaserCutterTools.BoxBuilder
 {
     /// <summary>
     /// Deinfines the dimensions of a box. All dimensions are in inches.

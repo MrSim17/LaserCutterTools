@@ -4,7 +4,7 @@ using System.Linq;
 using LaserCutterTools.Common;
 using LaserCutterTools.Common.Rendering;
 
-namespace BoxBuilder
+namespace LaserCutterTools.BoxBuilder
 {
     /// <summary>
     /// Responsibilities:

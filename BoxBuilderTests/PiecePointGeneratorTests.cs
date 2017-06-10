@@ -1,4 +1,4 @@
-﻿using BoxBuilder;
+﻿using LaserCutterTools.BoxBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LaserCutterTools.Common.Logging;
 

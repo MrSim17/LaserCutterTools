@@ -49,9 +49,13 @@
     <Compile Include="ColorProviderAlternating.cs" />
     <Compile Include="ColorProviderRandom.cs" />
     <Compile Include="HelperMethods.cs" />
-    <Compile Include="IColorProvider.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="IPointRendererSVG.cs" />
+    <Compile Include="Interfaces\IColorProvider.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\IMachineSettings.cs" />
+    <Compile Include="Interfaces\IMaterial.cs" />
+    <Compile Include="Interfaces\IPointRendererSVG.cs" />
+    <Compile Include="MachineSettings.cs" />
+    <Compile Include="Material.cs" />
     <Compile Include="PolarPointDouble.cs" />
     <Compile Include="PointDouble.cs" />
     <Compile Include="Point.cs" />

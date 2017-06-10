@@ -7,8 +7,8 @@
     <ProjectGuid>{60D3857C-1EE9-49B0-AC3A-0A529A60B0FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GearBuilder</RootNamespace>
-    <AssemblyName>GearBuilder</AssemblyName>
+    <RootNamespace>LaserCutterTools.GearBuilder</RootNamespace>
+    <AssemblyName>LaserCutterTools.GearBuilder</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,13 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GearBuilderFactory.cs" />
     <Compile Include="Interfaces\IPointGeneratorGear.cs" />
     <Compile Include="Interfaces\IPointGeneratorGuard.cs" />
     <Compile Include="Interfaces\IPointGeneratorRack.cs" />
+    <Compile Include="Interfaces\IPointGeneratorCrossBeam.cs" />
+    <Compile Include="Interfaces\IRailBuilderSVG.cs" />
+    <Compile Include="PointGeneratorCrossBeam.cs" />
     <Compile Include="PointGeneratorGear.cs" />
     <Compile Include="PointGeneratorGuard.cs" />
     <Compile Include="PointGeneratorRack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RailBuilderSVG.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
