@@ -89,7 +89,7 @@ namespace NathanSVGTest
 
         private void btnCreateHash_Click(object sender, RoutedEventArgs e)
         {
-            HashBuilder.HashBuilder builder = new HashBuilder.HashBuilder(new ColorProviderAlternating());
+            //HashBuilder.HashBuilder builder = new HashBuilder.HashBuilder(new ColorProviderAlternating());
 
             float lineSpacing = 0.05f;
             float gapwidth = 0.05f;
@@ -97,10 +97,10 @@ namespace NathanSVGTest
             float width = 4f;
             float height = 2f;
 
-            string hash = builder.BuildHash(width, height, lineSpacing, gapwidth, hashCount);
+            //string hash = builder.BuildHash(width, height, lineSpacing, gapwidth, hashCount);
 
-            textBox1.Text = ((StringLogger)builder.Logger).Log;
-            OutputFile(hash);
+            //textBox1.Text = ((StringLogger)builder.Logger).Log;
+            //OutputFile(hash);
         }
 
         private void btnCreateGear_Click(object sender, RoutedEventArgs e)
